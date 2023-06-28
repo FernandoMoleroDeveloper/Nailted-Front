@@ -1,0 +1,16 @@
+@import "../../styles/utilities/variables";
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 60px;
+  background-color: $background-generic;
+
+  &__img {
+    width: 75px;
+  }
+}
