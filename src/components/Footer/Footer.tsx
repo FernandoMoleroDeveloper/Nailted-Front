@@ -4,7 +4,7 @@ const Footer = (): JSX.Element => {
   return (
     <footer className="footer">
       <div className="footer__line">
-        <p className="footer__text">CLOUD DISTRICT</p>
+        <p className="footer__text">© 2023 Nailted, todos los derechos reservados</p>
       </div>
     </footer>
   );
