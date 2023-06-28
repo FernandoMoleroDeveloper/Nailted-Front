@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import "./HomePage.scss";
@@ -6,10 +6,15 @@ import "./HomePage.scss";
 const HomePage = (): JSX.Element => {
   return (
     <div className="home-page page">
-      <Box boxShadow="md" p="6" rounded="md" bg="gray.50">
+      <Box boxShadow="md" p="6" rounded="md" bg="w">
         <Header></Header>
       </Box>
-      <h1>prueba</h1>
+      <p className="home-page__title">
+        Evalue la<br></br>madurez cultural de su empresa
+      </p>
+      <Button size="sm" colorScheme="blue" variant="solid">
+        Comenzar
+      </Button>
       <Footer></Footer>
     </div>
   );
