@@ -1,8 +1,25 @@
 @import "../../styles/utilities/variables";
 
 .home-page {
-  min-height: calc(100vh - 130px);
-  max-height: calc(100vh - 130px);
+  min-height: 100vh;
+  // min-height: calc(100vh - 130px);
+  // max-height: calc(100vh - 130px);
+  // background-color: red;
+
+  &__header {
+    height: 100px;
+    // background-color: green;
+  }
+
+  &__container {
+    min-height: calc(100vh - 200px);
+    // min-height: calc(100vh - 130px);
+  }
+
+  &__footer {
+    height: 100px;
+    // background-color: green;
+  }
 
   &__title {
     color: $background-buttons;
@@ -11,4 +28,6 @@
     margin-left: 30px;
     font-size: 70px;
   }
+
+  
 }
