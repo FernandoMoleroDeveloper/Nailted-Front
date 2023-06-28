@@ -1,4 +1,3 @@
-import {} from "@chakra-ui/react";
 import "./Header.scss";
 
 const Header = (): JSX.Element => {
