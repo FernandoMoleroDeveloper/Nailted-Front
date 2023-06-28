@@ -7,18 +7,22 @@ import { NavLink } from "react-router-dom";
 const HomePage = (): JSX.Element => {
   return (
     <div className="home-page page">
-      <Box boxShadow="md" p="6" bg="w">
+      <Box className="home-page__header" boxShadow="md" p="6" rounded="md" bg="w">
         <Header></Header>
       </Box>
-      <p className="home-page__title">
-        Evalue la<br></br>madurez cultural de su empresa
-      </p>
-      <NavLink to="/questionary" className="home-page_questionary">
-        <Button size="sm" colorScheme="blue" variant="solid">
-          Comenzar
-        </Button>
-      </NavLink>
-      <Footer></Footer>
+      <div className="home-page__container">
+        <p className="home-page__title">
+          Evalue la<br></br>madurez cultural de su empresa
+        </p>
+        <NavLink to="/questionary" className="home-page_questionary">
+          <Button size="sm" colorScheme="blue" variant="solid">
+            Comenzar
+          </Button>
+        </NavLink>
+      </div>
+      <Box className="home-page__footer" boxShadow="md" p="6" rounded="md" bg="w">
+        <Footer></Footer>
+      </Box>
     </div>
   );
 };

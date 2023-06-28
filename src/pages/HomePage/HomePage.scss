@@ -1,8 +1,20 @@
 @import "../../styles/utilities/variables";
 
 .home-page {
-  min-height: calc(100vh - 130px);
-  max-height: calc(100vh - 130px);
+  min-height: 100vh;
+
+
+  &__header {
+    height: 100px;
+  }
+
+  &__container {
+    min-height: calc(100vh - 200px);
+  }
+
+  &__footer {
+    height: 100px;
+  }
 
   &__title {
     color: $background-buttons;
@@ -11,4 +23,6 @@
     margin-left: 30px;
     font-size: 50px;
   }
+
+  
 }
