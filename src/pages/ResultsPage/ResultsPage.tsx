@@ -3,6 +3,7 @@ import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import "./ResultsPage.scss";
 import { blueButton } from "../../styles/motions/props";
+import { BiSolidPlusCircle } from "react-icons/bi";
 
 const ResultsPage = (): JSX.Element => {
   return (
@@ -29,6 +30,7 @@ const ResultsPage = (): JSX.Element => {
                 <FormLabel fontWeight="extrabold" margin="0px" textAlign="left" as="legend">
                   Direction
                 </FormLabel>
+                <BiSolidPlusCircle color="#199bf6" />
                 <FormLabel>Prueba</FormLabel>
               </Box>
             </Box>
@@ -40,6 +42,7 @@ const ResultsPage = (): JSX.Element => {
                 <FormLabel fontWeight="extrabold" margin="0px" textAlign="left" as="legend">
                   Feedback
                 </FormLabel>
+                <BiSolidPlusCircle color="#199bf6" />
                 <FormLabel>Prueba</FormLabel>
               </Box>
             </Box>
@@ -51,6 +54,7 @@ const ResultsPage = (): JSX.Element => {
                 <FormLabel fontWeight="extrabold" margin="0px" textAlign="left" as="legend">
                   Recognition
                 </FormLabel>
+                <BiSolidPlusCircle color="#199bf6" />
                 <FormLabel>Prueba</FormLabel>
               </Box>
             </Box>
@@ -62,6 +66,7 @@ const ResultsPage = (): JSX.Element => {
                 <FormLabel fontWeight="extrabold" margin="0px" textAlign="left" as="legend">
                   Wellness
                 </FormLabel>
+                <BiSolidPlusCircle color="#199bf6" />
                 <FormLabel>Prueba</FormLabel>
               </Box>
             </Box>
@@ -73,6 +78,7 @@ const ResultsPage = (): JSX.Element => {
                 <FormLabel fontWeight="extrabold" margin="0px" textAlign="left" as="legend">
                   Career
                 </FormLabel>
+                <BiSolidPlusCircle color="#199bf6" />
                 <FormLabel>Prueba</FormLabel>
               </Box>
             </Box>
