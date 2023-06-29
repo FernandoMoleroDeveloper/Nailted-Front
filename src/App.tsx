@@ -3,6 +3,7 @@ import "./App.scss";
 import HomePage from "./pages/HomePage/HomePage";
 import FormPage from "./pages/FormPage/FormPage";
 import ResultsPage from "./pages/ResultsPage/ResultsPage";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App(): JSX.Element {
   return (
