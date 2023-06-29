@@ -25,8 +25,7 @@ const FormPage = (): JSX.Element => {
             </HStack>
           </RadioGroup>
           <FormHelperText>Selecciona un rango</FormHelperText>
-          <Button
-            {...blueButton} className="form-page__button center">
+          <Button {...blueButton} className="form-page__button center">
             Siguiente
           </Button>
         </FormControl>
