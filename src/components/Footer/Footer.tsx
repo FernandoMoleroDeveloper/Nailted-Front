@@ -1,11 +1,12 @@
 import "./Footer.scss";
+import { Box } from "@chakra-ui/react";
 
 const Footer = (): JSX.Element => {
   return (
     <footer className="footer">
-      <div className="footer__line">
+      <Box className="footer__container">
         <p className="footer__text">© 2023 Nailted, todos los derechos reservados</p>
-      </div>
+      </Box>
     </footer>
   );
 };

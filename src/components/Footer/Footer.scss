@@ -1,14 +1,16 @@
 @import "../../styles/utilities/variables";
-.footer {
-  &__line {
+.footer {  
+  max-height: 80px;
+
+  &__container {
+    height: 80px;
     padding: 30px 10px;
     text-align: center;
-    background-color: $background-generic;
+    background-color: $background-gray;
   }
   &__text {
-    font-size: 10px;
-    color: $font-color-dark;
-    font-weight: 600;
-    margin: 0;
+    font-size: 14px;
+    color: $font-color-gray;
+    font-weight: 500;
   }
 }
