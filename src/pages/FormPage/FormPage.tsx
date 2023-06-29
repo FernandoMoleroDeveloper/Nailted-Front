@@ -1,9 +1,11 @@
-import { Box, Button, Textarea, NumberInput, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormControl, FormHelperText, FormLabel, HStack, Progress, Radio, RadioGroup } from "@chakra-ui/react";
+import { Box, Button, NumberInput, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormControl, FormHelperText, FormLabel, HStack, Progress, Radio, RadioGroup } from "@chakra-ui/react";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import "./FormPage.scss";
 import { blueButton } from "../../styles/motions/props";
 import React, { useState, useEffect } from "react";
+import TextComponentLong from "../../components/TextComponentLong/TextComponentLong";
+import TextComponentShort from "../../components/TextComponentShort/TextComponentShort";
 
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -59,13 +61,7 @@ const FormPage = (): JSX.Element => {
       case 1:
         setContent(
           <FormControl as="fieldset">
-            <FormLabel textAlign="center" as="legend">
-              ¿Cómo describirías tu relación con tu supervisor y que cosas cambiarías?
-            </FormLabel>
-            <Box display="flex" flexDirection="column" alignItems="start">
-              <Textarea height="300px" size="md" textAlign="start" />
-            </Box>
-            <FormHelperText>Max 1000 caracteres</FormHelperText>
+            <TextComponentLong></TextComponentLong>
           </FormControl>
         );
         break;
@@ -100,6 +96,13 @@ const FormPage = (): JSX.Element => {
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
+          </FormControl>
+        );
+        break;
+      case 4:
+        setContent(
+          <FormControl as="fieldset">
+            <TextComponentShort></TextComponentShort>
           </FormControl>
         );
         break;
