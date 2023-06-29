@@ -30,3 +30,12 @@ p {
   margin: 0px;
   padding: 0px;
 }
+
+// Shortcuts
+
+.center {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  margin: 0px auto; 
+}
