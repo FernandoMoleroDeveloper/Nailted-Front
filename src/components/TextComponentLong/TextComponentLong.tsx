@@ -7,7 +7,7 @@ const TextComponentLong = (): JSX.Element => {
         ¿Cómo describirías tu relación con tu supervisor y que cosas cambiarías?
       </FormLabel>
       <Box display="flex" flexDirection="column" alignItems="start">
-        <Textarea height="300px" size="md" textAlign="start" boxShadow="base" placeholder="Escribe aquí..."/>
+        <Textarea margin="0 auto" maxWidth="800px" height="300px" size="md" textAlign="start" boxShadow="base" placeholder="Escribe aquí..."/>
       </Box>
       <FormHelperText>Max 1000 caracteres</FormHelperText>
     </div>
