@@ -1,4 +1,4 @@
-import { Box, Button, Textarea, FormControl, FormHelperText, FormLabel, HStack, Progress, Radio, RadioGroup } from "@chakra-ui/react";
+import { Box, Button, Textarea, NumberInput, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormControl, FormHelperText, FormLabel, HStack, Progress, Radio, RadioGroup } from "@chakra-ui/react";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import "./FormPage.scss";
@@ -8,6 +8,20 @@ import React, { useState, useEffect } from "react";
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [content, setContent] = useState<React.ReactNode | null>("");
+
+  const steps = [
+    { title: "First", description: "Contact Info" },
+    { title: "Second", description: "Date & Time" },
+    { title: "Third", description: "Select Rooms" },
+  ];
+
+  const { activeStep } = useSteps({
+    index: 1,
+    count: steps.length,
+  });
+
+  const max = steps.length - 1;
+  const progressPercent = (activeStep / max) * 100;
 
   const nextQuestion = (): void => {
     console.log("NExt");
@@ -57,11 +71,37 @@ const FormPage = (): JSX.Element => {
         break;
       // TODO
       case 2:
-        setContent("");
+        setContent(
+          <FormControl as="fieldset">
+            <FormLabel textAlign="center" as="legend">
+              Cuantos 1&1 se realizan con el General Manager al mes
+            </FormLabel>
+            <NumberInput step={1} defaultValue={15} min={1} max={30}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
+        );
         break;
       // TODO
       case 3:
-        setContent("");
+        setContent(
+          <FormControl as="fieldset">
+            <FormLabel textAlign="center" as="legend">
+              Puntua de 0 a 10 tu satisfacción con la empresa
+            </FormLabel>
+            <NumberInput step={1} defaultValue={1} min={1} max={10}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
+        );
         break;
     }
   }, [questionNumber]);
@@ -71,7 +111,18 @@ const FormPage = (): JSX.Element => {
       <Box className="form-page__header" boxShadow="md" p="3">
         <Header></Header>
       </Box>
-      <Progress value={20} size="xs" colorScheme="#0469da" />
+      <Box mt="10" position="relative">
+        <Stepper size="sm" index={activeStep} gap="0">
+          {steps.map((step, index) => (
+            <Step key={index}>
+              <StepIndicator bg="white">
+                <StepStatus complete={<StepIcon />} />
+              </StepIndicator>
+            </Step>
+          ))}
+        </Stepper>
+        <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1} />
+      </Box>
       <Box className="form-page__container">
         <Box className="form-page__formulary">
           {content}
