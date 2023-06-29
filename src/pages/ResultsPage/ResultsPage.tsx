@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, CircularProgressLabel, FormControl, FormHelperText, FormLabel, Progress } from "@chakra-ui/react";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import "./ResultsPage.scss";
+import "../../styles/layouts/ResultsPage.scss";
 import { blueButton } from "../../styles/motions/props";
 
 const ResultsPage = (): JSX.Element => {

@@ -1,5 +1,7 @@
 @import "../../styles/utilities/variables";
-.footer {  
+@import "../../styles/utilities/mixins";
+
+.footer {
   max-height: 80px;
 
   &__container {

@@ -1,7 +1,7 @@
 import { Box, Button, NumberInput, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormControl, FormHelperText, FormLabel, HStack, Progress, Radio, RadioGroup } from "@chakra-ui/react";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import "./FormPage.scss";
+import "../../styles/layouts/FormPage.scss";
 import { blueButton } from "../../styles/motions/props";
 import React, { useState, useEffect } from "react";
 import TextComponentLong from "../../components/TextComponentLong/TextComponentLong";
