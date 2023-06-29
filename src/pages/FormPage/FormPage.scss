@@ -1,13 +1,21 @@
 @import "../../styles/utilities/variables";
 
 .form-page {
-  // min-height: calc(100vh - 130px);
-  // max-height: calc(100vh - 130px);
 
   &__container {
     min-height: calc(100vh - 162px);
     margin: 30px;
     align-items: center;
     justify-content: center;
+    margin: 0px auto;
+  }
+
+  &__formulary {
+    padding: 30px 10px;
+  }
+
+  &__button {
+    margin-top: 50px;
+    cursor: pointer;
   }
 }

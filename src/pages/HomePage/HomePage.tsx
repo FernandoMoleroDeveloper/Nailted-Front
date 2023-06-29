@@ -12,7 +12,9 @@ const HomePage = (): JSX.Element => {
         <Header></Header>
       </Box>
       <Box className="home-page__container">
-        <p className="home-page__title">Evalue la madurez cultural de su empresa</p>
+        <Box className="home-page__title">
+          <p>Evalue la madurez cultural de su empresa</p>
+        </Box>
         <Link to="/questionary" className="home-page__link">
           <Button {...blueButton} className="home-page__button center">
             Iniciar evaluación
