@@ -1,0 +1,12 @@
+@import "../../styles/utilities/variables";
+
+.form-page {
+  min-height: calc(100vh - 130px);
+  max-height: calc(100vh - 130px);
+
+  &__question {
+    margin: 30px;
+    align-items: center;
+    justify-content: center;
+  }
+}
