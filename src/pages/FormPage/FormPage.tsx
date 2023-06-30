@@ -1,6 +1,7 @@
-import { Box, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
-import Footer from "../../components/Footer/Footer";
-import Header from "../../components/Header/Header";
+
+import { Box, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, FormHelperText, FormLabel, HStack, Progress, RadioGroup, Checkbox, FormControl } from "@chakra-ui/react";
+// import Footer from "../../components/Footer/Footer";
+// import Header from "../../components/Header/Header";
 import "../../styles/layouts/FormPage.scss";
 import { blueButton } from "../../styles/motions/props";
 import React, { useState, useEffect } from "react";
@@ -10,6 +11,8 @@ import { motion } from "framer-motion";
 import NumberComponent from "../../components/NumberComponent/NumberComponent";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 import OneOptionComponent from "../../components/OneOptionComponent/OneOptionComponent";
+import FourBoxes from "../../components/Questions/FourBoxes/FourBoxes";
+
 
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -119,6 +122,10 @@ const FormPage = (): JSX.Element => {
           </motion.div>
         );
         break;
+      case 4:
+        console.log("Entra en caso 4");
+        setContent(FourBoxes);
+        break;
     }
   }, [questionNumber]);
 
@@ -140,9 +147,9 @@ const FormPage = (): JSX.Element => {
         </div>
       ) : (
         <>
-          <Box className="form-page__header" boxShadow="md" p="3">
+          {/* <Box className="form-page__header" boxShadow="md" p="3">
             <Header></Header>
-          </Box>
+          </Box> */}
           <Box mt="10" position="relative">
             <Stepper size="sm" index={activeStep} gap="0">
               {steps.map((step, index) => (
@@ -166,9 +173,9 @@ const FormPage = (): JSX.Element => {
               </Button>
             </Box>
           </Box>
-          <Box className="form-page__footer">
+          {/* <Box className="form-page__footer">
             <Footer></Footer>
-          </Box>
+          </Box> */}
         </>
       )}
     </div>
