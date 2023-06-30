@@ -1,10 +1,8 @@
-import { Box, Button, CircularProgress, CircularProgressLabel, Divider, FormControl, FormHelperText, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, CircularProgress, CircularProgressLabel, Divider, FormControl, FormHelperText, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, useDisclosure } from "@chakra-ui/react";
 // import Footer from "../../components/Footer/Footer";
 // import Header from "../../components/Header/Header";
 import "../../styles/layouts/ResultsComponent.scss";
-import { blueButton } from "../../styles/motions/props";
 import { BiSolidPlusCircle } from "react-icons/bi";
-import { RiMailSendLine } from "react-icons/ri";
 import { useState } from "react";
 
 const ResultsComponent = (): JSX.Element => {
@@ -141,10 +139,6 @@ const ResultsComponent = (): JSX.Element => {
             </Box>
           </Box>
           <FormHelperText marginTop="40px">Be better, my friend!</FormHelperText>
-          <Input placeholder="Email" borderRadius="20px"></Input>
-          <Button {...blueButton} rightIcon={<RiMailSendLine />} className="results-page__button center">
-            Enviar
-          </Button>
         </FormControl>
       </Box>
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
