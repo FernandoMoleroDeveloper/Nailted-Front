@@ -1,0 +1,16 @@
+@import "../../../../styles/utilities/variables";
+
+.selection-boxes {
+  &__option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 30px;
+    font-weight: 400;
+    min-width: 45%;
+    max-width: 45%;
+    margin: 10px 0px;
+    min-height: 150px;
+    padding: 10px 10px;
+  }
+}

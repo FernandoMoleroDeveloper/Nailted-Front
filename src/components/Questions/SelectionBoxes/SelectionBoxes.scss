@@ -1,0 +1,9 @@
+@import "../../../styles/utilities/variables";
+
+.selection-boxes {
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+}
