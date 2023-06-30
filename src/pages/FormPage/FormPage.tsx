@@ -1,4 +1,3 @@
-
 import { Box, Flex, Button, FormLabel, HStack, FormHelperText, useSteps, Checkbox, RadioGroup, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
 // import Footer from "../../components/Footer/Footer";
 // import Header from "../../components/Header/Header";
@@ -8,7 +7,7 @@ import TextComponentLong from "../../components/TextComponentLong/TextComponentL
 import TextComponentShort from "../../components/TextComponentShort/TextComponentShort";
 import { motion } from "framer-motion";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
-import FourBoxes from "../../components/Questions/FourBoxes/FourBoxes";
+import SelectionBoxes from "../../components/Questions/SelectionBoxes/SelectionBoxes";
 import NumberComponent2 from "../../components/NumberComponent/NumberComponent2";
 
 const FormPage = (): JSX.Element => {
@@ -142,7 +141,7 @@ const FormPage = (): JSX.Element => {
         break;
       case 4:
         console.log("Entra en caso 4");
-        setContent(FourBoxes);
+        setContent(SelectionBoxes);
         break;
     }
   }, [questionNumber]);
@@ -152,7 +151,7 @@ const FormPage = (): JSX.Element => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1000);
   }, []);
 
   return (
@@ -168,20 +167,20 @@ const FormPage = (): JSX.Element => {
           {/* <Box className="form-page__header" boxShadow="md" p="3">
             <Header></Header>
           </Box> */}
-          <Box mt="10" position="relative">
-            <Stepper size="sm" index={activeStep} gap="0">
-              {steps.map((step, index) => (
-                <Step key={index}>
-                  <StepIndicator m="25" bg="white">
-                    <StepStatus complete={<StepIcon />} />
-                  </StepIndicator>
-                </Step>
-              ))}
-            </Stepper>
-            <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1} />
-          </Box>
 
           <Box className="form-page__container">
+            <Box>
+              <Stepper size="sm" index={activeStep} gap="0">
+                {steps.map((step, index) => (
+                  <Step key={index}>
+                    <StepIndicator m="25" bg="white">
+                      <StepStatus complete={<StepIcon />} />
+                    </StepIndicator>
+                  </Step>
+                ))}
+              </Stepper>
+              <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1} />
+            </Box>
             <Box className="form-page__formulary">
               {content}
               <Flex className="form-page__navigation">
