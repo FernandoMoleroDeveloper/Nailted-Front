@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 import SelectionBoxes from "../../components/Questions/SelectionBoxes/SelectionBoxes";
 import NumberComponent2 from "../../components/NumberComponent/NumberComponent2";
+import ResultsComponent from "../../components/ResultsComponent/ResultsComponent";
 
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -138,8 +139,26 @@ const FormPage = (): JSX.Element => {
         );
         break;
       case 4:
-        console.log("Entra en caso 4");
+        console.log("Entra en caso 5");
         setContent(SelectionBoxes);
+        break;
+      case 5:
+        setContent(
+          <motion.div
+            className="box"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.1,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <FormControl as="fieldset">
+              <ResultsComponent></ResultsComponent>
+            </FormControl>
+          </motion.div>
+        );
         break;
     }
   }, [questionNumber]);
@@ -163,18 +182,20 @@ const FormPage = (): JSX.Element => {
       ) : (
         <>
           <Box className="form-page__container">
-            <Box>
-              <Stepper size="sm" index={activeStep} gap="0">
-                {steps.map((step, index) => (
-                  <Step key={index}>
-                    <StepIndicator m="25" bg="white">
-                      <StepStatus complete={<StepIcon />} />
-                    </StepIndicator>
-                  </Step>
-                ))}
-              </Stepper>
-              <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1} />
-            </Box>
+            {questionNumber !== 5 && (
+              <Box>
+                <Stepper size="sm" index={activeStep} gap="0">
+                  {steps.map((step, index) => (
+                    <Step key={index}>
+                      <StepIndicator m="25" bg="white">
+                        <StepStatus complete={<StepIcon />} />
+                      </StepIndicator>
+                    </Step>
+                  ))}
+                </Stepper>
+                <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1} />
+              </Box>
+            )}
             <Box className="form-page__formulary">
               {content}
               <Flex className="form-page__navigation">
