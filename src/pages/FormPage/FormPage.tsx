@@ -1,5 +1,5 @@
 
-import { Box, Flex, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
+import { Box, Flex, Button, FormLabel, HStack, FormHelperText, useSteps, Checkbox, RadioGroup, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
 // import Footer from "../../components/Footer/Footer";
 // import Header from "../../components/Header/Header";
 import "../../styles/layouts/FormPage.scss";
@@ -10,7 +10,6 @@ import { motion } from "framer-motion";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 import FourBoxes from "../../components/Questions/FourBoxes/FourBoxes";
 import NumberComponent2 from "../../components/NumberComponent/NumberComponent2";
-
 
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
