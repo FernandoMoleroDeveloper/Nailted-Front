@@ -1,13 +1,13 @@
 import { Box, Button, CircularProgress, CircularProgressLabel, Divider, FormControl, FormHelperText, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, useDisclosure } from "@chakra-ui/react";
 // import Footer from "../../components/Footer/Footer";
 // import Header from "../../components/Header/Header";
-import "../../styles/layouts/ResultsPage.scss";
+import "../../styles/layouts/ResultsComponent.scss";
 import { blueButton } from "../../styles/motions/props";
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { RiMailSendLine } from "react-icons/ri";
 import { useState } from "react";
 
-const ResultsPage = (): JSX.Element => {
+const ResultsComponent = (): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
@@ -166,4 +166,4 @@ const ResultsPage = (): JSX.Element => {
     </div>
   );
 };
-export default ResultsPage;
+export default ResultsComponent;
