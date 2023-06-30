@@ -1,4 +1,4 @@
-import "./Footer.scss";
+import "../../styles/layouts/Footer.scss";
 import { Box } from "@chakra-ui/react";
 
 const Footer = (): JSX.Element => {

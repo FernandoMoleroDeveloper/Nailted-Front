@@ -1,0 +1,49 @@
+@import "../../styles/utilities/variables";
+@import "../../styles/utilities/mixins";
+
+.home-page {
+  min-height: 100vh;
+  min-width: 100vw;
+  &__imgbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px auto;
+  }
+  &__img {
+    width: 100vw;
+    @include adaptTo("desktop") {
+      width: 600px;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__title {
+    color: $font-color-light;
+    background-color: $background-brand;
+    font-weight: bold;
+    text-align: left;
+    font-size: 42px;
+    padding: 40px;
+    @include adaptTo("desktop") {
+      text-align: center;
+    }
+  }
+
+  &__text {
+    color: $font-color-dark;
+    font-weight: 400;
+    text-align: center;
+    font-size: 20px;
+    padding: 40px;
+  }
+
+  &__button {
+    margin: 30px;
+  }
+
+  &__container {
+    min-height: calc(100vh - 162px);
+  }
+}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { blueButton } from "../../styles/motions/props";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import "./HomePage.scss";
+import "../../styles/layouts/HomePage.scss";
 
 const HomePage = (): JSX.Element => {
   return (
