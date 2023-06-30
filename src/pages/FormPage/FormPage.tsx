@@ -185,10 +185,10 @@ const FormPage = (): JSX.Element => {
             <Box className="form-page__formulary">
               {content}
               <Flex className="form-page__navigation">
-                <Button leftIcon={<FaAnglesLeft />} variant="outline" borderRadius={30} className="form-page__previous center" onClick={previousQuestion}>
+                <Button leftIcon={<FaAnglesLeft />} fontSize={20} color="#199bf6" borderRadius={30} backgroundColor="#ffff" className="form-page__previous center" onClick={previousQuestion}>
                   Anterior
                 </Button>
-                <Button rightIcon={<FaAnglesRight />} variant="outline" borderRadius={30} className="form-page__next center" onClick={nextQuestion}>
+                <Button rightIcon={<FaAnglesRight />} fontSize={20} color="#ffff" borderRadius={30} backgroundColor="#199bf6" _hover={{ bg: "#0469da" }} className="form-page__next center" onClick={nextQuestion}>
                   Siguiente
                 </Button>
               </Flex>
