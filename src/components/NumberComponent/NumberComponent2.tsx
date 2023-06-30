@@ -6,11 +6,25 @@ const NumberComponent2 = (): JSX.Element => {
   const [value, setValue] = useState(0);
 
   const incrementValue = (): void => {
-    setValue((prevValue) => prevValue + 1);
+    if (value < 10) {
+      setValue((prevValue) => prevValue + 1);
+    }
   };
 
   const decrementValue = (): void => {
-    setValue((prevValue) => prevValue - 1);
+    if (value > 0) {
+      setValue((prevValue) => prevValue - 1);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    let newValue = Number(e.target.value);
+    if (newValue < 0) {
+      newValue = 0;
+    } else if (newValue > 10) {
+      newValue = 10;
+    }
+    setValue(newValue);
   };
 
   return (
@@ -23,14 +37,7 @@ const NumberComponent2 = (): JSX.Element => {
           -
         </button>
         <div className="number-component__container-input">
-          <input
-            placeholder="0"
-            className="number-component__input"
-            value={value}
-            onChange={(e) => {
-              setValue(Number(e.target.value));
-            }}
-          />
+          <input placeholder="0" className="number-component__input" value={value} onChange={handleInputChange} />
         </div>
         <button className="number-component__contador-mas" onClick={incrementValue}>
           +
