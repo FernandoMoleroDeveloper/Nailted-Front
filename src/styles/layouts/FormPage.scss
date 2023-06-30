@@ -14,9 +14,54 @@
     padding: 30px 10px;
   }
 
-  &__button {
-    margin-top: 50px;
+  &__navigation {
+    position: absolute;
+    display: flex;
+    min-width: 100vw;
+    left: 0px;
+    bottom: 60px;
+    user-select: none;
+  }
+
+  &__next {
+    color: $font-color-light;
+    background-color: $font-color-brand;
+    border-radius: 30px;
+    padding: 30px;
+    font-size: 18px;
+    font-weight: 400;
+    width: 50%;
+    margin: 15px;
     cursor: pointer;
+
+    &:hover {
+      background-color: $background-buttons;
+    }
+  }
+
+  &__previous {
+    color: $font-color-brand;
+    border-radius: 30px;
+    padding: 30px;
+    border: 2px solid $font-color-brand;
+    font-size: 18px;
+    font-weight: 400;
+    width: 50%;
+    margin: 15px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background-gray;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    background-color: red;
+    
+    &--left {
+      left: 0px;
+    }
   }
 }
 
