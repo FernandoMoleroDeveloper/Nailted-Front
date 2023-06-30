@@ -1,7 +1,4 @@
-
 import { Box, Flex, Button, FormLabel, HStack, FormHelperText, useSteps, Checkbox, RadioGroup, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
-// import Footer from "../../components/Footer/Footer";
-// import Header from "../../components/Header/Header";
 import "../../styles/layouts/FormPage.scss";
 import React, { useState, useEffect } from "react";
 import TextComponentLong from "../../components/TextComponentLong/TextComponentLong";
@@ -165,9 +162,6 @@ const FormPage = (): JSX.Element => {
         </div>
       ) : (
         <>
-          {/* <Box className="form-page__header" boxShadow="md" p="3">
-            <Header></Header>
-          </Box> */}
           <Box mt="10" position="relative">
             <Stepper size="sm" index={activeStep} gap="0">
               {steps.map((step, index) => (
@@ -194,9 +188,6 @@ const FormPage = (): JSX.Element => {
               </Flex>
             </Box>
           </Box>
-          {/* <Box className="form-page__footer">
-            <Footer></Footer>
-          </Box> */}
         </>
       )}
     </div>
