@@ -16,14 +16,6 @@ html,
   box-sizing: border-box;
 }
 
-button {
-  border: none;
-  box-shadow: none;
-  cursor: pointer;
-  background: none;
-  font-family: "Montserrat", sans-serif;
-}
-
 a {
   text-decoration: none;
 }
@@ -37,7 +29,7 @@ p {
 
 .center {
   display: flex;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
   margin: 0px auto; 
 }
@@ -46,3 +38,4 @@ p {
   color: $font-color-light;
   background-color: $font-color-light;
 }
+

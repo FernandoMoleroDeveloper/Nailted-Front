@@ -1,10 +1,14 @@
-import { Box, Button, Textarea, NumberInput, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormControl, FormHelperText, FormLabel, HStack, Progress, Radio, RadioGroup } from "@chakra-ui/react";
+import { Box, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, FormHelperText, FormLabel, HStack, Progress, RadioGroup, Checkbox, FormControl } from "@chakra-ui/react";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import "./FormPage.scss";
-import { blueButton, nextButton } from "../../styles/motions/props";
+import "../../styles/layouts/FormPage.scss";
+import { blueButton } from "../../styles/motions/props";
 import React, { useState, useEffect } from "react";
-import { GrFormNext } from "react-icons/gr";
+import TextComponentLong from "../../components/TextComponentLong/TextComponentLong";
+import TextComponentShort from "../../components/TextComponentShort/TextComponentShort";
+import { motion } from "framer-motion";
+import NumberComponent from "../../components/NumberComponent/NumberComponent";
+import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -14,6 +18,8 @@ const FormPage = (): JSX.Element => {
     { title: "First", description: "Contact Info" },
     { title: "Second", description: "Date & Time" },
     { title: "Third", description: "Select Rooms" },
+    { title: "Forth", description: "Date & Time" },
+    { title: "Fifth", description: "Select Rooms" },
   ];
 
   const { activeStep } = useSteps({
@@ -40,18 +46,39 @@ const FormPage = (): JSX.Element => {
       case 0:
         setContent(
           <FormControl as="fieldset">
-            <FormLabel textAlign="center" as="legend">
-              Cuantos 1&1 se realizan con el General Manager al mes
-            </FormLabel>
-            <RadioGroup color="black" defaultValue="1 a 3">
-              <HStack color="black" alignContent="center" justifyContent="center" spacing="25px">
-                <Radio value="0">0</Radio>
-                <Radio value="1 a 3">1-3</Radio>
-                <Radio value="4 a 6">4-6</Radio>
-                <Radio value="7 a 10">7-10</Radio>
-              </HStack>
-            </RadioGroup>
-            <FormHelperText>Selecciona un rango</FormHelperText>
+            <motion.div
+              className="box"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.1,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
+              <FormLabel textAlign="center" as="legend" m="0">
+                Cuantos 1&1 se realizan con el General Manager al mes
+              </FormLabel>
+              <RadioGroup color="black" defaultValue="1 a 3">
+                <HStack color="black" alignContent="center" justifyContent="center" spacing="25px">
+                  <Checkbox size="lg" colorScheme="blue" color="black">
+                    0
+                  </Checkbox>
+                  <Checkbox size="lg" colorScheme="blue">
+                    1-3
+                  </Checkbox>
+                  <Checkbox size="lg" colorScheme="blue">
+                    4-6
+                  </Checkbox>
+                  <Checkbox size="lg" colorScheme="blue">
+                    7-10
+                  </Checkbox>
+                </HStack>
+              </RadioGroup>
+              <FormHelperText color="black" m="0">
+                Selecciona un rango
+              </FormHelperText>
+            </motion.div>
           </FormControl>
         );
         console.log(content);
@@ -59,85 +86,111 @@ const FormPage = (): JSX.Element => {
       // Input text
       case 1:
         setContent(
-          <FormControl as="fieldset">
-            <FormLabel textAlign="center" as="legend">
-              ¿Cómo describirías tu relación con tu supervisor y que cosas cambiarías?
-            </FormLabel>
-            <Box display="flex" flexDirection="column" alignItems="start">
-              <Textarea height="300px" size="md" textAlign="start" />
-            </Box>
-            <FormHelperText>Max 1000 caracteres</FormHelperText>
-          </FormControl>
+          <motion.div
+            className="box"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.1,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <FormControl as="fieldset">
+              <TextComponentLong></TextComponentLong>
+            </FormControl>
+          </motion.div>
         );
         break;
       // TODO
       case 2:
         setContent(
           <FormControl as="fieldset">
-            <FormLabel textAlign="center" as="legend">
-              Cuantos 1&1 se realizan con el General Manager al mes
-            </FormLabel>
-            <NumberInput step={1} defaultValue={15} min={1} max={30}>
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
+            <motion.div
+              className="box"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.1,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
+              <NumberComponent></NumberComponent>
+            </motion.div>
           </FormControl>
         );
         break;
-      // TODO
       case 3:
         setContent(
-          <FormControl as="fieldset">
-            <FormLabel textAlign="center" as="legend">
-              Puntua de 0 a 10 tu satisfacción con la empresa
-            </FormLabel>
-            <NumberInput step={1} defaultValue={1} min={1} max={10}>
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
+          <motion.div
+            className="box"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.1,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <FormControl as="fieldset">
+              <TextComponentShort></TextComponentShort>
+            </FormControl>
+          </motion.div>
         );
         break;
     }
   }, [questionNumber]);
 
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
   return (
     <div className="form-page page">
-      <Box className="form-page__header" boxShadow="md" p="3">
-        <Header></Header>
-      </Box>
-      <Box mt="10" position="relative">
-        <Stepper size="sm" index={activeStep} gap="0">
-          {steps.map((step, index) => (
-            <Step key={index}>
-              <StepIndicator bg="white">
-                <StepStatus complete={<StepIcon />} />
-              </StepIndicator>
-            </Step>
-          ))}
-        </Stepper>
-        <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1} />
-      </Box>
-      <Box className="form-page__container">
-        <Box className="form-page__formulary">
-          {content}
-          <Button {...blueButton} className="form-page__button center" onClick={previousQuestion}>
-            <GrFormNext />
-          </Button>
-          <Button {...nextButton} className="form-page__button center" onClick={nextQuestion}>
-            <GrFormNext />
-          </Button>
-        </Box>
-      </Box>
-      <Box className="form-page__footer">
-        <Footer></Footer>
-      </Box>
+      {loading ? (
+        <div className="loadingio-spinner-ball-fr08q5zqxe9">
+          <div className="ldio-iy69neut66">
+            <div></div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <Box className="form-page__header" boxShadow="md" p="3">
+            <Header></Header>
+          </Box>
+          <Box mt="10" position="relative">
+            <Stepper size="sm" index={activeStep} gap="0">
+              {steps.map((step, index) => (
+                <Step key={index}>
+                  <StepIndicator m="25" bg="white">
+                    <StepStatus complete={<StepIcon />} />
+                  </StepIndicator>
+                </Step>
+              ))}
+            </Stepper>
+            <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1} />
+          </Box>
+          <Box className="form-page__container">
+            <Box className="form-page__formulary">
+              {content}
+              <Button mr="15" {...blueButton} leftIcon={<FaAnglesLeft />} className="form-page__button center" onClick={previousQuestion}>
+                Anterior
+              </Button>
+              <Button ml="15" {...blueButton} rightIcon={<FaAnglesRight />} className="form-page__button center" onClick={nextQuestion}>
+                Siguiente
+              </Button>
+            </Box>
+          </Box>
+          <Box className="form-page__footer">
+            <Footer></Footer>
+          </Box>
+        </>
+      )}
     </div>
   );
 };

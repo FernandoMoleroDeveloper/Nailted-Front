@@ -1,7 +1,7 @@
 @import "../../styles/utilities/variables";
+@import "../../styles/utilities/mixins";
 
 .header {
- 
   &__container {
     display: flex;
     align-items: center;
