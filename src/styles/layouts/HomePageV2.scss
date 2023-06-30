@@ -2,7 +2,7 @@
 @import "../../styles/utilities/mixins";
 
 .home-page {
-  min-height: 100vh;
+  // min-height: 100vh;
   min-width: 100vw;
   &__imgbox {
     display: flex;
@@ -38,7 +38,7 @@
     background-color: $background-brand;
     font-weight: bold;
     text-align: left;
-    font-size: 30px;
+    font-size: 34px;
     padding: 30px;
     margin-top: -5px;
     @include adaptTo("desktop") {
@@ -58,7 +58,7 @@
     color: $font-color-dark;
     font-weight: 400;
     text-align: center;
-    font-size: 15px;
+    font-size: 20px;
     padding: 20px;
 
     @include adaptTo("desktop") {

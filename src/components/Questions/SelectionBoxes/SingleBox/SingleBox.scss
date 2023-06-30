@@ -3,14 +3,22 @@
 .selection-boxes {
   &__option {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     cursor: pointer;
     border-radius: 30px;
     font-weight: 400;
-    min-width: 45%;
-    max-width: 45%;
-    margin: 10px 0px;
-    min-height: 150px;
+    width: 40%;
+    margin: 10px 10px;
+    min-height: 130px;
+    max-height: 150px;
     padding: 10px 10px;
+  }
+
+  &__text {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 20px;
+    user-select: none;
   }
 }

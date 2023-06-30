@@ -1,4 +1,4 @@
-import { Box, Flex, Button, FormLabel, HStack, FormHelperText, useSteps, Checkbox, RadioGroup, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
+import { Box, Flex, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
 import "../../styles/layouts/FormPage.scss";
 import React, { useState, useEffect } from "react";
 import TextComponentLong from "../../components/TextComponentLong/TextComponentLong";
@@ -30,8 +30,10 @@ const FormPage = (): JSX.Element => {
   const progressPercent = (activeStep / max) * 100;
 
   const nextQuestion = (): void => {
-    console.log("NExt");
-    setQuestionNumber(questionNumber + 1);
+    console.log("Next");
+    if (questionNumber <= 4) { // sumar un numero por cada pregunta que se agregue
+      setQuestionNumber(questionNumber + 1);
+    }
   };
 
   const previousQuestion = (): void => {
@@ -43,44 +45,7 @@ const FormPage = (): JSX.Element => {
     switch (questionNumber) {
       // Radio buttons
       case 0:
-        setContent(
-          <FormControl as="fieldset">
-            <motion.div
-              className="box"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.1,
-                ease: [0, 0.71, 0.2, 1.01],
-              }}
-            >
-              <FormLabel textAlign="center" as="legend" m="0">
-                Cuantos 1&1 se realizan con el General Manager al mes
-              </FormLabel>
-              <RadioGroup color="black" defaultValue="1 a 3">
-                <HStack color="black" alignContent="center" justifyContent="center" spacing="25px">
-                  <Checkbox size="lg" colorScheme="blue" color="black">
-                    0
-                  </Checkbox>
-                  <Checkbox size="lg" colorScheme="blue">
-                    1-3
-                  </Checkbox>
-                  <Checkbox size="lg" colorScheme="blue">
-                    4-6
-                  </Checkbox>
-                  <Checkbox size="lg" colorScheme="blue">
-                    7-10
-                  </Checkbox>
-                </HStack>
-              </RadioGroup>
-              <FormHelperText color="black" m="0">
-                Selecciona un rango
-              </FormHelperText>
-            </motion.div>
-          </FormControl>
-        );
-        console.log(content);
+        setContent(SelectionBoxes);
         break;
       // Input text
       case 1:
@@ -139,10 +104,6 @@ const FormPage = (): JSX.Element => {
         );
         break;
       case 4:
-        console.log("Entra en caso 5");
-        setContent(SelectionBoxes);
-        break;
-      case 5:
         setContent(
           <motion.div
             className="box"
