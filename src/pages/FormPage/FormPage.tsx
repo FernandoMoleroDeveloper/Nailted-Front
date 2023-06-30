@@ -31,7 +31,8 @@ const FormPage = (): JSX.Element => {
 
   const nextQuestion = (): void => {
     console.log("Next");
-    if (questionNumber <= 4) { // sumar un numero por cada pregunta que se agregue
+    if (questionNumber <= 3) {
+      // sumar un numero por cada pregunta que se agregue
       setQuestionNumber(questionNumber + 1);
     }
   };
@@ -143,7 +144,7 @@ const FormPage = (): JSX.Element => {
       ) : (
         <>
           <Box className="form-page__container">
-            {questionNumber !== 5 && (
+            {questionNumber !== 4 && (
               <Box>
                 <Stepper size="sm" index={activeStep} gap="0">
                   {steps.map((step, index) => (
@@ -163,9 +164,11 @@ const FormPage = (): JSX.Element => {
                 <Button leftIcon={<FaAnglesLeft />} fontSize={20} color="#199bf6" borderRadius={30} backgroundColor="#ffff" className="form-page__previous center" onClick={previousQuestion}>
                   Anterior
                 </Button>
-                <Button rightIcon={<FaAnglesRight />} fontSize={20} color="#ffff" borderRadius={30} backgroundColor="#199bf6" _hover={{ bg: "#0469da" }} className="form-page__next center" onClick={nextQuestion}>
-                  Siguiente
-                </Button>
+                {questionNumber < 4 && (
+                  <Button rightIcon={<FaAnglesRight />} fontSize={20} color="#ffff" borderRadius={30} backgroundColor="#199bf6" _hover={{ bg: "#0469da" }} className="form-page__next center" onClick={nextQuestion}>
+                    {questionNumber !== 3 ? "Siguiente" : "Resultados"}
+                  </Button>
+                )}
               </Flex>
             </Box>
           </Box>
