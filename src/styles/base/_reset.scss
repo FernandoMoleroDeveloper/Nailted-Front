@@ -1,3 +1,5 @@
+@import "../../styles/utilities/variables";
+
 body,
 html,
 #root {
@@ -29,5 +31,11 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0px auto;
+  margin: 0px auto; 
 }
+
+.light {
+  color: $font-color-light;
+  background-color: $font-color-light;
+}
+
