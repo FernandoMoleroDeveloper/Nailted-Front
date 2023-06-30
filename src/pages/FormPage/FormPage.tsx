@@ -2,8 +2,9 @@ import { Box, Button, Textarea, NumberInput, useSteps, Step, Stepper, StepStatus
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import "./FormPage.scss";
-import { blueButton } from "../../styles/motions/props";
+import { blueButton, nextButton } from "../../styles/motions/props";
 import React, { useState, useEffect } from "react";
+import { GrFormNext } from "react-icons/gr";
 
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -127,10 +128,10 @@ const FormPage = (): JSX.Element => {
         <Box className="form-page__formulary">
           {content}
           <Button {...blueButton} className="form-page__button center" onClick={previousQuestion}>
-            Anterior
+            <GrFormNext />
           </Button>
-          <Button {...blueButton} className="form-page__button center" onClick={nextQuestion}>
-            Siguiente
+          <Button {...nextButton} className="form-page__button center" onClick={nextQuestion}>
+            <GrFormNext />
           </Button>
         </Box>
       </Box>
