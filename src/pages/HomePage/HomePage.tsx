@@ -1,21 +1,22 @@
 import { Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { blueButton } from "../../styles/motions/props";
-import Footer from "../../components/Footer/Footer";
-import Header from "../../components/Header/Header";
+// import Footer from "../../components/Footer/Footer";
+// import Header from "../../components/Header/Header";
 import { motion } from "framer-motion";
 import "../../styles/layouts/HomePage.scss";
+import teamWorkImage from "../../assets/teamwork2.png";
 
 const HomePage = (): JSX.Element => {
   return (
     <div className="home-page page">
-      <Box className="home-page__header" boxShadow="md" p="3">
+      {/* <Box className="home-page__header" boxShadow="md" p="3">
         <Header></Header>
-      </Box>
+      </Box> */}
       <Box className="home-page__container">
         <Box className="home-page__content">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
-            <img className="home-page__photo" src="https://www.innovationinbusiness.com/wp-content/uploads/2022/08/Technology-inspire-teamwork.png" alt="" />
+            <img className="home-page__photo" src={teamWorkImage} alt="teamwork" />
             <div className="home-page__slogan">
               <span>Evalue la madurez cultural de su empresa</span>
             </div>
@@ -35,9 +36,9 @@ const HomePage = (): JSX.Element => {
           </Link>
         </motion.div>
       </Box>
-      <Box className="home-page__footer">
+      {/* <Box className="home-page__footer">
         <Footer></Footer>
-      </Box>
+      </Box> */}
     </div>
   );
 };

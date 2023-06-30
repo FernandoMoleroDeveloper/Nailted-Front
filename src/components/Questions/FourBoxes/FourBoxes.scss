@@ -1,0 +1,30 @@
+@import "../../../styles/utilities/variables";
+
+.four-boxes {
+
+    &__container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    &__option {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: $font-color-light;
+        background-color: $background-brand;
+        border-radius: 30px;
+        font-size: 18px;
+        font-weight: 400;
+        min-width: 40%;
+        max-width: 40%;
+        margin: 10px 15px;
+        min-height: 200px;
+        padding: 10px 10px;
+
+        &--active {
+            background-color: $background-buttons;
+        }
+    }
+}
