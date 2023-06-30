@@ -1,4 +1,4 @@
-import { Box, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, FormHelperText, FormLabel, HStack, Progress, RadioGroup, Checkbox, FormControl } from "@chakra-ui/react";
+import { Box, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import "../../styles/layouts/FormPage.scss";
@@ -9,6 +9,7 @@ import TextComponentShort from "../../components/TextComponentShort/TextComponen
 import { motion } from "framer-motion";
 import NumberComponent from "../../components/NumberComponent/NumberComponent";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
+import OneOptionComponent from "../../components/OneOptionComponent/OneOptionComponent";
 
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -45,7 +46,7 @@ const FormPage = (): JSX.Element => {
       // Radio buttons
       case 0:
         setContent(
-          <FormControl as="fieldset">
+          <>
             <motion.div
               className="box"
               initial={{ opacity: 0, scale: 0.5 }}
@@ -56,30 +57,9 @@ const FormPage = (): JSX.Element => {
                 ease: [0, 0.71, 0.2, 1.01],
               }}
             >
-              <FormLabel textAlign="center" as="legend" m="0">
-                Cuantos 1&1 se realizan con el General Manager al mes
-              </FormLabel>
-              <RadioGroup color="black" defaultValue="1 a 3">
-                <HStack color="black" alignContent="center" justifyContent="center" spacing="25px">
-                  <Checkbox size="lg" colorScheme="blue" color="black">
-                    0
-                  </Checkbox>
-                  <Checkbox size="lg" colorScheme="blue">
-                    1-3
-                  </Checkbox>
-                  <Checkbox size="lg" colorScheme="blue">
-                    4-6
-                  </Checkbox>
-                  <Checkbox size="lg" colorScheme="blue">
-                    7-10
-                  </Checkbox>
-                </HStack>
-              </RadioGroup>
-              <FormHelperText color="black" m="0">
-                Selecciona un rango
-              </FormHelperText>
+              <OneOptionComponent></OneOptionComponent>
             </motion.div>
-          </FormControl>
+          </>
         );
         console.log(content);
         break;
