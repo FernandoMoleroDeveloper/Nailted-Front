@@ -85,7 +85,7 @@
 }
 
 .ldio-iy69neut66 div {
-  position: absolute;
+  // position: absolute;
   width: 52px;
   height: 52px;
   border-radius: 50%;
@@ -95,6 +95,9 @@
   animation: ldio-iy69neut66 1s linear infinite;
 }
 .loadingio-spinner-ball-fr08q5zqxe9 {
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 26px);
   width: 200px;
   height: 200px;
   display: inline-block;
