@@ -2,7 +2,7 @@
 
 .number-component {
   &__container {
-    margin-top: 30px;
+    margin-top: 190px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -13,8 +13,8 @@
     color: $font-color-light;
     border-radius: 100px;
     background-color: $background-brand;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     font-weight: 400;
     font-size: 25px;
     align-items: center;
@@ -24,8 +24,8 @@
     color: $font-color-light;
     border-radius: 100px;
     background-color: $background-brand;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     font-weight: 400;
     font-size: 25px;
     align-items: center;
@@ -37,6 +37,7 @@
     border-radius: 100px;
     position: relative;
     width: 70px;
+    margin: 0px 20px;
     background-color: $background-generic;
   }
   &__input {
@@ -45,7 +46,7 @@
     width: 70px;
     background-color: $background-generic;
     text-align: center;
-    font-size: 25px;
+    font-size: 40px;
     font-weight: 400;
   }
 }

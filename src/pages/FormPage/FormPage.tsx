@@ -1,4 +1,4 @@
-import { Box, Flex, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, useSteps, Step, Stepper, StepStatus, StepIcon, StepIndicator, Progress, FormControl } from "@chakra-ui/react";
 import "../../styles/layouts/FormPage.scss";
 import React, { useState, useEffect } from "react";
 import TextComponentLong from "../../components/TextComponentLong/TextComponentLong";
@@ -32,7 +32,7 @@ const FormPage = (): JSX.Element => {
 
   const nextQuestion = (): void => {
     console.log("Next");
-    if (questionNumber <= 3) {
+    if (questionNumber <= 5) {
       // sumar un numero por cada pregunta que se agregue
       setQuestionNumber(questionNumber + 1);
     }
@@ -123,7 +123,7 @@ const FormPage = (): JSX.Element => {
           </motion.div>
         );
         break;
-      case 6:
+      case 5:
         setContent(
           <motion.div>
             <EmailComponent></EmailComponent>
@@ -152,7 +152,7 @@ const FormPage = (): JSX.Element => {
       ) : (
         <>
           <Box className="form-page__container">
-            {questionNumber !== 4 && (
+            {questionNumber !== 4 && questionNumber !== 5 && (
               <Box>
                 <Stepper size="sm" index={activeStep} gap="0">
                   {steps.map((step, index) => (
@@ -164,15 +164,18 @@ const FormPage = (): JSX.Element => {
                   ))}
                 </Stepper>
                 <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1} />
+                <Text fontWeight={500} fontSize={22} color="#199bf6">RELACIONES</Text>
               </Box>
             )}
             <Box className="form-page__formulary">
               {content}
               <Flex className="form-page__navigation">
-                <Button leftIcon={<FaAnglesLeft />} fontSize={20} color="#199bf6" borderRadius={30} backgroundColor="#ffff" className="form-page__previous center" onClick={previousQuestion}>
-                  Anterior
-                </Button>
-                {questionNumber < 4 && (
+                {questionNumber !== 5 && (
+                  <Button leftIcon={<FaAnglesLeft />} fontSize={20} color="#199bf6" borderRadius={30} backgroundColor="#ffff" className="form-page__previous center" onClick={previousQuestion}>
+                    Anterior
+                  </Button>
+                )}
+                {questionNumber < 5 && (
                   <Button rightIcon={<FaAnglesRight />} fontSize={20} color="#ffff" borderRadius={30} backgroundColor="#199bf6" _hover={{ bg: "#0469da" }} className="form-page__next center" onClick={nextQuestion}>
                     {questionNumber !== 3 ? "Siguiente" : "Resultados"}
                   </Button>

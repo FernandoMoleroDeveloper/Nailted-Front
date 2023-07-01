@@ -14,9 +14,9 @@ const TextComponentShort = (): JSX.Element => {
       <FormLabel textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
         ¿A qué departamento perteneces?
       </FormLabel>
-      <Box display="flex" flexDirection="column" alignItems="start" m="15">
+      <Box display="flex" flexDirection="column" alignItems="center" m="15" mt="180">
         <Input variant="flushed" placeholder="Escribe aquí tu respuesta" width="350px" value={text} onChange={handleTextChange} />
-        <FormHelperText>{`Caracteres restantes: ${80 - text.length}`}</FormHelperText>
+        <FormHelperText fontSize={15} fontWeight={400}>{`Caracteres restantes: ${80 - text.length}`}</FormHelperText>
       </Box>
     </div>
   );
