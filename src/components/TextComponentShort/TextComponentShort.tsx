@@ -1,4 +1,4 @@
-import { Box, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react";
+import { Box, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
 
 const TextComponentShort = (): JSX.Element => {
   return (
@@ -7,9 +7,9 @@ const TextComponentShort = (): JSX.Element => {
         ¿A que departamento perteneces?
       </FormLabel>
       <Box display="flex" flexDirection="column" alignItems="start" m="15">
-        <Textarea margin="0 auto" maxWidth="800px" size="md" alignItems="center" textAlign="start" placeholder="Escribe aquí..." borderBottomColor="#0069D9" borderLeft="none" borderRadius="0" borderRight="none" borderTop="none" />
+        <Input variant="flushed" placeholder="Escribe aquí tu respuesta" width="350px" />
+        <FormHelperText>Max 1000 caracteres</FormHelperText>
       </Box>
-      <FormHelperText>Max 1000 caracteres</FormHelperText>
     </div>
   );
 };
