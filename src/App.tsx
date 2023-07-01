@@ -1,9 +1,9 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import FormPage from "./pages/FormPage/FormPage";
-import ResultsComponent from "./components/ResultsComponent/ResultsComponent";
+import Results from "./components/Results/Results";
 import { ChakraProvider } from "@chakra-ui/react";
-import HomePageV2 from "./pages/HomePageV2/HomePageV2";
+import HomePage from "./pages/HomePage/HomePage";
 
 function App(): JSX.Element {
   return (
@@ -11,10 +11,9 @@ function App(): JSX.Element {
       <ChakraProvider>
         <HashRouter>
           <Routes>
-            <Route path="/" element={<HomePageV2></HomePageV2>}></Route>
-            <Route path="/home-2" element={<HomePageV2></HomePageV2>}></Route>
+            <Route path="/" element={<HomePage></HomePage>}></Route>
             <Route path="/questionary" element={<FormPage></FormPage>}></Route>
-            <Route path="/results" element={<ResultsComponent></ResultsComponent>}></Route>
+            <Route path="/results" element={<Results></Results>}></Route>
           </Routes>
         </HashRouter>
       </ChakraProvider>

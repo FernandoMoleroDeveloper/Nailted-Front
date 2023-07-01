@@ -1,7 +1,7 @@
 import { Text, Button, Flex, Heading, Input, Switch } from "@chakra-ui/react";
 import { blueButton } from "../../styles/motions/props";
 
-const EmailComponent = (): JSX.Element => {
+const EmailRquest = (): JSX.Element => {
   return (
     <div className="header">
       <Heading color="#179bf6">Recibir los resultados</Heading>
@@ -16,10 +16,10 @@ const EmailComponent = (): JSX.Element => {
             Acepto la Política de privacidad
           </Text>
         </Flex>
-        <Button {...blueButton} mt={50}>Enviar</Button>
+        <Button {...blueButton} mt={50} cursor="pointer">Enviar</Button>
       </Flex>
     </div>
   );
 };
 
-export default EmailComponent;
+export default EmailRquest;

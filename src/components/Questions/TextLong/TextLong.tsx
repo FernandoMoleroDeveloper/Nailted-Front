@@ -1,7 +1,7 @@
 import { Box, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 
-const TextComponentLong = (): JSX.Element => {
+const TextLong = (): JSX.Element => {
   const [text, setText] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -14,7 +14,7 @@ const TextComponentLong = (): JSX.Element => {
       <FormLabel textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
         ¿Cómo describirías tu relación con tu supervisor y qué cosas cambiarías?
       </FormLabel>
-      <Box display="flex" flexDirection="column" alignItems="start" m="15" mt={130}>
+      <Box display="flex" flexDirection="column" alignItems="start" m="15" mt={50}>
         <Textarea margin="0 auto" maxWidth="500px" size="md" alignItems="center" textAlign="start" placeholder="Escribe aquí..." borderBottomColor="#0069D9" borderLeft="none" borderRadius="0" borderRight="none" borderTop="none" onChange={handleTextChange} />
       </Box>
       <FormHelperText fontSize={15} fontWeight={400}>{`Caracteres restantes: ${200 - text.length}`}</FormHelperText>
@@ -22,4 +22,4 @@ const TextComponentLong = (): JSX.Element => {
   );
 };
 
-export default TextComponentLong;
+export default TextLong;
