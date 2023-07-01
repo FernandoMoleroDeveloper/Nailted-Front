@@ -12,7 +12,7 @@ const SingleBox = (): JSX.Element => {
 
   return (
     <Flex {...(active ? selectionBoxesButtonActive : selectionBoxesButton)} className="selection-boxes__option" onClick={toggleActive}>
-      <Flex className="selection-boxes__text">Texto de la opcion</Flex>
+      <Flex className="selection-boxes__text">Texto de la opcion que es bastante largo.</Flex>
     </Flex>
   );
 };
