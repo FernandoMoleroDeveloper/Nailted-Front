@@ -1,4 +1,3 @@
-
 import { Box, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -6,7 +5,7 @@ const TextComponentShort = (): JSX.Element => {
   const [text, setText] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value.slice(0, 80));
   };
 
@@ -16,10 +15,9 @@ const TextComponentShort = (): JSX.Element => {
         ¿A qué departamento perteneces?
       </FormLabel>
       <Box display="flex" flexDirection="column" alignItems="start" m="15">
-        <Input variant="flushed" placeholder="Escribe aquí tu respuesta" width="350px" />
+        <Input variant="flushed" placeholder="Escribe aquí tu respuesta" width="350px" value={text} onChange={handleTextChange} />
         <FormHelperText>{`Caracteres restantes: ${80 - text.length}`}</FormHelperText>
       </Box>
-
     </div>
   );
 };
