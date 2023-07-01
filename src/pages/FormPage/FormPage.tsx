@@ -8,6 +8,7 @@ import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 import SelectionBoxes from "../../components/Questions/SelectionBoxes/SelectionBoxes";
 import NumberComponent2 from "../../components/NumberComponent/NumberComponent2";
 import ResultsComponent from "../../components/ResultsComponent/ResultsComponent";
+import EmailComponent from "../../components/Emailcomponent/Emailcomponent";
 
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -119,6 +120,13 @@ const FormPage = (): JSX.Element => {
             <FormControl as="fieldset">
               <ResultsComponent></ResultsComponent>
             </FormControl>
+          </motion.div>
+        );
+        break;
+      case 6:
+        setContent(
+          <motion.div>
+            <EmailComponent></EmailComponent>
           </motion.div>
         );
         break;
