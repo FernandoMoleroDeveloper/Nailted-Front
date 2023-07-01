@@ -37,7 +37,7 @@ const NumberComponent2 = (): JSX.Element => {
           -
         </button>
         <div className="number-component__container-input">
-          <input placeholder="0" className="number-component__input" value={value} onChange={handleInputChange} />
+          <input type="number" placeholder="5" className="number-component__input" value={value} onChange={handleInputChange} min="0" max="10"/>
         </div>
         <button className="number-component__contador-mas" onClick={incrementValue}>
           +
