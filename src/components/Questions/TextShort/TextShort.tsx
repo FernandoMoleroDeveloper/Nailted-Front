@@ -1,7 +1,7 @@
 import { Box, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
 import { useState } from "react";
 
-const TextComponentShort = (): JSX.Element => {
+const TextShort = (): JSX.Element => {
   const [text, setText] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -14,7 +14,7 @@ const TextComponentShort = (): JSX.Element => {
       <FormLabel textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
         ¿A qué departamento perteneces?
       </FormLabel>
-      <Box display="flex" flexDirection="column" alignItems="center" m="15" mt="180">
+      <Box display="flex" flexDirection="column" alignItems="center" m="15" mt="90">
         <Input variant="flushed" placeholder="Escribe aquí tu respuesta" width="350px" value={text} onChange={handleTextChange} />
         <FormHelperText fontSize={15} fontWeight={400}>{`Caracteres restantes: ${80 - text.length}`}</FormHelperText>
       </Box>
@@ -22,4 +22,4 @@ const TextComponentShort = (): JSX.Element => {
   );
 };
 
-export default TextComponentShort;
+export default TextShort;

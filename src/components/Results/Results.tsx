@@ -1,11 +1,11 @@
 import { Box, Flex, Text, Button, CircularProgress, CircularProgressLabel, Divider, FormHelperText, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, useDisclosure } from "@chakra-ui/react";
 // import Footer from "../../components/Footer/Footer";
 // import Header from "../../components/Header/Header";
-import "../../styles/layouts/ResultsComponent.scss";
+import "../../styles/layouts/Results.scss";
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { useState } from "react";
 
-const ResultsComponent = (): JSX.Element => {
+const Results = (): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
@@ -158,4 +158,4 @@ const ResultsComponent = (): JSX.Element => {
     </div>
   );
 };
-export default ResultsComponent;
+export default Results;

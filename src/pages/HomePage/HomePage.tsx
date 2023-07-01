@@ -1,14 +1,14 @@
 import { Box, Button, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { blueButton } from "../../styles/motions/props";
-import "../../styles/layouts/HomePageV2.scss";
-import { Slide } from "react-awesome-reveal";
+import { blueButton, slideX, slideY } from "../../styles/motions/props";
+import "../../styles/layouts/HomePage.scss";
 import homeImage from "../../assets/home-img.png";
+import { motion } from "framer-motion";
 
-const HomePageV2 = (): JSX.Element => {
+const HomePage = (): JSX.Element => {
   return (
     <div className="home-page page">
-      <Slide direction="up">
+      <motion.div {...slideY("up", "0.5", "0")}>
         <Box className="home-page__container">
           <Box className="home-page__head">
             <div className="home-page__imgbox">
@@ -19,11 +19,11 @@ const HomePageV2 = (): JSX.Element => {
             </Box>
           </Box>
 
-          <Slide direction="right">
+          <motion.div {...slideX("right", "0.5", "0.5")}> {/* Coming from, duration, delay */}
             <Box className="home-page__text">
-              <p>¡Descúbre que podemos ofrecerte en Nailted con este formulario! Solo necesitamos unos pocos minutos, te damos una primera evaluación y te mostramos cómo nuestra plataforma te ayudará a implementar una mejor madurez cultural.</p>
+              <p>¡Descubre qué podemos ofrecerte en Nailted con este formulario! Solo necesitamos unos pocos minutos, te damos una primera evaluación y te mostramos cómo nuestra plataforma te ayudará a implementar una mejor madurez cultural.</p>
             </Box>
-          </Slide>
+          </motion.div>
 
           <Link to="/questionary" className="home-page__link">
             <Button {...blueButton} className="home-page__button center">
@@ -34,9 +34,9 @@ const HomePageV2 = (): JSX.Element => {
         <Box>
           <Image src="https://nailted.com/assets/images/logo.svg" alt="Logo" className="home-page__logo"></Image>
         </Box>
-      </Slide>
+      </motion.div>
     </div>
   );
 };
 
-export default HomePageV2;
+export default HomePage;

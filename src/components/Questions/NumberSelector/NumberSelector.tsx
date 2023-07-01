@@ -1,8 +1,8 @@
 import { FormLabel } from "@chakra-ui/react";
 import { useState } from "react";
-import "../../styles/layouts/NumberComponent2.scss";
+import "../../../styles/layouts/NumberSelector.scss";
 
-const NumberComponent2 = (): JSX.Element => {
+const NumberSelector = (): JSX.Element => {
   const [value, setValue] = useState(0);
 
   const incrementValue = (): void => {
@@ -47,4 +47,4 @@ const NumberComponent2 = (): JSX.Element => {
   );
 };
 
-export default NumberComponent2;
+export default NumberSelector;
