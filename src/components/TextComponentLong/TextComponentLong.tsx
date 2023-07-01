@@ -15,7 +15,7 @@ const TextComponentLong = (): JSX.Element => {
         ¿Cómo describirías tu relación con tu supervisor y qué cosas cambiarías?
       </FormLabel>
       <Box display="flex" flexDirection="column" alignItems="start" m="15">
-        <Textarea margin="0 auto" maxWidth="500px" size="md" alignItems="center" textAlign="start" placeholder="Escribe aquí..." borderBottomColor="#0069D9" borderLeft="none" borderRadius="0" borderRight="none" borderTop="none" />
+        <Textarea margin="0 auto" maxWidth="500px" size="md" alignItems="center" textAlign="start" placeholder="Escribe aquí..." borderBottomColor="#0069D9" borderLeft="none" borderRadius="0" borderRight="none" borderTop="none" onChange={handleTextChange} />
       </Box>
       <FormHelperText>{`Caracteres restantes: ${200 - text.length}`}</FormHelperText>
     </div>
