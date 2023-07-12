@@ -1,12 +1,17 @@
 import { Box, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 
-const TextLong = (): JSX.Element => {
-  const [text, setText] = useState("");
+interface TextLongProps {
+  onAnswer: (answer: string) => void;
+}
 
+const TextLong = ({ onAnswer }: TextLongProps): JSX.Element => {
+  const [text, setText] = useState("");
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value.slice(0, 200));
+    const newText = event.target.value.slice(0, 200);
+    setText(newText);
+    onAnswer(newText);
   };
 
   return (
