@@ -15,6 +15,8 @@ import ProgressBar from "../../components/ProgressBar/ProgressBar";
 const FormPage = (): JSX.Element => {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [content, setContent] = useState<React.ReactNode | null>("");
+  const QUIZZ_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version`;
+  const [quizzQuestions, setQuizzQuestions] = useState([]);
 
   const nextQuestion = (): void => {
     console.log("Next");
@@ -28,7 +30,29 @@ const FormPage = (): JSX.Element => {
     questionNumber > 0 && setQuestionNumber(questionNumber - 1);
   };
 
+  const fetchQuestions = (): void => {
+    fetch(QUIZZ_URL)
+      .then(async (response) => {
+        if (response.status !== 201) {
+          alert("Error obteniendo las preguntas del quizz.");
+        }
+        return await response.json();
+      })
+      .then((responseParsed) => {
+        console.log("Respuesta del servidor:");
+        console.log(responseParsed[0].questionText);
+        setQuizzQuestions(responseParsed);
+      })
+      .catch((error) => {
+        alert("Error al iniciar el quizz.");
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
+    fetchQuestions();
+    console.log(quizzQuestions);
+
     switch (questionNumber) {
       // Selection Boxes
       case 0:
