@@ -25,7 +25,7 @@ const HomePage = (): JSX.Element => {
             </Box>
           </motion.div>
 
-          <Link to="/questionary" className="home-page__link">
+          <Link to="/quizz" className="home-page__link">
             <Button {...blueButton} className="home-page__button center">
               Iniciar evaluación
             </Button>
