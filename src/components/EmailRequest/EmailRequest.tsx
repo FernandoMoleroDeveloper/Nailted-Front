@@ -1,7 +1,7 @@
 import { Text, Button, Flex, Heading, Input, Switch } from "@chakra-ui/react";
 import { blueButton } from "../../styles/motions/props";
 
-const EmailRquest = (): JSX.Element => {
+const EmailRequest = (): JSX.Element => {
   return (
     <div className="header">
       <Heading color="#179bf6">Recibir los resultados</Heading>
@@ -22,4 +22,4 @@ const EmailRquest = (): JSX.Element => {
   );
 };
 
-export default EmailRquest;
+export default EmailRequest;

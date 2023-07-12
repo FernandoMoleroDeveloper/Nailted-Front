@@ -1,6 +1,6 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
-import QuizzPage from "./pages/FormPage/QuizzPage";
+import QuizzPage from "./pages/QuizzPage/QuizzPage";
 import Results from "./components/Results/Results";
 import { ChakraProvider } from "@chakra-ui/react";
 import HomePage from "./pages/HomePage/HomePage";
