@@ -26,6 +26,7 @@ const QuizzPage = (): JSX.Element => {
     if (currentQuestion < 19 && hasAnswered) {
       setCurrentQuestion(currentQuestion + 1);
       setHasAnswered(false);
+      setErrorMessage(""); // Aquí limpiamos el mensaje de error.
     } else if (!hasAnswered) {
       setErrorMessage("Por favor, responde a la pregunta antes de continuar");
     }
@@ -98,11 +99,7 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <TextLong
-                  onAnswer={(answer) => {
-                    setHasAnswered(true);
-                  }}
-                ></TextLong>
+                <TextLong question={quizzQuestions[currentQuestion]} setHasAnswered={setHasAnswered}></TextLong>
               </FormControl>
             </motion.div>
           );
@@ -122,11 +119,7 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <TextShort
-                  onAnswer={(answer) => {
-                    setHasAnswered(true);
-                  }}
-                ></TextShort>
+                <TextShort question={quizzQuestions[currentQuestion]} setHasAnswered={setHasAnswered}></TextShort>
               </FormControl>
             </motion.div>
           );
@@ -170,7 +163,7 @@ const QuizzPage = (): JSX.Element => {
           )}
 
           <Box minWidth="100vw" maxHeight={100}>
-            <ProgressBar></ProgressBar>
+            <ProgressBar question={quizzQuestions[currentQuestion]}></ProgressBar>
           </Box>
           <Box className="form-page__container">
             <Box className="form-page__formulary">{content}</Box>
