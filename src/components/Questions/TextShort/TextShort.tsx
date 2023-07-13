@@ -1,12 +1,18 @@
 import { Box, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
 import { useState } from "react";
 
-const TextShort = (): JSX.Element => {
+interface TextShortProps {
+  onAnswer: (answer: string) => void;
+}
+
+const TextShort = ({ onAnswer }: TextShortProps): JSX.Element => {
   const [text, setText] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value.slice(0, 80));
+    const newText = event.target.value.slice(0, 80);
+    setText(newText);
+    onAnswer(newText);
   };
 
   return (

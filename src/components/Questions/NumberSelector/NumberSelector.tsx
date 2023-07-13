@@ -2,18 +2,26 @@ import { FormLabel } from "@chakra-ui/react";
 import { useState } from "react";
 import "../../../styles/layouts/NumberSelector.scss";
 
-const NumberSelector = (): JSX.Element => {
+interface NumberSelectorProps {
+  onAnswer: (answer: number) => void;
+}
+
+const NumberSelector = ({ onAnswer }: NumberSelectorProps): JSX.Element => {
   const [value, setValue] = useState(0);
 
   const incrementValue = (): void => {
     if (value < 10) {
-      setValue((prevValue) => prevValue + 1);
+      const newValue = value + 1;
+      setValue(newValue);
+      onAnswer(newValue);
     }
   };
 
   const decrementValue = (): void => {
     if (value > 0) {
-      setValue((prevValue) => prevValue - 1);
+      const newValue = value - 1;
+      setValue(newValue);
+      onAnswer(newValue);
     }
   };
 
@@ -25,6 +33,7 @@ const NumberSelector = (): JSX.Element => {
       newValue = 10;
     }
     setValue(newValue);
+    onAnswer(newValue);
   };
 
   return (
@@ -37,7 +46,7 @@ const NumberSelector = (): JSX.Element => {
           -
         </button>
         <div className="number-component__container-input">
-          <input type="number" placeholder="5" className="number-component__input" value={value} onChange={handleInputChange} min="0" max="10"/>
+          <input type="number" placeholder="5" className="number-component__input" value={value} onChange={handleInputChange} min="0" max="10" />
         </div>
         <button className="number-component__contador-mas" onClick={incrementValue}>
           +

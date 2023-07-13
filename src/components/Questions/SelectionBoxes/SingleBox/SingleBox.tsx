@@ -3,11 +3,17 @@ import { selectionBoxesButton, selectionBoxesButtonActive } from "../../../../st
 import "../SingleBox/SingleBox.scss";
 import { useState } from "react";
 
-const SingleBox = (): JSX.Element => {
+interface SingleBoxProps {
+  onSelect: (value: boolean) => void;
+}
+
+const SingleBox = ({ onSelect }: SingleBoxProps): JSX.Element => {
   const [active, setActive] = useState(false);
 
   const toggleActive = (): void => {
-    setActive(!active);
+    const newActiveState = !active;
+    setActive(newActiveState);
+    onSelect(newActiveState);
   };
 
   return (

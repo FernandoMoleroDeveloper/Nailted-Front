@@ -1,4 +1,4 @@
-import { Box, Flex, Button, FormControl } from "@chakra-ui/react";
+import { Box, Flex, Button, FormControl, Alert, AlertIcon } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
@@ -21,11 +21,16 @@ const QuizzPage = (): JSX.Element => {
   const [quizzQuestions, setQuizzQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showingResults, setShowingResults] = useState(false);
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   console.log(showingResults);
 
   const nextQuestion = (): void => {
-    if (currentQuestion < 19) {
+    if (currentQuestion < 19 && hasAnswered) {
       setCurrentQuestion(currentQuestion + 1);
+      setHasAnswered(false);
+    } else if (!hasAnswered) {
+      setErrorMessage("Por favor, responde a la pregunta antes de continuar");
     }
   };
 
@@ -81,7 +86,11 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <SelectionBoxes></SelectionBoxes>
+                <SelectionBoxes
+                  onAnswer={(value) => {
+                    setHasAnswered(true);
+                  }}
+                ></SelectionBoxes>
               </FormControl>
             </motion.div>
           );
@@ -90,7 +99,11 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <SingleBox></SingleBox>
+                <SingleBox
+                  onSelect={(value) => {
+                    if (value) setHasAnswered(true);
+                  }}
+                ></SingleBox>
               </FormControl>
             </motion.div>
           );
@@ -100,7 +113,11 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <TextLong></TextLong>
+                <TextLong
+                  onAnswer={(answer) => {
+                    setHasAnswered(true);
+                  }}
+                ></TextLong>
               </FormControl>
             </motion.div>
           );
@@ -110,7 +127,11 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <FormControl as="fieldset">
               <motion.div {...transitionIn}>
-                <NumberSelector></NumberSelector>
+                <NumberSelector
+                  onAnswer={(answer) => {
+                    setHasAnswered(true);
+                  }}
+                ></NumberSelector>
               </motion.div>
             </FormControl>
           );
@@ -120,7 +141,11 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <TextShort></TextShort>
+                <TextShort
+                  onAnswer={(answer) => {
+                    setHasAnswered(true);
+                  }}
+                ></TextShort>
               </FormControl>
             </motion.div>
           );
@@ -155,6 +180,14 @@ const QuizzPage = (): JSX.Element => {
         </div>
       ) : (
         <>
+          {/* Código para mostrar el mensaje de error */}
+          {errorMessage && (
+            <Alert status="error">
+              <AlertIcon />
+              {errorMessage}
+            </Alert>
+          )}
+
           <Box minWidth="100vw" maxHeight={100}>
             <ProgressBar></ProgressBar>
           </Box>
@@ -167,7 +200,18 @@ const QuizzPage = (): JSX.Element => {
                 </Button>
               ) : null}
               {currentQuestion < 19 ? (
-                <Button rightIcon={<FaAnglesRight />} fontSize={20} color="#ffff" borderRadius={30} backgroundColor="#199bf6" _hover={{ bg: "#0469da" }} className="form-page__next center" onClick={nextQuestion}>
+                <Button
+                  rightIcon={<FaAnglesRight />}
+                  fontSize={20}
+                  color="#ffff"
+                  borderRadius={30}
+                  backgroundColor="#199bf6"
+                  _hover={{ bg: "#0469da" }}
+                  className="form-page__next center"
+                  onClick={() => {
+                    nextQuestion();
+                  }}
+                >
                   Siguiente
                 </Button>
               ) : (
