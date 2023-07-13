@@ -51,7 +51,7 @@ const NumberSelector = ({ question, hasAnswered, setHasAnswered }: any): JSX.Ele
           +
         </button>
       </div>
-      <div>Min: {question?.selectedNumber?.max} / Max: {question?.selectedNumber?.max}</div>
+      <div>Min: {question?.selectedNumber?.min} / Max: {question?.selectedNumber?.max}</div>
     </div>
   );
 };
