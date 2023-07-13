@@ -3,52 +3,22 @@ import "../SelectionBoxes/SelectionBoxes.scss";
 import SingleBox from "./SingleBox/SingleBox";
 import { useEffect, useState } from "react";
 
-interface SelectionBoxesProps {
-  onAnswer: (answer: boolean) => void;
-}
+const SelectionBoxes = ({ question, hasAnswered, setHasAnswered, multiSelection }: any): JSX.Element => {
+  const [optionsSelected, setOptionsSelected] = useState([]);
 
-const SelectionBoxes = ({ onAnswer }: SelectionBoxesProps): JSX.Element => {
-  const [hasSelectedBox, setHasSelectedBox] = useState(false);
   useEffect(() => {
-    onAnswer(hasSelectedBox);
-  }, [hasSelectedBox]);
+    optionsSelected.length > 0 ? setHasAnswered(true) : setHasAnswered(false);
+  }, [optionsSelected]);
 
   return (
     <>
       <FormLabel textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
-        ¿Cómo describirías tu relación con tu supervisor y que cosas cambiarías?
+        {question.questionText}
       </FormLabel>
       <Box className="selection-boxes__container">
-        <SingleBox
-          onSelect={(value) => {
-            if (value) setHasSelectedBox(true);
-          }}
-        ></SingleBox>
-        <SingleBox
-          onSelect={(value) => {
-            if (value) setHasSelectedBox(true);
-          }}
-        ></SingleBox>
-        <SingleBox
-          onSelect={(value) => {
-            if (value) setHasSelectedBox(true);
-          }}
-        ></SingleBox>
-        <SingleBox
-          onSelect={(value) => {
-            if (value) setHasSelectedBox(true);
-          }}
-        ></SingleBox>
-        <SingleBox
-          onSelect={(value) => {
-            if (value) setHasSelectedBox(true);
-          }}
-        ></SingleBox>
-        <SingleBox
-          onSelect={(value) => {
-            if (value) setHasSelectedBox(true);
-          }}
-        ></SingleBox>
+        {question?.options.map((option: any) => {
+          return <SingleBox key={option._id} option={option} optionsSelected={optionsSelected} setOptionsSelected={setOptionsSelected} multiSelection={multiSelection}></SingleBox>;
+        })}
       </Box>
     </>
   );

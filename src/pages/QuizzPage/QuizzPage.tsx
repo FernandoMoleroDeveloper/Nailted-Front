@@ -12,20 +12,17 @@ import Results from "../../components/Results/Results";
 // import EmailRequest from "../../components/EmailRequest/EmailRequest";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { Question, VARIANT } from "../../models/Question";
-import SingleBox from "../../components/Questions/SelectionBoxes/SingleBox/SingleBox";
 
 const QuizzPage = (): JSX.Element => {
-  // const [questionNumber, setQuestionNumber] = useState(0);
   const [content, setContent] = useState<React.ReactNode | null>("");
   const QUIZZ_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version`;
   const [quizzQuestions, setQuizzQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [showingResults, setShowingResults] = useState(false);
-  const [hasAnswered, setHasAnswered] = useState(false);
+  const [hasAnswered, setHasAnswered] = useState<any>(false);
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(showingResults);
 
   const nextQuestion = (): void => {
+    console.log(hasAnswered);
     if (currentQuestion < 19 && hasAnswered) {
       setCurrentQuestion(currentQuestion + 1);
       setHasAnswered(false);
@@ -48,7 +45,7 @@ const QuizzPage = (): JSX.Element => {
         </FormControl>
       </motion.div>
     );
-    setShowingResults(true);
+    // setShowingResults(true);
   };
 
   const fetchQuestions = (): void => {
@@ -76,21 +73,13 @@ const QuizzPage = (): JSX.Element => {
     }
 
     if (quizzQuestions?.length > 0) {
-      quizzQuestions && console.log("Tipo de pregunta actual");
-      quizzQuestions && console.log(quizzQuestions[currentQuestion].variant);
-      quizzQuestions && currentQuestion && console.log(`La pregunta actual es la numero ${currentQuestion}`);
-
       switch (quizzQuestions[currentQuestion]?.variant) {
         // Selection Boxes
         case VARIANT.MULTI_OPTION:
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <SelectionBoxes
-                  onAnswer={(value) => {
-                    setHasAnswered(true);
-                  }}
-                ></SelectionBoxes>
+                <SelectionBoxes question={quizzQuestions[currentQuestion]} hasAnswered={hasAnswered} setHasAnswered={setHasAnswered} multiSelection={true}></SelectionBoxes>
               </FormControl>
             </motion.div>
           );
@@ -99,11 +88,7 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <SingleBox
-                  onSelect={(value) => {
-                    if (value) setHasAnswered(true);
-                  }}
-                ></SingleBox>
+                <SelectionBoxes question={quizzQuestions[currentQuestion]} setHasAnswered={setHasAnswered} multiSelection={false}></SelectionBoxes>
               </FormControl>
             </motion.div>
           );
@@ -127,11 +112,7 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <FormControl as="fieldset">
               <motion.div {...transitionIn}>
-                <NumberSelector
-                  onAnswer={(answer) => {
-                    setHasAnswered(true);
-                  }}
-                ></NumberSelector>
+                <NumberSelector question={quizzQuestions[currentQuestion]} setHasAnswered={setHasAnswered}></NumberSelector>
               </motion.div>
             </FormControl>
           );
