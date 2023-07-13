@@ -26,15 +26,10 @@ const QuizzPage = (): JSX.Element => {
   console.log(showingResults);
 
   const nextQuestion = (): void => {
-    if (currentQuestion < 19) {
+    if (currentQuestion < 19 && hasAnswered) {
       setCurrentQuestion(currentQuestion + 1);
-    }
-  };
-
-  const handleNextClick = (): void => {
-    if (hasAnswered) {
-      nextQuestion();
-    } else {
+      setHasAnswered(false);
+    } else if (!hasAnswered) {
       setErrorMessage("Por favor, responde a la pregunta antes de continuar");
     }
   };
@@ -93,7 +88,7 @@ const QuizzPage = (): JSX.Element => {
               <FormControl as="fieldset">
                 <SelectionBoxes
                   onAnswer={(value) => {
-                    setHasAnswered(value);
+                    setHasAnswered(true);
                   }}
                 ></SelectionBoxes>
               </FormControl>
@@ -215,7 +210,6 @@ const QuizzPage = (): JSX.Element => {
                   className="form-page__next center"
                   onClick={() => {
                     nextQuestion();
-                    handleNextClick();
                   }}
                 >
                   Siguiente
