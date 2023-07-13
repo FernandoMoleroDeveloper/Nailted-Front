@@ -1,5 +1,5 @@
 import { Box, Flex, Button, FormControl, Alert, AlertIcon } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 import { transitionIn } from "../../styles/motions/props";
@@ -12,20 +12,25 @@ import Results from "../../components/Results/Results";
 // import EmailRequest from "../../components/EmailRequest/EmailRequest";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { Question, VARIANT } from "../../models/Question";
+import { SessionContext } from "../../App";
 
 const QuizzPage = (): JSX.Element => {
+  const sessionInfo = useContext(SessionContext);
+  const [session, setSession] = useState<any>(sessionInfo);
+  console.log(session);
   const [content, setContent] = useState<React.ReactNode | null>("");
-  const QUIZZ_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version`;
+  const GET_QUESTIONS_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version`;
+  const CREATE_SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session`;
   const [quizzQuestions, setQuizzQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [hasAnswered, setHasAnswered] = useState<any>(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const nextQuestion = (): void => {
-    console.log(hasAnswered);
     if (currentQuestion < 19 && hasAnswered) {
       setCurrentQuestion(currentQuestion + 1);
       setHasAnswered(false);
+      setErrorMessage("");
     } else if (!hasAnswered) {
       setErrorMessage("Por favor, responde a la pregunta antes de continuar");
     }
@@ -49,17 +54,16 @@ const QuizzPage = (): JSX.Element => {
   };
 
   const fetchQuestions = (): void => {
-    fetch(QUIZZ_URL)
+    fetch(GET_QUESTIONS_URL)
       .then(async (response) => {
         if (response.status !== 201) {
           alert("Error obteniendo las preguntas del quizz.");
         }
         return await response.json();
       })
-      .then((responseParsed) => {
-        console.log("Respuesta del servidor:");
-        console.log(responseParsed);
+      .then(async (responseParsed) => {
         setQuizzQuestions(responseParsed);
+        createSession(responseParsed[0].version);
       })
       .catch((error) => {
         alert("Error al iniciar el quizz.");
@@ -67,8 +71,37 @@ const QuizzPage = (): JSX.Element => {
       });
   };
 
+  const createSession = (version: number): void => {
+    const data = { version };
+
+    fetch(CREATE_SESSION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then(async (response) => {
+        if (response.status !== 201) {
+          alert("La respuesta del servidor no fue la esperada. No se ha creado la sesion.");
+        }
+        const responseData = await response.json();
+        setSession(responseData._id);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   useEffect(() => {
     if (quizzQuestions?.length === 0) {
+      setContent(
+        <div className="form-page__loading">
+          <div className="form-page__ball">
+            <div></div>
+          </div>
+        </div>
+      );
       fetchQuestions();
     }
 
@@ -143,22 +176,10 @@ const QuizzPage = (): JSX.Element => {
     }
   }, [quizzQuestions, currentQuestion]);
 
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
-
   return (
     <div className="form-page page">
-      {loading ? (
-        <div className="form-page__loading">
-          <div className="form-page__ball">
-            <div></div>
-          </div>
-        </div>
+      {quizzQuestions?.length === 0 ? (
+        content
       ) : (
         <>
           {/* Código para mostrar el mensaje de error */}
