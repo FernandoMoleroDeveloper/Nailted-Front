@@ -1,5 +1,5 @@
 import { Box, Flex, Button, FormControl, Alert, AlertIcon } from "@chakra-ui/react";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 import { transitionIn } from "../../styles/motions/props";
@@ -12,15 +12,14 @@ import Results from "../../components/Results/Results";
 // import EmailRequest from "../../components/EmailRequest/EmailRequest";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { Question, VARIANT } from "../../models/Question";
-import { SessionContext } from "../../App";
 
 const QuizzPage = (): JSX.Element => {
-  const sessionInfo = useContext(SessionContext);
-  const [session, setSession] = useState<any>(sessionInfo);
-  console.log(session);
+  const [sessionId, setSessionId] = useState<string>("");
+  const [response, setResponse] = useState<any>(null);
   const [content, setContent] = useState<React.ReactNode | null>("");
   const GET_QUESTIONS_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version`;
   const CREATE_SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session`;
+  const CREATE_RESPONSE_URL = `${process.env.REACT_APP_API_URL as string}/response`;
   const [quizzQuestions, setQuizzQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [hasAnswered, setHasAnswered] = useState<any>(false);
@@ -31,7 +30,9 @@ const QuizzPage = (): JSX.Element => {
       setCurrentQuestion(currentQuestion + 1);
       setHasAnswered(false);
       setErrorMessage("");
-
+      console.log("Voy a enviar esta respuesta: ");
+      console.log(response);
+      createResponse();
     } else if (!hasAnswered) {
       setErrorMessage("Por favor, responde a la pregunta antes de continuar");
     }
@@ -87,7 +88,33 @@ const QuizzPage = (): JSX.Element => {
           alert("La respuesta del servidor no fue la esperada. No se ha creado la sesion.");
         }
         const responseData = await response.json();
-        setSession(responseData._id);
+        setSessionId(responseData._id);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const createResponse = (): void => {
+    setContent(
+      <div className="form-page__loading">
+        <div className="form-page__ball">
+          <div></div>
+        </div>
+      </div>
+    );
+
+    fetch(CREATE_RESPONSE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(response),
+    })
+      .then(async (response) => {
+        if (response.status !== 201) {
+          alert("La respuesta del servidor no fue la esperada. No se ha almacenado la respuesta.");
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -113,7 +140,7 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <SelectionBoxes question={quizzQuestions[currentQuestion]} hasAnswered={hasAnswered} setHasAnswered={setHasAnswered} multiSelection={true}></SelectionBoxes>
+                <SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestion]} setResponse={setResponse} setHasAnswered={setHasAnswered} multiSelection={true}></SelectionBoxes>
               </FormControl>
             </motion.div>
           );
@@ -167,7 +194,7 @@ const QuizzPage = (): JSX.Element => {
         //   break;
       }
     }
-  }, [quizzQuestions, currentQuestion]);
+  }, [sessionId, quizzQuestions, currentQuestion]);
 
   return (
     <div className="form-page page">
