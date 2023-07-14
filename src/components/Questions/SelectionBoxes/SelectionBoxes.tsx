@@ -3,12 +3,21 @@ import "../SelectionBoxes/SelectionBoxes.scss";
 import SingleBox from "./SingleBox/SingleBox";
 import { useEffect, useState } from "react";
 
-const SelectionBoxes = ({ question, hasAnswered, setHasAnswered, multiSelection }: any): JSX.Element => {
+const SelectionBoxes = ({ sessionId, question, setHasAnswered, response, setResponse, multiSelection }: any): JSX.Element => {
   const [optionsSelected, setOptionsSelected] = useState([]);
 
+  const updateResponse = async (): Promise<void> => {
+    await setResponse({
+      question: question._id,
+      session: sessionId,
+      optionSelected: optionsSelected,
+    });
+  }
+
   useEffect(() => {
-    optionsSelected.length > 0 ? setHasAnswered(true) : setHasAnswered(false);
-  }, [optionsSelected]);
+    setHasAnswered(optionsSelected.length > 0);
+    void updateResponse();
+  }, [optionsSelected, sessionId]);
 
   return (
     <>
