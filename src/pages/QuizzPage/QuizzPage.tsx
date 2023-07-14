@@ -8,10 +8,11 @@ import TextLong from "../../components/Questions/TextLong/TextLong";
 import TextShort from "../../components/Questions/TextShort/TextShort";
 import SelectionBoxes from "../../components/Questions/SelectionBoxes/SelectionBoxes";
 import NumberSelector from "../../components/Questions/NumberSelector/NumberSelector";
-import Results from "../../components/Results/Results";
+// import Results from "../../components/Results/Results";
 // import EmailRequest from "../../components/EmailRequest/EmailRequest";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { Question, VARIANT } from "../../models/Question";
+import Results from "../../components/Results/Results";
 
 const QuizzPage = (): JSX.Element => {
   const [sessionId, setSessionId] = useState<string>("");
@@ -24,6 +25,7 @@ const QuizzPage = (): JSX.Element => {
   const GET_QUESTIONS_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version`;
   const CREATE_SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session`;
   const CREATE_RESPONSE_URL = `${process.env.REACT_APP_API_URL as string}/response`;
+
 
   const nextQuestion = async (): Promise<void> => {
     if (currentQuestion < 19 && hasAnswered) {
@@ -52,7 +54,7 @@ const QuizzPage = (): JSX.Element => {
         </FormControl>
       </motion.div>
     );
-    // setShowingResults(true);
+    setShowingResults(true);
   };
 
   const fetchQuestions = (): void => {
@@ -141,7 +143,7 @@ const QuizzPage = (): JSX.Element => {
 
     if (quizzQuestions?.length > 0) {
       switch (quizzQuestions[currentQuestion]?.variant) {
-        // Selection Boxes
+        // Selection Boxes.
         case VARIANT.MULTI_OPTION:
           setContent(
             <motion.div {...transitionIn}>
@@ -216,9 +218,11 @@ const QuizzPage = (): JSX.Element => {
             </Alert>
           )}
 
-          <Box minWidth="100vw" maxHeight={100}>
-            <ProgressBar question={quizzQuestions[currentQuestion]}></ProgressBar>
-          </Box>
+          {!showingResults && (
+            <Box minWidth="100vw" maxHeight={100}>
+              <ProgressBar question={quizzQuestions[currentQuestion]}></ProgressBar>
+            </Box>
+          )}
           <Box className="form-page__container">
             <Box className="form-page__formulary">{content}</Box>
             <Flex className="form-page__navigation">
