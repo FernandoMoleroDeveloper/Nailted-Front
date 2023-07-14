@@ -31,7 +31,6 @@ const QuizzPage = (): JSX.Element => {
       setCurrentQuestion(currentQuestion + 1);
       setHasAnswered(false);
       setErrorMessage("");
-
     } else if (!hasAnswered) {
       setErrorMessage("Por favor, responde a la pregunta antes de continuar");
     }
@@ -108,7 +107,7 @@ const QuizzPage = (): JSX.Element => {
 
     if (quizzQuestions?.length > 0) {
       switch (quizzQuestions[currentQuestion]?.variant) {
-        // Selection Boxes
+        // Selection Boxes.
         case VARIANT.MULTI_OPTION:
           setContent(
             <motion.div {...transitionIn}>
