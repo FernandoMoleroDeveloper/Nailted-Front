@@ -8,11 +8,12 @@ import TextLong from "../../components/Questions/TextLong/TextLong";
 import TextShort from "../../components/Questions/TextShort/TextShort";
 import SelectionBoxes from "../../components/Questions/SelectionBoxes/SelectionBoxes";
 import NumberSelector from "../../components/Questions/NumberSelector/NumberSelector";
-import Results from "../../components/Results/Results";
+// import Results from "../../components/Results/Results";
 // import EmailRequest from "../../components/EmailRequest/EmailRequest";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { Question, VARIANT } from "../../models/Question";
 import { SessionContext } from "../../App";
+import Results from "../../components/Results/Results";
 
 const QuizzPage = (): JSX.Element => {
   const sessionInfo = useContext(SessionContext);
@@ -25,6 +26,7 @@ const QuizzPage = (): JSX.Element => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [hasAnswered, setHasAnswered] = useState<any>(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showingResults, setShowingResults] = useState(false);
 
   const nextQuestion = (): void => {
     if (currentQuestion < 19 && hasAnswered) {
@@ -50,7 +52,7 @@ const QuizzPage = (): JSX.Element => {
         </FormControl>
       </motion.div>
     );
-    // setShowingResults(true);
+    setShowingResults(true);
   };
 
   const fetchQuestions = (): void => {
@@ -182,9 +184,11 @@ const QuizzPage = (): JSX.Element => {
             </Alert>
           )}
 
-          <Box minWidth="100vw" maxHeight={100}>
-            <ProgressBar question={quizzQuestions[currentQuestion]}></ProgressBar>
-          </Box>
+          {!showingResults && (
+            <Box minWidth="100vw" maxHeight={100}>
+              <ProgressBar question={quizzQuestions[currentQuestion]}></ProgressBar>
+            </Box>
+          )}
           <Box className="form-page__container">
             <Box className="form-page__formulary">{content}</Box>
             <Flex className="form-page__navigation">

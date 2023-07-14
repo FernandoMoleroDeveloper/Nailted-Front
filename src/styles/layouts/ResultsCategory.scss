@@ -1,26 +1,36 @@
 @import "../utilities/variables";
 @import "../utilities/mixins";
 
-.results-page {
+.results-category {
   // min-height: calc(100vh - 130px);
   // max-height: calc(100vh - 130px);
 
   &__container {
-    min-height: calc(100vh - 250px);
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-  }
-
-  &__categories {
+    height: 250px;
+    margin-top: 20px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    margin-top: 10px;
+  }
+
+  &__btn-info {
+    width: 20px;
+    height: 20px;
+    color: $background-brand;
+    &:hover {
+      background-color: darken($background-brand, 20%);
+    }
+  }
+
+  &__text-info {
+    font-size: 15px;
+    color: $font-color-scores;
+    font-weight: bold;
+    padding-right: 5px;
   }
 
   &__progress-circle {
-    margin: 10px 0 10px 0;
+    margin: 5%;
   }
 
   &__horizontal-divider {
