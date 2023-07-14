@@ -25,7 +25,7 @@ const QuizzPage = (): JSX.Element => {
   const GET_QUESTIONS_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version`;
   const CREATE_SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session`;
   const CREATE_RESPONSE_URL = `${process.env.REACT_APP_API_URL as string}/response`;
-
+  const [showingResults, setShowingResults] = useState(false);
 
   const nextQuestion = async (): Promise<void> => {
     if (currentQuestion < 19 && hasAnswered) {
