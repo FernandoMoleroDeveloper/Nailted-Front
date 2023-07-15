@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 
 // Boton azul estandar como el del home
 export const blueButton = {
@@ -22,6 +23,26 @@ export const blueButton = {
     boxShadow: "0 0 0 3px #179bf6",
   },
 };
+
+// Boton siguiente
+export const nextButton = {
+  rightIcon: <FaAnglesRight />,
+  fontSize: 20,
+  color: "#ffff",
+  borderRadius: 30,
+  backgroundColor: "#199bf6",
+  _hover: { backgroundColor: "#0469da" },
+  className: "form-page__next center"
+}
+
+// Boton atras
+export const previousButton = {
+  leftIcon: <FaAnglesLeft />,
+  fontSize: 20,
+  color: "#199bf6",
+  borderRadius: 30,
+  backgroundColor: "#ffff",
+}
 
 // Boton de seleccion multiple sin activar
 export const selectionBoxesButton = {

@@ -2,12 +2,29 @@ import { FormLabel } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import "../../../styles/layouts/NumberSelector.scss";
 
-const NumberSelector = ({ question, hasAnswered, setHasAnswered }: any): JSX.Element => {
-  const [value, setValue] = useState((question?.selectedNumber?.max / 2));
+const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResponse, setHasUserAnswered }: any): JSX.Element => {
+  const [value, setValue] = useState(question?.selectedNumber?.max / 2);
 
-  useEffect((): void => {
-    setHasAnswered(true);
-  });
+  const composeResponse = async (): Promise<void> => {
+    await setQuestionResponse({
+      question: question._id,
+      session: sessionId,
+      numeric: value,
+    });
+  }
+
+  useEffect(() => {
+    if (previousResponse === undefined) {
+      setValue(question?.selectedNumber?.max / 2);
+    } else {
+      setValue(previousResponse?.numeric);
+    }
+  }, [previousResponse]);
+
+  useEffect(() => {
+    void composeResponse();
+    setHasUserAnswered(true);
+  }, [sessionId, value]);
 
   const incrementValue = (): void => {
     if (value < question?.selectedNumber?.max) {
@@ -24,21 +41,20 @@ const NumberSelector = ({ question, hasAnswered, setHasAnswered }: any): JSX.Ele
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    // let newValue = Number(e.target.value);
-    // if (newValue < 0) {
-    //   newValue = 0;
-    // } else if (newValue > 10) {
-    //   newValue = 10;
+    const newValue = Number(e.target.value);
+    // TODO
+    // if (newValue < question?.selectedNumber?.max) {
+    //   newValue = question?.selectedNumber?.max;
+    // } else if (newValue > question?.selectedNumber?.min) {
+    //   newValue = question?.selectedNumber?.min;
     // }
-    // setValue(newValue);
+    setValue(newValue);
   };
 
   return (
     <div>
       <FormLabel textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
-        {
-          question?.questionText
-        }
+        {question?.questionText}
       </FormLabel>
       <div className="number-component__container">
         <button className="number-component__contador-menos" onClick={decrementValue}>
@@ -51,7 +67,9 @@ const NumberSelector = ({ question, hasAnswered, setHasAnswered }: any): JSX.Ele
           +
         </button>
       </div>
-      <div>Min: {question?.selectedNumber?.min} / Max: {question?.selectedNumber?.max}</div>
+      <div>
+        Min: {question?.selectedNumber?.min} / Max: {question?.selectedNumber?.max}
+      </div>
     </div>
   );
 };

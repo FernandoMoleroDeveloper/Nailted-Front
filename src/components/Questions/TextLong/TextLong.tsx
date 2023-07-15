@@ -1,18 +1,37 @@
 import { Box, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const TextLong = ({ setHasAnswered, question }: any): JSX.Element => {
+const TextLong = ({ sessionId, question, previousResponse, setHasUserAnswered, setQuestionResponse, setErrorMessage }: any): JSX.Element => {
   const [text, setText] = useState("");
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newText = event.target.value.slice(0, 200);
-    setText(newText);
+  const composeResponse = async (): Promise<void> => {
+    await setQuestionResponse({
+      question: question._id,
+      session: sessionId,
+      text: { textLong: text },
+    });
+  };
 
-    if (newText !== "") {
-      setHasAnswered(true);
+  useEffect(() => {
+    if (previousResponse === undefined) {
+      setText("");
     } else {
-      setHasAnswered(false);
+      setText(previousResponse?.text?.textLong);
     }
+  }, [previousResponse]);
+
+  useEffect(() => {
+    void composeResponse();
+    if (text.length > 0) {
+      setHasUserAnswered(true);
+    } else {
+      setHasUserAnswered(false);
+    }
+  }, [text, sessionId]);
+
+  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setErrorMessage("");
+    setText(event.target.value);
   };
 
   return (
@@ -21,9 +40,9 @@ const TextLong = ({ setHasAnswered, question }: any): JSX.Element => {
         {question.questionText}
       </FormLabel>
       <Box display="flex" flexDirection="column" alignItems="start" m="15" mt={50}>
-        <Textarea margin="0 auto" maxWidth="500px" size="md" alignItems="center" textAlign="start" placeholder="Escribe aquí..." borderBottomColor="#0069D9" borderLeft="none" borderRadius="0" borderRight="none" borderTop="none" onChange={handleTextChange} />
+        <Textarea minLength={5} maxLength={200} margin="0 auto" value={text} maxWidth="500px" size="md" alignItems="center" textAlign="start" placeholder="Escribe aquí..." borderBottomColor="#0069D9" borderLeft="none" borderRadius="0" borderRight="none" borderTop="none" onChange={handleTextChange} />
       </Box>
-      <FormHelperText fontSize={15} fontWeight={400}>{`Caracteres restantes: ${200 - text.length}`}</FormHelperText>
+      <FormHelperText fontSize={15} fontWeight={400}>{`Caracteres restantes: ${200 - text?.length}`}</FormHelperText>
     </div>
   );
 };

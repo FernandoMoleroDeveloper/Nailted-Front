@@ -1,48 +1,94 @@
-import { Box, Flex, Button, FormControl, Alert, AlertIcon } from "@chakra-ui/react";
-import React, { useContext, useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
-import { transitionIn } from "../../styles/motions/props";
 import "../../styles/layouts/FormPage.scss";
+import React, { useState, useEffect } from "react";
+import { Box, Flex, Button, FormControl, Alert, AlertIcon } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import { nextButton, previousButton, transitionIn } from "../../styles/motions/props";
 import TextLong from "../../components/Questions/TextLong/TextLong";
 import TextShort from "../../components/Questions/TextShort/TextShort";
 import SelectionBoxes from "../../components/Questions/SelectionBoxes/SelectionBoxes";
 import NumberSelector from "../../components/Questions/NumberSelector/NumberSelector";
-import Results from "../../components/Results/Results";
+// import Results from "../../components/Results/Results";
 // import EmailRequest from "../../components/EmailRequest/EmailRequest";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { Question, VARIANT } from "../../models/Question";
-import { SessionContext } from "../../App";
+import Results from "../../components/Results/Results";
 
 const QuizzPage = (): JSX.Element => {
-  const sessionInfo = useContext(SessionContext);
-  const [session, setSession] = useState<any>(sessionInfo);
-  console.log(session);
-  const [content, setContent] = useState<React.ReactNode | null>("");
-  const GET_QUESTIONS_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version`;
-  const CREATE_SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session`;
+  const [sessionId, setSessionId] = useState<string>("");
+  const [questionResponse, setQuestionResponse] = useState<any>("");
+  const [content, setContent] = useState<React.ReactNode | null>(
+    <div className="form-page__loading">
+      <div className="form-page__ball">
+        <div></div>
+      </div>
+    </div>
+  );
   const [quizzQuestions, setQuizzQuestions] = useState<Question[]>([]);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [hasAnswered, setHasAnswered] = useState<any>(false);
+  const [quizzResponses, setQuizzResponses] = useState<Response[]>([]);
+  const [quizzResponsesId, setQuizzResponsesId] = useState<string[]>([]);
+  const [currentQuestionPosition, setCurrentQuestionPosition] = useState(0);
+  const [hasUserAnswered, setHasUserAnswered] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showingResults, setShowingResults] = useState(false);
+  const QUESTIONS_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version/`;
+  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/`;
+  const RESPONSE_URL = `${process.env.REACT_APP_API_URL as string}/response/`;
 
-  const nextQuestion = (): void => {
-    if (currentQuestion < 19 && hasAnswered) {
-      setCurrentQuestion(currentQuestion + 1);
-      setHasAnswered(false);
+  const nextQuestionManagingResponse = async (): Promise<void> => {
+    if (currentQuestionPosition < quizzQuestions.length && hasUserAnswered) {
+      setHasUserAnswered(false);
       setErrorMessage("");
-    } else if (!hasAnswered) {
-      setErrorMessage("Por favor, responde a la pregunta antes de continuar");
+      if (questionResponse?.text?.textShort?.length >= 5 || questionResponse?.text?.textLong?.length >= 5 || !questionResponse?.text) {
+        if (!quizzResponses[currentQuestionPosition]) {
+          await createResponse();
+        } else if (quizzResponses[currentQuestionPosition] && JSON.stringify(quizzResponses[currentQuestionPosition]) !== JSON.stringify(questionResponse)) {
+          await updateResponseFromDatabase();
+        } else if (quizzResponses[currentQuestionPosition] && JSON.stringify(quizzResponses[currentQuestionPosition]) === JSON.stringify(questionResponse)) {
+          await incrementCurrentQuestionValue();
+        }
+      } else {
+        setErrorMessage("Debe escribir al menos 5 caracteres.");
+      }
+    } else if (!hasUserAnswered) {
+      setErrorMessage("Es necesario responder a la pregunta para poder continuar");
     }
   };
 
-  const previousQuestion = (): void => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
+  const previousQuestionRecoveringResponse = async (): Promise<void> => {
+    if (currentQuestionPosition >= 0) {
+      await decrementCurrentQuestionValue();
     }
   };
 
-  const showResults = (): void => {
+  const incrementCurrentQuestionValue = async (): Promise<void> => {
+    setCurrentQuestionPosition(currentQuestionPosition + 1);
+  };
+
+  const decrementCurrentQuestionValue = async (): Promise<void> => {
+    setCurrentQuestionPosition(currentQuestionPosition - 1);
+  };
+
+  const storeResponsesLocally = async (receivedResponse: Response): Promise<void> => {
+    setQuizzResponses((prevResponses) => {
+      const updatedResponses = [...prevResponses];
+      updatedResponses[currentQuestionPosition] = receivedResponse;
+      return updatedResponses;
+    });
+
+    await showCurrentQuestion();
+  };
+
+  const showLoadingAnimation = async (): Promise<void> => {
+    setContent(
+      <div className="form-page__loading">
+        <div className="form-page__ball">
+          <div></div>
+        </div>
+      </div>
+    );
+  };
+
+  const showResults = async (): Promise<void> => {
     setContent(
       <motion.div {...transitionIn}>
         <FormControl as="fieldset">
@@ -50,20 +96,22 @@ const QuizzPage = (): JSX.Element => {
         </FormControl>
       </motion.div>
     );
-    // setShowingResults(true);
+    setShowingResults(true);
   };
 
-  const fetchQuestions = (): void => {
-    fetch(GET_QUESTIONS_URL)
-      .then(async (response) => {
-        if (response.status !== 201) {
+  const fetchQuizzQuestions = async (): Promise<void> => {
+    await showLoadingAnimation();
+
+    fetch(QUESTIONS_URL)
+      .then(async (res) => {
+        if (res.status !== 201) {
           alert("Error obteniendo las preguntas del quizz.");
         }
-        return await response.json();
+        return await res.json();
       })
-      .then(async (responseParsed) => {
-        setQuizzQuestions(responseParsed);
-        createSession(responseParsed[0].version);
+      .then(async (resParsed) => {
+        setQuizzQuestions(resParsed);
+        createSessionInDatabase(resParsed[0].version);
       })
       .catch((error) => {
         alert("Error al iniciar el quizz.");
@@ -71,68 +119,109 @@ const QuizzPage = (): JSX.Element => {
       });
   };
 
-  const createSession = (version: number): void => {
+  const createSessionInDatabase = (version: number): void => {
     const data = { version };
 
-    fetch(CREATE_SESSION_URL, {
+    fetch(SESSION_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
-      .then(async (response) => {
-        if (response.status !== 201) {
+      .then(async (res) => {
+        if (res.status !== 201) {
           alert("La respuesta del servidor no fue la esperada. No se ha creado la sesion.");
         }
-        const responseData = await response.json();
-        setSession(responseData._id);
+        const responseData = await res.json();
+        setSessionId(responseData._id);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
 
+  const createResponse = async (): Promise<void> => {
+    await showLoadingAnimation();
+
+    if (questionResponse) {
+      fetch(RESPONSE_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(questionResponse),
+      })
+        .then(async (res) => {
+          if (res.status !== 201) {
+            setCurrentQuestionPosition(currentQuestionPosition);
+            alert("La respuesta del servidor no fue la esperada. No se ha almacenado la respuesta.");
+          } else {
+            await storeResponsesLocally(questionResponse);
+            const responseData = await res.json();
+            setQuizzResponsesId((prevResponsesId) => {
+              const updatedResponsesId = [...prevResponsesId];
+              updatedResponsesId[currentQuestionPosition] = responseData._id;
+              return updatedResponsesId;
+            });
+            await incrementCurrentQuestionValue();
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  };
+
+  const updateResponseFromDatabase = async (): Promise<void> => {
+    await showLoadingAnimation();
+
+    if (questionResponse) {
+      fetch(`${RESPONSE_URL}${quizzResponsesId[currentQuestionPosition]}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(questionResponse),
+      })
+        .then(async (res) => {
+          if (res.status !== 201) {
+            setCurrentQuestionPosition(currentQuestionPosition);
+            alert("La respuesta del servidor no fue la esperada. No se ha almacenado la respuesta.");
+          } else {
+            await storeResponsesLocally(questionResponse);
+            await incrementCurrentQuestionValue();
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  };
+
   useEffect(() => {
     if (quizzQuestions?.length === 0) {
-      setContent(
-        <div className="form-page__loading">
-          <div className="form-page__ball">
-            <div></div>
-          </div>
-        </div>
-      );
-      fetchQuestions();
+      void showLoadingAnimation();
+      void fetchQuizzQuestions();
     }
+    void showCurrentQuestion();
+  }, [questionResponse, sessionId, quizzQuestions, quizzResponses, quizzResponsesId, currentQuestionPosition]);
 
+  const showCurrentQuestion = async (): Promise<void> => {
     if (quizzQuestions?.length > 0) {
-      switch (quizzQuestions[currentQuestion]?.variant) {
+      switch (quizzQuestions[currentQuestionPosition]?.variant) {
         // Selection Boxes.
         case VARIANT.MULTI_OPTION:
           setContent(
             <motion.div {...transitionIn}>
-              <FormControl as="fieldset">
-                <SelectionBoxes question={quizzQuestions[currentQuestion]} hasAnswered={hasAnswered} setHasAnswered={setHasAnswered} multiSelection={true}></SelectionBoxes>
-              </FormControl>
+              <SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} multiSelection={true}></SelectionBoxes>
             </motion.div>
           );
           break;
         case VARIANT.SINGLE_OPTION:
           setContent(
             <motion.div {...transitionIn}>
-              <FormControl as="fieldset">
-                <SelectionBoxes question={quizzQuestions[currentQuestion]} setHasAnswered={setHasAnswered} multiSelection={false}></SelectionBoxes>
-              </FormControl>
-            </motion.div>
-          );
-          break;
-        // Input text Long
-        case VARIANT.TEXT_LONG:
-          setContent(
-            <motion.div {...transitionIn}>
-              <FormControl as="fieldset">
-                <TextLong question={quizzQuestions[currentQuestion]} setHasAnswered={setHasAnswered}></TextLong>
-              </FormControl>
+              <SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} multiSelection={false}></SelectionBoxes>
             </motion.div>
           );
           break;
@@ -141,9 +230,19 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <FormControl as="fieldset">
               <motion.div {...transitionIn}>
-                <NumberSelector question={quizzQuestions[currentQuestion]} setHasAnswered={setHasAnswered}></NumberSelector>
+                <NumberSelector sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered}></NumberSelector>
               </motion.div>
             </FormControl>
+          );
+          break;
+        // Input text Long
+        case VARIANT.TEXT_LONG:
+          setContent(
+            <motion.div {...transitionIn}>
+              <FormControl as="fieldset">
+                <TextLong sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} hasUserAnswered={hasUserAnswered} setHasUserAnswered={setHasUserAnswered} setErrorMessage={setErrorMessage}></TextLong>
+              </FormControl>
+            </motion.div>
           );
           break;
         // Input Text Single line
@@ -151,7 +250,7 @@ const QuizzPage = (): JSX.Element => {
           setContent(
             <motion.div {...transitionIn}>
               <FormControl as="fieldset">
-                <TextShort question={quizzQuestions[currentQuestion]} setHasAnswered={setHasAnswered}></TextShort>
+                <TextShort sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} hasUserAnswered={hasUserAnswered} setHasUserAnswered={setHasUserAnswered} setErrorMessage={setErrorMessage}></TextShort>
               </FormControl>
             </motion.div>
           );
@@ -166,7 +265,7 @@ const QuizzPage = (): JSX.Element => {
         //   break;
       }
     }
-  }, [quizzQuestions, currentQuestion]);
+  };
 
   return (
     <div className="form-page page">
@@ -182,34 +281,39 @@ const QuizzPage = (): JSX.Element => {
             </Alert>
           )}
 
-          <Box minWidth="100vw" maxHeight={100}>
-            <ProgressBar question={quizzQuestions[currentQuestion]}></ProgressBar>
-          </Box>
+          {!showingResults && (
+            <Box minWidth="100vw" maxHeight={100}>
+              <ProgressBar question={quizzQuestions[currentQuestionPosition]}></ProgressBar>
+            </Box>
+          )}
           <Box className="form-page__container">
             <Box className="form-page__formulary">{content}</Box>
             <Flex className="form-page__navigation">
-              {currentQuestion > 0 ? (
-                <Button leftIcon={<FaAnglesLeft />} fontSize={20} color="#199bf6" borderRadius={30} backgroundColor="#ffff" className="form-page__previous center" onClick={previousQuestion}>
+              {currentQuestionPosition > 0 && (
+                <Button
+                  {...previousButton}
+                  className="form-page__previous center"
+                  onClick={async () => {
+                    await previousQuestionRecoveringResponse();
+                  }}
+                >
                   Anterior
                 </Button>
-              ) : null}
-              {currentQuestion < 19 ? (
+              )}
+              {currentQuestionPosition < quizzQuestions?.length ? (
                 <Button
-                  rightIcon={<FaAnglesRight />}
-                  fontSize={20}
-                  color="#ffff"
-                  borderRadius={30}
-                  backgroundColor="#199bf6"
-                  _hover={{ bg: "#0469da" }}
-                  className="form-page__next center"
-                  onClick={() => {
-                    nextQuestion();
+                  {...nextButton}
+                  onClick={async () => {
+                    await nextQuestionManagingResponse();
                   }}
                 >
                   Siguiente
                 </Button>
               ) : (
-                <Button rightIcon={<FaAnglesRight />} fontSize={20} color="#ffff" borderRadius={30} backgroundColor="#199bf6" _hover={{ bg: "#0469da" }} className="form-page__next center" onClick={showResults}>
+                <Button {...nextButton} className="form-page__next center" onClick={async () => {
+                  await nextQuestionManagingResponse();
+                  await showResults();
+                }}>
                   Resultados
                 </Button>
               )}
