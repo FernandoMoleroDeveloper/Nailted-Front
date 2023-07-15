@@ -2,11 +2,11 @@ import { FormLabel } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import "../../../styles/layouts/NumberSelector.scss";
 
-const NumberSelector = ({ sessionId, question, response, setResponse, setHasAnswered }: any): JSX.Element => {
+const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResponse, setHasUserAnswered }: any): JSX.Element => {
   const [value, setValue] = useState(question?.selectedNumber?.max / 2);
 
-  const updateResponse = async (): Promise<void> => {
-    await setResponse({
+  const composeResponse = async (): Promise<void> => {
+    await setQuestionResponse({
       question: question._id,
       session: sessionId,
       numeric: value,
@@ -14,8 +14,16 @@ const NumberSelector = ({ sessionId, question, response, setResponse, setHasAnsw
   }
 
   useEffect(() => {
-    void updateResponse();
-    setHasAnswered(true);
+    if (previousResponse === undefined) {
+      setValue(question?.selectedNumber?.max / 2);
+    } else {
+      setValue(previousResponse?.numeric);
+    }
+  }, [previousResponse]);
+
+  useEffect(() => {
+    void composeResponse();
+    setHasUserAnswered(true);
   }, [sessionId, value]);
 
   const incrementValue = (): void => {

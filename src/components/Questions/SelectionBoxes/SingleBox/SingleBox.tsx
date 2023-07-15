@@ -8,25 +8,29 @@ interface option {
   score: number;
 }
 
-const SingleBox = ({ option, optionsSelected, setOptionsSelected, multiSelection }: any): JSX.Element => {
-  const selectOption = (): void => {
+const SingleBox = ({ option, optionSelected, setOptionSelected, multiSelection }: any): JSX.Element => {
+  const addOptionToSelection = async (): Promise<void> => {
+    optionSelected?.length > 0 ? await setOptionSelected([...optionSelected, option]) : await setOptionSelected([option]);
+  }
+
+  const selectOption = async (): Promise<void> => {
     if (multiSelection) {
       // Si multiSelection es true, se permite la selección múltiple
-      if (optionsSelected.includes(option)) {
+      if (optionSelected?.includes(option)) {
         // Si la opción ya está seleccionada, la eliminamos del estado
-        setOptionsSelected(optionsSelected.filter((optionSelected: option) => optionSelected !== option));
+        setOptionSelected(optionSelected?.filter((optionSelected: option) => optionSelected !== option));
       } else {
         // Si la opción no está seleccionada, la agregamos al estado
-        setOptionsSelected([...optionsSelected, option]);
+        await addOptionToSelection();
       }
     } else {
       // Si multiSelection es false, se permite seleccionar solo una opción
-      setOptionsSelected([option]);
+      setOptionSelected([option]);
     }
   };
 
   return (
-    <Flex {...(optionsSelected?.includes(option) ? selectionBoxesButtonActive : selectionBoxesButton)} className="selection-boxes__option" onClick={selectOption}>
+    <Flex {...(optionSelected?.includes(option) ? selectionBoxesButtonActive : selectionBoxesButton)} className="selection-boxes__option" onClick={selectOption}>
       <Flex className="selection-boxes__text">{option.optionText}</Flex>
     </Flex>
   );

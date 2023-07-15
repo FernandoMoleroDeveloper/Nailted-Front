@@ -1,32 +1,40 @@
-import { Box, FormLabel } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import "../SelectionBoxes/SelectionBoxes.scss";
 import SingleBox from "./SingleBox/SingleBox";
 import { useEffect, useState } from "react";
 
-const SelectionBoxes = ({ sessionId, question, setHasAnswered, response, setResponse, multiSelection }: any): JSX.Element => {
-  const [optionsSelected, setOptionsSelected] = useState([]);
+const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswered, setQuestionResponse, multiSelection }: any): JSX.Element => {
+  const [optionSelected, setOptionSelected] = useState([]);
 
-  const updateResponse = async (): Promise<void> => {
-    await setResponse({
+  const composeResponse = async (): Promise<void> => {
+    await setQuestionResponse({
       question: question._id,
       session: sessionId,
-      optionSelected: optionsSelected,
+      optionSelected,
     });
-  }
+  };
 
   useEffect(() => {
-    setHasAnswered(optionsSelected.length > 0);
-    void updateResponse();
-  }, [optionsSelected, sessionId]);
+    if (previousResponse === undefined) {
+      setOptionSelected([]);
+    } else {
+      setOptionSelected(previousResponse?.optionSelected);
+    }
+  }, [previousResponse]);
+
+  useEffect(() => {
+    setHasUserAnswered(optionSelected?.length > 0);
+    void composeResponse();
+  }, [optionSelected, sessionId, previousResponse]);
 
   return (
     <>
-      <FormLabel textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
+      <Text textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
         {question.questionText}
-      </FormLabel>
+      </Text>
       <Box className="selection-boxes__container">
         {question?.options.map((option: any) => {
-          return <SingleBox key={option._id} option={option} optionsSelected={optionsSelected} setOptionsSelected={setOptionsSelected} multiSelection={multiSelection}></SingleBox>;
+          return <SingleBox key={option._id} option={option} optionSelected={optionSelected} setOptionSelected={setOptionSelected} multiSelection={multiSelection}></SingleBox>;
         })}
       </Box>
     </>
