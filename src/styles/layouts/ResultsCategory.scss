@@ -4,6 +4,8 @@
 .results-category {
   // min-height: calc(100vh - 130px);
   // max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
 
   &__container {
     height: 250px;

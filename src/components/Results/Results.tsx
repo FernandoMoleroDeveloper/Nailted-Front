@@ -1,5 +1,5 @@
 import { Box, Text, CircularProgress, CircularProgressLabel, Divider } from "@chakra-ui/react";
-import "../../styles/layouts/Results.scss";
+import "../../styles/layouts/ResultsPage.scss";
 import ResultsCategory from "./ResultsCategory";
 
 const Results = (): JSX.Element => {

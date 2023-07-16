@@ -2,14 +2,19 @@
 @import "../utilities/mixins";
 
 .results-page {
-  // min-height: calc(100vh - 130px);
-  // max-height: calc(100vh - 130px);
 
   &__container {
-    min-height: calc(100vh - 250px);
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 5px;
+    margin: 30px;
+    align-items: center;
+    margin: 0px auto;
+  }
+
+  &__formulary {
+    position: relative;
+    padding: 10px;
   }
 
   &__categories {
@@ -17,6 +22,7 @@
     flex-flow: row wrap;
     justify-content: space-around;
     margin-top: 10px;
+    min-width: 100vw;
   }
 
   &__progress-circle {
