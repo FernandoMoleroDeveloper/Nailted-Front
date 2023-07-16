@@ -16,7 +16,7 @@ const ResultsCategory = (): JSX.Element => {
             Direction
           </FormLabel>
         </Box>
-        <CircularProgress className="results-category__progress-circle" value={62} color="green.400" size="150px" thickness="8px">
+        <CircularProgress className="results-category__progress-circle" value={62} color="green.400" size="120px" thickness="8px">
           <CircularProgressLabel>62%</CircularProgressLabel>
         </CircularProgress>
         <Box display="flex" alignItems="center" flexWrap="wrap" margin="0 0 0 5px">
