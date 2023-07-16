@@ -41,13 +41,13 @@ const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResp
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.value < question?.selectedNumber?.min) {
+      e.target.value = question?.selectedNumber?.min;
+    }
+    if (e.target.value > question?.selectedNumber?.max) {
+      e.target.value = question?.selectedNumber?.max;
+    }
     const newValue = Number(e.target.value);
-    // TODO
-    // if (newValue < question?.selectedNumber?.max) {
-    //   newValue = question?.selectedNumber?.max;
-    // } else if (newValue > question?.selectedNumber?.min) {
-    //   newValue = question?.selectedNumber?.min;
-    // }
     setValue(newValue);
   };
 
