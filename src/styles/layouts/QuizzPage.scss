@@ -1,7 +1,7 @@
 @import "../../styles/utilities/variables";
 @import "../../styles/utilities/mixins";
 
-.form-page {
+.quizz-page {
   display: flex;
   flex-wrap: wrap;
   height: 60vh;
@@ -18,16 +18,18 @@
   }
 
   &__formulary {
+    position: relative;
     padding: 10px;
   }
 
   &__navigation {
-    position: absolute;
+    position: fixed;
+    padding: 10px 10px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     min-width: 100vw;
     left: 0px;
-    bottom: 15px;
+    bottom: 0px;
     user-select: none;
   }
 
@@ -60,12 +62,26 @@
     &:hover {
       background-color: $background-gray;
     }
+
+    &-hidden {
+      color: transparent;
+      border-radius: 30px;
+      padding: 30px;
+      border: 2px solid transparent;
+      font-weight: 400;
+      width: 45%;
+      margin: 10px;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
   }
 
   &__icon {
     position: absolute;
     background-color: red;
-    
+
     &--left {
       left: 0px;
     }
@@ -92,7 +108,7 @@
     top: 20px;
     animation: bouncing 0.6s linear infinite;
   }
-  
+
   &__ball {
     width: 100%;
     height: 100%;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Text, Step, Stepper, StepIndicator, Progress, StepIcon } from "@chakra-ui/react";
 
 const ProgressBar = ({ question }: any): JSX.Element => {
-  const steps = [{ name: "Cultura" }, { name: "Comunicación" }, { name: "Desarrollo" }, { name: "Reconocimiento" }, { name: "Bienestar" }];
+  const steps = [{ name: "Bienestar" }, { name: "Comunicación" }, { name: "Desarrollo" }, { name: "Reconocimiento" }, { name: "Cultura" }];
 
   const categoryToIndex = {
     Cultura: 0,
