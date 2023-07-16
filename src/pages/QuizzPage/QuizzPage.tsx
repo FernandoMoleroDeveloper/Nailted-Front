@@ -279,7 +279,6 @@ const QuizzPage = (): JSX.Element => {
               {errorMessage}
             </Alert>
           )}
-
           <Box minWidth="100vw" maxHeight={100}>
             <ProgressBar question={quizzQuestions[currentQuestionPosition]}></ProgressBar>
           </Box>

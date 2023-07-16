@@ -9,7 +9,7 @@ const Results = (): JSX.Element => {
         <Text fontSize="24px" textColor="#199bf6" fontWeight="extrabold" margin="0px auto" textAlign="center" as="legend">
           Resultado general
         </Text>
-        <CircularProgress className="results-page__progress-circle" value={49.2} color="orange.400" size="200px" thickness="10px">
+        <CircularProgress className="results-page__progress-circle" value={49.2} color="orange.400" size="150px" thickness="10px">
           <CircularProgressLabel>49,2%</CircularProgressLabel>
         </CircularProgress>
         <Divider className="results-page__horizontal-divider" />

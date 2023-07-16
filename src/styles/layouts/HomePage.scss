@@ -4,6 +4,11 @@
 .home-page {
   // min-height: 100vh;
   min-width: 100vw;
+  @include adaptTo("not-mobile") {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
   &__imgbox {
     display: flex;
     align-items: center;
@@ -12,10 +17,8 @@
   }
   &__img {
     width: 100vw;
-    @include adaptTo("desktop") {
+    @include adaptTo("not-mobile") {
       width: 500px;
-      align-items: center;
-      justify-content: center;
     }
   }
 
@@ -25,11 +28,12 @@
     flex-direction: column;
     justify-content: center;
     margin-bottom: 5px;
-    @include adaptTo("desktop") {
+    @include adaptTo("not-mobile") {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      padding: 20px;
+      flex-direction: row-reverse;
+      justify-content: space-around;
+      padding: 0px 30px;
+      margin: -1px 0px;
     }
   }
 
@@ -37,20 +41,20 @@
     color: $font-color-light;
     background-color: $background-brand;
     font-weight: bold;
-    text-align: left;
-    font-size: 34px;
-    padding: 30px;
+    text-align: center;
+    font-size: 25px;
+    padding: 10px;
     margin-top: -5px;
-    @include adaptTo("desktop") {
+    @include adaptTo("not-mobile") {
+      color: $font-color-dark;
       text-align: left;
       font-weight: 800;
-      font-size: 42px;
-      text-decoration: underline;
-      width: 300px;
+      font-size: 32px;
+      width: 450px;
       padding: 10px;
       margin-left: 10;
-      color: $font-color-brand;
       background-color: $background-generic;
+      max-width: 900px;
     }
   }
 
@@ -61,9 +65,11 @@
     font-size: 20px;
     padding: 20px;
 
-    @include adaptTo("desktop") {
+    @include adaptTo("not-mobile") {
       text-align: center;
-      font-size: 20px;
+      color: $font-color-light;
+      background-color: $background-brand;
+      font-size: 16px;
     }
   }
 
@@ -73,6 +79,7 @@
 
   &__container {
     min-height: calc(100vh - 162px);
+    margin: 0 auto;
   }
 
   &__logo {
