@@ -310,10 +310,14 @@ const QuizzPage = (): JSX.Element => {
                   Siguiente
                 </Button>
               ) : (
-                <Button {...nextButton} className="form-page__next center" onClick={async () => {
-                  await nextQuestionManagingResponse();
-                  await showResults();
-                }}>
+                <Button
+                  {...nextButton}
+                  className="form-page__next center"
+                  onClick={async () => {
+                    await nextQuestionManagingResponse();
+                    await showResults();
+                  }}
+                >
                   Resultados
                 </Button>
               )}

@@ -1,4 +1,5 @@
 @import "../../../../styles/utilities/variables";
+@import "../../../../styles/utilities/mixins";
 
 .selection-boxes {
   &__option {
@@ -13,6 +14,9 @@
     min-height: 130px;
     max-height: 150px;
     padding: 10px 10px;
+    @include adaptTo("not-mobile") {
+      min-height: 100px;
+    }
   }
 
   &__text {
@@ -21,5 +25,6 @@
     font-size: 20px;
     user-select: none;
     margin: 0px auto;
+    word-break: break-word;
   }
 }

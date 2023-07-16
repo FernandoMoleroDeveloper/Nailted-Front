@@ -15,11 +15,13 @@ const HomePage = (): JSX.Element => {
               <Image src={homeImage} mb="0" alt="Home Image" className="home-page__img" />
             </div>
             <Box className="home-page__title">
-              <p>Evalua la madurez cultural de tu empresa</p>
+              <p>Evalúa la madurez cultural de tu empresa</p>
             </Box>
           </Box>
 
-          <motion.div {...slideX("right", "0.5", "0.5")}> {/* Coming from, duration, delay */}
+          <motion.div {...slideX("right", "0.5", "0.5")}>
+            {" "}
+            {/* Coming from, duration, delay */}
             <Box className="home-page__text">
               <p>¡Descubre qué podemos ofrecerte en Nailted con este formulario! Solo necesitamos unos pocos minutos, te damos una primera evaluación y te mostramos cómo nuestra plataforma te ayudará a implementar una mejor madurez cultural.</p>
             </Box>
