@@ -32,7 +32,7 @@ export const nextButton = {
   borderRadius: 30,
   backgroundColor: "#199bf6",
   _hover: { backgroundColor: "#0469da" },
-  className: "form-page__next center"
+  className: "quizz-page__next center"
 }
 
 // Boton atras
@@ -42,6 +42,15 @@ export const previousButton = {
   color: "#199bf6",
   borderRadius: 30,
   backgroundColor: "#ffff",
+}
+
+// Boton atras oculto
+export const hiddenButton = {
+  // leftIcon: <FaAnglesLeft />,
+  fontSize: 20,
+  color: "white",
+  borderRadius: 30,
+  backgroundColor: "white",
 }
 
 // Boton de seleccion multiple sin activar
