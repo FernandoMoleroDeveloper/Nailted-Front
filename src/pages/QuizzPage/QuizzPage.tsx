@@ -1,8 +1,8 @@
-import "../../styles/layouts/FormPage.scss";
+import "../../styles/layouts/QuizzPage.scss";
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Button, FormControl, Alert, AlertIcon } from "@chakra-ui/react";
+import { Box, Button, FormControl, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, ModalHeader } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { nextButton, previousButton, transitionIn } from "../../styles/motions/props";
+import { transitionIn } from "../../styles/motions/props";
 import TextLong from "../../components/Questions/TextLong/TextLong";
 import TextShort from "../../components/Questions/TextShort/TextShort";
 import SelectionBoxes from "../../components/Questions/SelectionBoxes/SelectionBoxes";
@@ -11,14 +11,17 @@ import NumberSelector from "../../components/Questions/NumberSelector/NumberSele
 // import EmailRequest from "../../components/EmailRequest/EmailRequest";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { Question, VARIANT } from "../../models/Question";
-import Results from "../../components/Results/Results";
+// import Results from "../../components/Results/Results";
+import { Link } from "react-router-dom";
+import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation";
+import QuizzNavigation from "../../components/QuizzNavigation/QuizzNavigation";
 
 const QuizzPage = (): JSX.Element => {
   const [sessionId, setSessionId] = useState<string>("");
   const [questionResponse, setQuestionResponse] = useState<any>("");
   const [content, setContent] = useState<React.ReactNode | null>(
-    <div className="form-page__loading">
-      <div className="form-page__ball">
+    <div className="quizz-page__loading">
+      <div className="quizz-page__ball">
         <div></div>
       </div>
     </div>
@@ -29,24 +32,19 @@ const QuizzPage = (): JSX.Element => {
   const [currentQuestionPosition, setCurrentQuestionPosition] = useState(0);
   const [hasUserAnswered, setHasUserAnswered] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [showingResults, setShowingResults] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [showingResults, setShowingResults] = useState(false);
   const QUESTIONS_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version/`;
   const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/`;
   const RESPONSE_URL = `${process.env.REACT_APP_API_URL as string}/response/`;
 
-  const nextQuestionManagingResponse = async (): Promise<void> => {
-    if (currentQuestionPosition < quizzQuestions.length && hasUserAnswered) {
+  const nextQuestionActions = async (): Promise<void> => {
+    if (currentQuestionPosition < quizzQuestions.length - 1 && hasUserAnswered) {
       setHasUserAnswered(false);
       setErrorMessage("");
-      if (questionResponse?.text?.textShort?.length >= 5 || questionResponse?.text?.textLong?.length >= 5 || !questionResponse?.text) {
-        if (!quizzResponses[currentQuestionPosition]) {
-          await createResponse();
-        } else if (quizzResponses[currentQuestionPosition] && JSON.stringify(quizzResponses[currentQuestionPosition]) !== JSON.stringify(questionResponse)) {
-          await updateResponseFromDatabase();
-        } else if (quizzResponses[currentQuestionPosition] && JSON.stringify(quizzResponses[currentQuestionPosition]) === JSON.stringify(questionResponse)) {
-          await incrementCurrentQuestionValue();
-        }
-      } else {
+      if (checkTextResponseIsValid()) {
+        await responseManagement();
+      } else if (!checkTextResponseIsValid()) {
         setErrorMessage("Debe escribir al menos 5 caracteres.");
       }
     } else if (!hasUserAnswered) {
@@ -54,17 +52,37 @@ const QuizzPage = (): JSX.Element => {
     }
   };
 
-  const previousQuestionRecoveringResponse = async (): Promise<void> => {
+  const previousQuestionRecoveringResponse = () => {
     if (currentQuestionPosition >= 0) {
-      await decrementCurrentQuestionValue();
+      decrementCurrentQuestionValue();
     }
   };
 
-  const incrementCurrentQuestionValue = async (): Promise<void> => {
+  const responseManagement = async (): Promise<void> => {
+    if (!quizzResponses[currentQuestionPosition]) {
+      await createResponse();
+      isTheLastQuestion() && incrementCurrentQuestionValue();
+    } else if (quizzResponses[currentQuestionPosition] && JSON.stringify(quizzResponses[currentQuestionPosition]) !== JSON.stringify(questionResponse)) {
+      await updateResponseFromDatabase();
+      isTheLastQuestion() && incrementCurrentQuestionValue();
+    } else if (quizzResponses[currentQuestionPosition] && JSON.stringify(quizzResponses[currentQuestionPosition]) === JSON.stringify(questionResponse)) {
+      isTheLastQuestion() && incrementCurrentQuestionValue();
+    }
+  };
+
+  const isTheLastQuestion = () => {
+    return currentQuestionPosition + 1 !== quizzQuestions?.length;
+  };
+
+  const checkTextResponseIsValid = () => {
+    return questionResponse?.text?.textShort?.length >= 5 || questionResponse?.text?.textLong?.length >= 5 || !questionResponse?.text;
+  };
+
+  const incrementCurrentQuestionValue = () => {
     setCurrentQuestionPosition(currentQuestionPosition + 1);
   };
 
-  const decrementCurrentQuestionValue = async (): Promise<void> => {
+  const decrementCurrentQuestionValue = () => {
     setCurrentQuestionPosition(currentQuestionPosition - 1);
   };
 
@@ -78,29 +96,12 @@ const QuizzPage = (): JSX.Element => {
     await showCurrentQuestion();
   };
 
-  const showLoadingAnimation = async (): Promise<void> => {
-    setContent(
-      <div className="form-page__loading">
-        <div className="form-page__ball">
-          <div></div>
-        </div>
-      </div>
-    );
-  };
-
-  const showResults = async (): Promise<void> => {
-    setContent(
-      <motion.div {...transitionIn}>
-        <FormControl as="fieldset">
-          <Results></Results>
-        </FormControl>
-      </motion.div>
-    );
-    setShowingResults(true);
+  const showLoadingAnimation = () => {
+    setContent(<LoadingAnimation></LoadingAnimation>);
   };
 
   const fetchQuizzQuestions = async (): Promise<void> => {
-    await showLoadingAnimation();
+    showLoadingAnimation();
 
     fetch(QUESTIONS_URL)
       .then(async (res) => {
@@ -142,7 +143,7 @@ const QuizzPage = (): JSX.Element => {
   };
 
   const createResponse = async (): Promise<void> => {
-    await showLoadingAnimation();
+    !isTheLastQuestion && showLoadingAnimation();
 
     if (questionResponse) {
       fetch(RESPONSE_URL, {
@@ -164,7 +165,6 @@ const QuizzPage = (): JSX.Element => {
               updatedResponsesId[currentQuestionPosition] = responseData._id;
               return updatedResponsesId;
             });
-            await incrementCurrentQuestionValue();
           }
         })
         .catch((error) => {
@@ -174,7 +174,7 @@ const QuizzPage = (): JSX.Element => {
   };
 
   const updateResponseFromDatabase = async (): Promise<void> => {
-    await showLoadingAnimation();
+    !isTheLastQuestion && showLoadingAnimation();
 
     if (questionResponse) {
       fetch(`${RESPONSE_URL}${quizzResponsesId[currentQuestionPosition]}`, {
@@ -190,7 +190,6 @@ const QuizzPage = (): JSX.Element => {
             alert("La respuesta del servidor no fue la esperada. No se ha almacenado la respuesta.");
           } else {
             await storeResponsesLocally(questionResponse);
-            await incrementCurrentQuestionValue();
           }
         })
         .catch((error) => {
@@ -201,7 +200,7 @@ const QuizzPage = (): JSX.Element => {
 
   useEffect(() => {
     if (quizzQuestions?.length === 0) {
-      void showLoadingAnimation();
+      showLoadingAnimation();
       void fetchQuizzQuestions();
     }
     void showCurrentQuestion();
@@ -268,7 +267,7 @@ const QuizzPage = (): JSX.Element => {
   };
 
   return (
-    <div className="form-page page">
+    <div className="quizz-page page">
       {quizzQuestions?.length === 0 ? (
         content
       ) : (
@@ -280,52 +279,37 @@ const QuizzPage = (): JSX.Element => {
               {errorMessage}
             </Alert>
           )}
+          <Box minWidth="100vw" maxHeight={100}>
+            <ProgressBar question={quizzQuestions[currentQuestionPosition]}></ProgressBar>
+          </Box>
 
-          {!showingResults && (
-            <Box minWidth="100vw" maxHeight={100}>
-              <ProgressBar question={quizzQuestions[currentQuestionPosition]}></ProgressBar>
-            </Box>
-          )}
-          <Box className="form-page__container">
-            <Box className="form-page__formulary">{content}</Box>
-            <Flex className="form-page__navigation">
-              {currentQuestionPosition > 0 && (
-                <Button
-                  {...previousButton}
-                  className="form-page__previous center"
-                  onClick={async () => {
-                    await previousQuestionRecoveringResponse();
-                  }}
-                >
-                  Anterior
-                </Button>
-              )}
-              {currentQuestionPosition < quizzQuestions?.length ? (
-                <Button
-                  {...nextButton}
-                  onClick={async () => {
-                    await nextQuestionManagingResponse();
-                  }}
-                >
-                  Siguiente
-                </Button>
-              ) : (
-                <Button
-                  {...nextButton}
-                  className="form-page__next center"
-                  onClick={async () => {
-                    await nextQuestionManagingResponse();
-                    await showResults();
-                  }}
-                >
-                  Resultados
-                </Button>
-              )}
-              {/* REHACER PARA MOSTRAR, SI NO, EL ENVIO DE EMAIL */}
-            </Flex>
+          <Box className="quizz-page__container">
+            <Box className="quizz-page__formulary">{content}</Box>
+            <QuizzNavigation currentQuestionPosition={currentQuestionPosition} previousQuestionRecoveringResponse={previousQuestionRecoveringResponse} quizzQuestions={quizzQuestions} nextQuestionActions={nextQuestionActions} responseManagement={responseManagement} onOpen={onOpen}></QuizzNavigation>
           </Box>
         </>
       )}
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent m="20px">
+          <ModalHeader>Finalizar evaluación</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <p>Se van a enviar las respuestas para calcular los resultados. Una vez confirmes el envío no podrás volver atrás para modificar tus respuestas.</p>
+          </ModalBody>
+          <ModalFooter m="0px auto">
+            <Button colorScheme="gray" onClick={onClose} m="0px 10px">
+              Modificar
+            </Button>
+            <Link to="/results" className="home-page__link">
+              <Button colorScheme="blue" onClick={() => checkTextResponseIsValid() && nextQuestionActions} m="0px 10px">
+                Enviar
+              </Button>
+            </Link>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      ;
     </div>
   );
 };
