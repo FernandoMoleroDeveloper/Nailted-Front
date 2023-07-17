@@ -86,14 +86,12 @@ const QuizzPage = (): JSX.Element => {
     setCurrentQuestionPosition(currentQuestionPosition - 1);
   };
 
-  const storeResponsesLocally = async (receivedResponse: Response): Promise<void> => {
+  const storeResponsesLocally = (receivedResponse: Response) => {
     setQuizzResponses((prevResponses) => {
       const updatedResponses = [...prevResponses];
       updatedResponses[currentQuestionPosition] = receivedResponse;
       return updatedResponses;
     });
-
-    await showCurrentQuestion();
   };
 
   const showLoadingAnimation = () => {
@@ -158,7 +156,7 @@ const QuizzPage = (): JSX.Element => {
             setCurrentQuestionPosition(currentQuestionPosition);
             alert("La respuesta del servidor no fue la esperada. No se ha almacenado la respuesta.");
           } else {
-            await storeResponsesLocally(questionResponse);
+            storeResponsesLocally(questionResponse);
             const responseData = await res.json();
             setQuizzResponsesId((prevResponsesId) => {
               const updatedResponsesId = [...prevResponsesId];
@@ -189,7 +187,7 @@ const QuizzPage = (): JSX.Element => {
             setCurrentQuestionPosition(currentQuestionPosition);
             alert("La respuesta del servidor no fue la esperada. No se ha almacenado la respuesta.");
           } else {
-            await storeResponsesLocally(questionResponse);
+            storeResponsesLocally(questionResponse);
           }
         })
         .catch((error) => {
@@ -280,7 +278,7 @@ const QuizzPage = (): JSX.Element => {
             </Alert>
           )}
           <Box minWidth="100vw" maxHeight={100}>
-            <ProgressBar question={quizzQuestions[currentQuestionPosition]}></ProgressBar>
+            <ProgressBar question={quizzQuestions[currentQuestionPosition]} quizzQuestions={quizzQuestions}></ProgressBar>
           </Box>
 
           <Box className="quizz-page__container">
@@ -292,10 +290,10 @@ const QuizzPage = (): JSX.Element => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent m="20px">
-          <ModalHeader>Finalizar evaluación</ModalHeader>
+          <ModalHeader textAlign="center">Ver resultados</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <p>Se van a enviar las respuestas para calcular los resultados. Una vez confirmes el envío no podrás volver atrás para modificar tus respuestas.</p>
+          <ModalBody textAlign="center">
+            <span>Una vez confirmes el envío no podrás volver para modificar tus respuestas.</span>
           </ModalBody>
           <ModalFooter m="0px auto">
             <Button colorScheme="gray" onClick={onClose} m="0px 10px">
