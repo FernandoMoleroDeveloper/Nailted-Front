@@ -55,6 +55,7 @@ const QuizzPage = (): JSX.Element => {
   const previousQuestionRecoveringResponse = () => {
     if (currentQuestionPosition >= 0) {
       decrementCurrentQuestionValue();
+      setErrorMessage("");
     }
   };
 
