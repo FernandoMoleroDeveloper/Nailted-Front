@@ -208,7 +208,6 @@ const QuizzPage = (): JSX.Element => {
   const showCurrentQuestion = async (): Promise<void> => {
     if (quizzQuestions?.length > 0) {
       switch (quizzQuestions[currentQuestionPosition]?.variant) {
-        // Selection Boxes.
         case VARIANT.MULTI_OPTION:
           setContent(
             <motion.div {...transitionIn}>
@@ -223,7 +222,6 @@ const QuizzPage = (): JSX.Element => {
             </motion.div>
           );
           break;
-        // Number Selector
         case VARIANT.NUMERIC:
           setContent(
             <FormControl as="fieldset">
@@ -233,7 +231,6 @@ const QuizzPage = (): JSX.Element => {
             </FormControl>
           );
           break;
-        // Input text Long
         case VARIANT.TEXT_LONG:
           setContent(
             <motion.div {...transitionIn}>
@@ -253,14 +250,6 @@ const QuizzPage = (): JSX.Element => {
             </motion.div>
           );
           break;
-        // // Email request
-        // case "ESTE ES EL COMPONENTE EMAIL":
-        //   setContent(
-        //     <motion.div {...transitionIn}>
-        //       <EmailRequest></EmailRequest>
-        //     </motion.div>
-        //   );
-        //   break;
       }
     }
   };
@@ -271,7 +260,6 @@ const QuizzPage = (): JSX.Element => {
         content
       ) : (
         <>
-          {/* Código para mostrar el mensaje de error */}
           {errorMessage && (
             <Alert status="error">
               <AlertIcon />
