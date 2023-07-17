@@ -1,11 +1,46 @@
 import { Box, Text, CircularProgress, CircularProgressLabel, Divider, Button, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, ModalBody, FormControl, FormLabel, Input, ModalFooter, useDisclosure, Switch, Link, Flex } from "@chakra-ui/react";
 import "../../styles/layouts/ResultsPage.scss";
 import ResultsCategory from "./ResultsCategory";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const Results = (): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = useRef(null);
+  const initialRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState<string>("");
+  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/send-results`;
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handleSendResults = (): void => {
+    const dataResults = {
+      // TODO meter los datos de results
+    };
+    const dataText = JSON.stringify(dataResults);
+
+    fetch(SESSION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ recipient: email, dataResults: dataText }),
+    })
+      .then((res) => {
+        if (res.status !== 200) {
+          console.error("La respuesta del servidor no fue la esperada. El correo no se ha enviado.");
+        } else {
+          console.log("Correo electrónico enviado correctamente.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      })
+      .finally(() => {
+        onClose();
+      });
+  };
+
   return (
     <div className="results-page">
       <Box className="results-page__container">
@@ -34,7 +69,7 @@ const Results = (): JSX.Element => {
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Escribe aquí tu e-mail:</FormLabel>
-                <Input ref={initialRef} placeholder="ejemplo@mail.com" />
+                <Input ref={initialRef} placeholder="ejemplo@mail.com" value={email} onChange={handleEmailChange} />
               </FormControl>
             </ModalBody>
             <Flex alignItems="center" margin="0px auto">
@@ -44,7 +79,7 @@ const Results = (): JSX.Element => {
               </Link>
             </Flex>
             <ModalFooter>
-              <Button colorScheme="blue" onClick={onClose}>
+              <Button colorScheme="blue" onClick={handleSendResults}>
                 Enviar
               </Button>
             </ModalFooter>
