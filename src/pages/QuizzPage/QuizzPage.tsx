@@ -1,22 +1,19 @@
 import "../../styles/layouts/QuizzPage.scss";
 import React, { useState, useEffect } from "react";
-import { Box, Button, FormControl, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, ModalHeader } from "@chakra-ui/react";
+import { Box, Button, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, ModalHeader } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { transitionIn } from "../../styles/motions/props";
+import { editButton, sendButton, transitionIn } from "../../styles/motions/props";
 import TextLong from "../../components/Questions/TextLong/TextLong";
 import TextShort from "../../components/Questions/TextShort/TextShort";
 import SelectionBoxes from "../../components/Questions/SelectionBoxes/SelectionBoxes";
 import NumberSelector from "../../components/Questions/NumberSelector/NumberSelector";
-// import Results from "../../components/Results/Results";
-// import EmailRequest from "../../components/EmailRequest/EmailRequest";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { Question, VARIANT } from "../../models/Question";
-// import Results from "../../components/Results/Results";
 import { Link } from "react-router-dom";
 import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation";
 import QuizzNavigation from "../../components/QuizzNavigation/QuizzNavigation";
 
-const QuizzPage = (): JSX.Element => {
+const QuizzPage = (): React.JSX.Element => {
   const [sessionId, setSessionId] = useState<string>("");
   const [questionResponse, setQuestionResponse] = useState<any>("");
   const [content, setContent] = useState<React.ReactNode | null>(
@@ -33,46 +30,82 @@ const QuizzPage = (): JSX.Element => {
   const [hasUserAnswered, setHasUserAnswered] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [showingResults, setShowingResults] = useState(false);
   const QUESTIONS_URL = `${process.env.REACT_APP_API_URL as string}/quizz/current-version/`;
   const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/`;
   const RESPONSE_URL = `${process.env.REACT_APP_API_URL as string}/response/`;
 
   const nextQuestionActions = async (): Promise<void> => {
-    if (currentQuestionPosition < quizzQuestions.length - 1 && hasUserAnswered) {
-      setHasUserAnswered(false);
-      setErrorMessage("");
-      if (checkTextResponseIsValid()) {
-        await responseManagement();
-      } else if (!checkTextResponseIsValid()) {
-        setErrorMessage("Debe escribir al menos 5 caracteres.");
+    setErrorMessage("");
+    if (currentQuestionPosition < quizzQuestions.length - 1) {
+      if (hasUserAnswered) {
+        if (checkTextResponseIsValid()) {
+          await responseManagement(incrementCurrentQuestionValue);
+        } else {
+          setErrorMessage("Debe escribir al menos 5 caracteres.");
+        }
+      } else {
+        setErrorMessage("Es necesario responder a la pregunta para poder continuar");
       }
-    } else if (!hasUserAnswered) {
-      setErrorMessage("Es necesario responder a la pregunta para poder continuar");
+    } else if (isTheLastQuestion()) {
+      if (hasUserAnswered) {
+        onOpen();
+      } else {
+        setErrorMessage("Es necesario responder a la pregunta para poder continuar");
+      }
     }
+
+    setHasUserAnswered(false);
   };
 
-  const previousQuestionRecoveringResponse = () => {
+  const previousQuestionRecoveringResponse = async (): Promise<void> => {
     if (currentQuestionPosition >= 0) {
-      decrementCurrentQuestionValue();
+      if (checkTextResponseIsValid() && hasUserAnswered) {
+        await responseManagement(decrementCurrentQuestionValue);
+      } else {
+        decrementCurrentQuestionValue();
+      }
       setErrorMessage("");
     }
   };
 
-  const responseManagement = async (): Promise<void> => {
+  const responseManagement = async (goToNextOrPreviousQuestion: any): Promise<void> => {
     if (!quizzResponses[currentQuestionPosition]) {
       await createResponse();
-      isTheLastQuestion() && incrementCurrentQuestionValue();
-    } else if (quizzResponses[currentQuestionPosition] && JSON.stringify(quizzResponses[currentQuestionPosition]) !== JSON.stringify(questionResponse)) {
-      await updateResponseFromDatabase();
-      isTheLastQuestion() && incrementCurrentQuestionValue();
-    } else if (quizzResponses[currentQuestionPosition] && JSON.stringify(quizzResponses[currentQuestionPosition]) === JSON.stringify(questionResponse)) {
-      isTheLastQuestion() && incrementCurrentQuestionValue();
+      setErrorMessage("");
+      if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
+        decrementCurrentQuestionValue();
+      } else {
+        !isTheLastQuestion() && goToNextOrPreviousQuestion();
+        setErrorMessage("");
+      }
+    } else if (quizzResponses[currentQuestionPosition] && hasResponseChanged()) {
+      if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
+        await updateResponseFromDatabase();
+        decrementCurrentQuestionValue();
+      } else {
+        await updateResponseFromDatabase();
+        !isTheLastQuestion() && goToNextOrPreviousQuestion();
+        setErrorMessage("");
+      }
+    } else if (quizzResponses[currentQuestionPosition] && !hasResponseChanged()) {
+      if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
+        decrementCurrentQuestionValue();
+      } else {
+        !isTheLastQuestion() && goToNextOrPreviousQuestion();
+        setErrorMessage("");
+      }
+    } else {
+      goToNextOrPreviousQuestion();
+      setErrorMessage("");
     }
+  };
+
+  const hasResponseChanged = (): boolean => {
+    return JSON.stringify(quizzResponses[currentQuestionPosition]) !== JSON.stringify(questionResponse);
   };
 
   const isTheLastQuestion = () => {
-    return currentQuestionPosition + 1 !== quizzQuestions?.length;
+    return currentQuestionPosition === quizzQuestions?.length - 1;
   };
 
   const checkTextResponseIsValid = () => {
@@ -142,7 +175,7 @@ const QuizzPage = (): JSX.Element => {
   };
 
   const createResponse = async (): Promise<void> => {
-    !isTheLastQuestion && showLoadingAnimation();
+    !isTheLastQuestion() && showLoadingAnimation();
 
     if (questionResponse) {
       fetch(RESPONSE_URL, {
@@ -154,7 +187,7 @@ const QuizzPage = (): JSX.Element => {
       })
         .then(async (res) => {
           if (res.status !== 201) {
-            setCurrentQuestionPosition(currentQuestionPosition);
+            setCurrentQuestionPosition(currentQuestionPosition - 1);
             alert("La respuesta del servidor no fue la esperada. No se ha almacenado la respuesta.");
           } else {
             storeResponsesLocally(questionResponse);
@@ -173,7 +206,7 @@ const QuizzPage = (): JSX.Element => {
   };
 
   const updateResponseFromDatabase = async (): Promise<void> => {
-    !isTheLastQuestion && showLoadingAnimation();
+    !isTheLastQuestion() && showLoadingAnimation();
 
     if (questionResponse) {
       fetch(`${RESPONSE_URL}${quizzResponsesId[currentQuestionPosition]}`, {
@@ -185,7 +218,7 @@ const QuizzPage = (): JSX.Element => {
       })
         .then(async (res) => {
           if (res.status !== 201) {
-            setCurrentQuestionPosition(currentQuestionPosition);
+            setCurrentQuestionPosition(currentQuestionPosition - 1);
             alert("La respuesta del servidor no fue la esperada. No se ha almacenado la respuesta.");
           } else {
             storeResponsesLocally(questionResponse);
@@ -197,62 +230,37 @@ const QuizzPage = (): JSX.Element => {
     }
   };
 
-  useEffect(() => {
-    if (quizzQuestions?.length === 0) {
-      showLoadingAnimation();
-      void fetchQuizzQuestions();
-    }
-    void showCurrentQuestion();
-  }, [questionResponse, sessionId, quizzQuestions, quizzResponses, quizzResponsesId, currentQuestionPosition]);
-
   const showCurrentQuestion = async (): Promise<void> => {
     if (quizzQuestions?.length > 0) {
       switch (quizzQuestions[currentQuestionPosition]?.variant) {
         case VARIANT.MULTI_OPTION:
-          setContent(
-            <motion.div {...transitionIn}>
-              <SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} multiSelection={true}></SelectionBoxes>
-            </motion.div>
-          );
+          setContent(<SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} multiSelection={true}></SelectionBoxes>);
           break;
         case VARIANT.SINGLE_OPTION:
-          setContent(
-            <motion.div {...transitionIn}>
-              <SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} multiSelection={false}></SelectionBoxes>
-            </motion.div>
-          );
+          setContent(<SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} multiSelection={false}></SelectionBoxes>);
           break;
         case VARIANT.NUMERIC:
-          setContent(
-            <FormControl as="fieldset">
-              <motion.div {...transitionIn}>
-                <NumberSelector sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered}></NumberSelector>
-              </motion.div>
-            </FormControl>
-          );
+          setContent(<NumberSelector sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered}></NumberSelector>);
           break;
         case VARIANT.TEXT_LONG:
-          setContent(
-            <motion.div {...transitionIn}>
-              <FormControl as="fieldset">
-                <TextLong sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} hasUserAnswered={hasUserAnswered} setHasUserAnswered={setHasUserAnswered} setErrorMessage={setErrorMessage}></TextLong>
-              </FormControl>
-            </motion.div>
-          );
+          setContent(<TextLong sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} hasUserAnswered={hasUserAnswered} setHasUserAnswered={setHasUserAnswered} setErrorMessage={setErrorMessage}></TextLong>);
           break;
         // Input Text Single line
         case VARIANT.TEXT_SHORT:
-          setContent(
-            <motion.div {...transitionIn}>
-              <FormControl as="fieldset">
-                <TextShort sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} hasUserAnswered={hasUserAnswered} setHasUserAnswered={setHasUserAnswered} setErrorMessage={setErrorMessage}></TextShort>
-              </FormControl>
-            </motion.div>
-          );
+          setContent(<TextShort sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} hasUserAnswered={hasUserAnswered} setHasUserAnswered={setHasUserAnswered} setErrorMessage={setErrorMessage}></TextShort>);
           break;
       }
     }
   };
+
+  useEffect(() => {
+    if (quizzQuestions?.length === 0) {
+      showLoadingAnimation();
+      void fetchQuizzQuestions();
+    } else {
+      void showCurrentQuestion();
+    }
+  }, [questionResponse, sessionId, quizzQuestions, quizzResponses, quizzResponsesId, currentQuestionPosition]);
 
   return (
     <div className="quizz-page page">
@@ -271,25 +279,25 @@ const QuizzPage = (): JSX.Element => {
           </Box>
 
           <Box className="quizz-page__container">
-            <Box className="quizz-page__formulary">{content}</Box>
+            <Box className="quizz-page__formulary">{<motion.div {...transitionIn}> {content} </motion.div>}</Box>
             <QuizzNavigation currentQuestionPosition={currentQuestionPosition} previousQuestionRecoveringResponse={previousQuestionRecoveringResponse} quizzQuestions={quizzQuestions} nextQuestionActions={nextQuestionActions} responseManagement={responseManagement} onOpen={onOpen}></QuizzNavigation>
           </Box>
         </>
       )}
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal onClose={() => { onClose(); setHasUserAnswered(true); }} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent m="20px">
+        <ModalContent m="auto 20px">
           <ModalHeader textAlign="center">Ver resultados</ModalHeader>
           <ModalCloseButton />
           <ModalBody textAlign="center">
             <span>Una vez confirmes el envío no podrás volver para modificar tus respuestas.</span>
           </ModalBody>
           <ModalFooter m="0px auto">
-            <Button colorScheme="gray" onClick={onClose} m="0px 10px">
+            <Button {...editButton} minWidth="fit-content" p="25px 0px" colorScheme="gray" onClick={() => { onClose(); setHasUserAnswered(true); }} m="0px 20px">
               Modificar
             </Button>
             <Link to="/results" className="home-page__link">
-              <Button colorScheme="blue" onClick={() => checkTextResponseIsValid() && nextQuestionActions} m="0px 10px">
+              <Button {...sendButton} minWidth="fit-content" p="25px 30px" colorScheme="blue" onClick={() => checkTextResponseIsValid() && nextQuestionActions} m="0px 10px">
                 Enviar
               </Button>
             </Link>

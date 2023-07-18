@@ -1,7 +1,7 @@
-import { Box, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react";
+import { Box, FormControl, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
-const TextShort = ({ sessionId, question, previousResponse, setHasUserAnswered, setQuestionResponse, setErrorMessage }: any): JSX.Element => {
+const TextShort = ({ sessionId, question, previousResponse, setHasUserAnswered, setQuestionResponse, setErrorMessage }: any): React.JSX.Element => {
   const [text, setText] = useState("");
 
   const composeResponse = async (): Promise<void> => {
@@ -22,7 +22,7 @@ const TextShort = ({ sessionId, question, previousResponse, setHasUserAnswered, 
 
   useEffect(() => {
     void composeResponse();
-    if (text.length > 0) {
+    if (text.length > 0 || (previousResponse && text !== previousResponse?.text?.textShort)) {
       setHasUserAnswered(true);
     } else {
       setHasUserAnswered(false);
@@ -35,15 +35,17 @@ const TextShort = ({ sessionId, question, previousResponse, setHasUserAnswered, 
   };
 
   return (
-    <div className="header">
-      <FormLabel textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
-        {question.questionText}
-      </FormLabel>
-      <Box display="flex" flexDirection="column" alignItems="start" m="15" mt={50}>
-        <Textarea minLength={5} maxLength={80} value={text} margin="0 auto" maxWidth="500px" size="md" alignItems="center" textAlign="start" placeholder="Escribe aquí..." borderBottomColor="#0069D9" borderLeft="none" borderRadius="0" borderRight="none" borderTop="none" onChange={handleTextChange} />
-      </Box>
-      <FormHelperText fontSize={15} fontWeight={400}>{`Caracteres restantes: ${80 - text?.length}`}</FormHelperText>
-    </div>
+    <FormControl as="fieldset">
+      <div className="header">
+        <FormLabel textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
+          {question.questionText}
+        </FormLabel>
+        <Box display="flex" flexDirection="column" alignItems="start" m="15" mt={50}>
+          <Textarea minLength={5} maxLength={80} value={text} margin="0 auto" maxWidth="500px" size="md" alignItems="center" textAlign="start" placeholder="Escribe aquí..." borderBottomColor="#0069D9" borderLeft="none" borderRadius="0" borderRight="none" borderTop="none" onChange={handleTextChange} />
+        </Box>
+        <FormHelperText fontSize={15} fontWeight="400" color="grey">{`Caracteres restantes: ${80 - text?.length}`}</FormHelperText>
+      </div>
+    </FormControl>
   );
 };
 

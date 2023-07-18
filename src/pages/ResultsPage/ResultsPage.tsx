@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/layout";
 import Results from "../../components/Results/Results";
 import "../../styles/layouts/ResultsPage.scss";
 
-const ResultsPage = (): JSX.Element => {
+const ResultsPage = (): React.JSX.Element => {
   return (
     <>
       <Box className="results-page__container">

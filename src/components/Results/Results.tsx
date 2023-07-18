@@ -1,9 +1,11 @@
-import { Box, Text, CircularProgress, CircularProgressLabel, Divider, Button, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, ModalBody, FormControl, FormLabel, Input, ModalFooter, useDisclosure, Switch, Link, Flex } from "@chakra-ui/react";
+import { Box, Divider, Button, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, ModalBody, FormControl, FormLabel, Input, ModalFooter, useDisclosure, Switch, Link, Flex } from "@chakra-ui/react";
 import "../../styles/layouts/ResultsPage.scss";
 import ResultsCategory from "./ResultsCategory";
 import { useRef, useState } from "react";
+import { nextButton, sendButton } from "../../styles/motions/props";
+import ResultsGlobal from "./ResultsGlobal";
 
-const Results = (): JSX.Element => {
+const Results = (): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
@@ -44,12 +46,7 @@ const Results = (): JSX.Element => {
   return (
     <div className="results-page">
       <Box className="results-page__container">
-        <Text fontSize="24px" textColor="#199bf6" fontWeight="extrabold" margin="0px auto" textAlign="center" as="legend">
-          Resultado general
-        </Text>
-        <CircularProgress className="results-page__progress-circle" value={49.2} color="orange.400" size="150px" thickness="10px">
-          <CircularProgressLabel>49,2%</CircularProgressLabel>
-        </CircularProgress>
+        <ResultsGlobal></ResultsGlobal>
         <Divider className="results-page__horizontal-divider" />
         <Box className="results-page__categories">
           <ResultsCategory></ResultsCategory>
@@ -58,18 +55,18 @@ const Results = (): JSX.Element => {
           <ResultsCategory></ResultsCategory>
           <ResultsCategory></ResultsCategory>
         </Box>
-        <Button marginTop="20px" onClick={onOpen}>
-          Enviar mis resultados
+        <Button {...nextButton} w="fit-content" m="40px 0px 0px 0px" onClick={onOpen}>
+          Guardar resultados
         </Button>
         <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>¿Quieres recibir tus resultados?</ModalHeader>
+          <ModalContent m="auto 20px">
+            <ModalHeader>Guardar resultados</ModalHeader>
             <ModalCloseButton />
-            <ModalBody pb={6}>
+            <ModalBody p="20px 20px">
               <FormControl>
-                <FormLabel>Escribe aquí tu e-mail:</FormLabel>
-                <Input ref={initialRef} placeholder="ejemplo@mail.com" value={email} onChange={handleEmailChange} />
+                <FormLabel textAlign="center" p="0px 5px">Te enviaremos un email con un enlace para que puedas consultar tus resultados cuando quieras.</FormLabel>
+                <Input ref={initialRef} m="20px 0px 0px 0px" placeholder="Escribe tu email" value={email} onChange={handleEmailChange}/>
               </FormControl>
             </ModalBody>
             <Flex alignItems="center" margin="0px auto">
@@ -79,7 +76,7 @@ const Results = (): JSX.Element => {
               </Link>
             </Flex>
             <ModalFooter>
-              <Button colorScheme="blue" onClick={handleSendResults}>
+              <Button {...sendButton} p="25px 4px" colorScheme="blue" m="10px auto" onClick={handleSendResults}>
                 Enviar
               </Button>
             </ModalFooter>

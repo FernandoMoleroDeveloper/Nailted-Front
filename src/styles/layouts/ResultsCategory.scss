@@ -20,7 +20,7 @@
     height: 20px;
     color: $background-brand;
     &:hover {
-      background-color: darken($background-brand, 20%);
+      cursor: pointer;
     }
   }
 

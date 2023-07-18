@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, Step, Stepper, StepIndicator, Progress, StepIcon, Flex, StepStatus } from "@chakra-ui/react";
 
-const ProgressBar = ({ question, quizzQuestions }: any): JSX.Element => {
-  console.log(quizzQuestions);
+const ProgressBar = ({ question, quizzQuestions }: any): React.JSX.Element => {
   const categoryToIndex: any = {};
   const steps: any[] = getCategoryNames(quizzQuestions);
   const [activeStep, setActiveStep] = useState(0);
@@ -39,9 +38,9 @@ const ProgressBar = ({ question, quizzQuestions }: any): JSX.Element => {
     <Flex flexDirection="column" maxWidth="90%" margin="15px auto" position="relative">
       <Stepper size="sm" index={activeStep}>
         {steps.map((step, index) => (
-          <Step key={index}>
+          <Step key={step}>
             <StepIndicator m="0" bg={index <= activeStep ? "blue.500" : "gray.200"}>
-              <StepStatus complete={<StepIcon boxSize={4} color={index <= activeStep ? "gray.200" : "gray.200"}/>} />
+              <StepStatus complete={<StepIcon boxSize={4} color="gray.200"/>} />
             </StepIndicator>
           </Step>
         ))}

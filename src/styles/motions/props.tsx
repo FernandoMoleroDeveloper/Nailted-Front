@@ -53,6 +53,25 @@ export const hiddenButton = {
   backgroundColor: "white",
 }
 
+// Boton enviar
+export const sendButton = {
+  fontSize: 20,
+  color: "#ffff",
+  borderRadius: 30,
+  backgroundColor: "#199bf6",
+  _hover: { backgroundColor: "#0469da" },
+  className: "quizz-page__next center"
+}
+
+// Boton modificar/cancelar
+export const editButton = {
+  fontSize: 20,
+  color: "#199bf6",
+  borderRadius: 30,
+  backgroundColor: "#ffff",
+  _hover: { backgroundColor: "transparent" },
+}
+
 // Boton de seleccion multiple sin activar
 export const selectionBoxesButton = {
   border: "2px solid #199bf6",
@@ -115,7 +134,7 @@ export const transitionIn = {
   initial: { opacity: 0, scale: 0.9 },
   animate: { opacity: 1, scale: 1 },
   transition: {
-    duration: 0.2,
+    duration: 0.4,
     ease: "easeOut",
   }
 }
