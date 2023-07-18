@@ -12,7 +12,7 @@ const Results = (): React.JSX.Element => {
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
   const { sessionId } = useContext<any>(SessionIdContext as any);
-  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/send-results`;
+  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/send-results`;
   const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,15 +20,12 @@ const Results = (): React.JSX.Element => {
   };
 
   const handleSendResults = (): void => {
-    const dataResults = "Estos son los datos del correo";
-    const dataText = JSON.stringify(dataResults);
-
     fetch(SEND_EMAIL_URL, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ recipient: email, dataResults: dataText }),
+      body: JSON.stringify({ email }),
     })
       .then((res) => {
         if (res.status !== 200) {
@@ -90,8 +87,10 @@ const Results = (): React.JSX.Element => {
             <ModalCloseButton />
             <ModalBody p="20px 20px">
               <FormControl>
-                <FormLabel textAlign="center" p="0px 5px">Te enviaremos un email con un enlace para que puedas consultar tus resultados cuando quieras.</FormLabel>
-                <Input ref={initialRef} m="20px 0px 0px 0px" placeholder="Escribe tu email" value={email} onChange={handleEmailChange}/>
+                <FormLabel textAlign="center" p="0px 5px">
+                  Te enviaremos un email con un PDF para que puedas consultar tus resultados cuando quieras.
+                </FormLabel>
+                <Input ref={initialRef} m="20px 0px 0px 0px" placeholder="Escribe tu email" value={email} onChange={handleEmailChange} />
               </FormControl>
             </ModalBody>
             <Flex alignItems="center" margin="0px auto">
