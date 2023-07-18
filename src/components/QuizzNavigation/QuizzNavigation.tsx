@@ -21,9 +21,7 @@ const QuizzNavigation = ({ currentQuestionPosition, previousQuestionRecoveringRe
           <Button
             {...nextButton} width="44%"
             className="quizz-page__next center"
-            onClick={async () => {
-              await nextQuestionActions();
-            }}
+            onClick={nextQuestionActions}
           >
             Resultados
           </Button>

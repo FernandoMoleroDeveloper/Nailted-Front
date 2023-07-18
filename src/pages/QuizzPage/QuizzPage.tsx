@@ -50,6 +50,7 @@ const QuizzPage = (): React.JSX.Element => {
       }
     } else if (isTheLastQuestion()) {
       if (hasUserAnswered) {
+        await responseManagement(incrementCurrentQuestionValue);
         onOpen();
       } else {
         setErrorMessage("Es necesario responder a la pregunta para poder continuar");
@@ -72,6 +73,7 @@ const QuizzPage = (): React.JSX.Element => {
 
   const responseManagement = async (goToNextOrPreviousQuestion: any): Promise<void> => {
     if (!quizzResponses[currentQuestionPosition]) {
+      console.log("A");
       await createResponse();
       setErrorMessage("");
       if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
@@ -80,7 +82,8 @@ const QuizzPage = (): React.JSX.Element => {
         !isTheLastQuestion() && goToNextOrPreviousQuestion();
         setErrorMessage("");
       }
-    } else if (quizzResponses[currentQuestionPosition] && hasResponseChanged()) {
+    } else if (hasResponseChanged()) {
+      console.log("B");
       if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
         await updateResponseFromDatabase();
         decrementCurrentQuestionValue();
@@ -89,16 +92,14 @@ const QuizzPage = (): React.JSX.Element => {
         !isTheLastQuestion() && goToNextOrPreviousQuestion();
         setErrorMessage("");
       }
-    } else if (quizzResponses[currentQuestionPosition] && !hasResponseChanged()) {
+    } else if (!hasResponseChanged()) {
+      console.log("C");
       if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
         decrementCurrentQuestionValue();
       } else {
         !isTheLastQuestion() && goToNextOrPreviousQuestion();
         setErrorMessage("");
       }
-    } else {
-      goToNextOrPreviousQuestion();
-      setErrorMessage("");
     }
   };
 
@@ -248,7 +249,6 @@ const QuizzPage = (): React.JSX.Element => {
         case VARIANT.TEXT_LONG:
           setContent(<TextLong sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} hasUserAnswered={hasUserAnswered} setHasUserAnswered={setHasUserAnswered} setErrorMessage={setErrorMessage}></TextLong>);
           break;
-        // Input Text Single line
         case VARIANT.TEXT_SHORT:
           setContent(<TextShort sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} hasUserAnswered={hasUserAnswered} setHasUserAnswered={setHasUserAnswered} setErrorMessage={setErrorMessage}></TextShort>);
           break;
