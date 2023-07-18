@@ -1,5 +1,6 @@
 import "../../styles/layouts/QuizzPage.scss";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { SessionIdContext } from "../../App";
 import { Box, Button, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, ModalHeader } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { editButton, sendButton, transitionIn } from "../../styles/motions/props";
@@ -14,6 +15,7 @@ import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation
 import QuizzNavigation from "../../components/QuizzNavigation/QuizzNavigation";
 
 const QuizzPage = (): React.JSX.Element => {
+  const { updateSessionId } = useContext<any>(SessionIdContext as any);
   const [sessionId, setSessionId] = useState<string>("");
   const [questionResponse, setQuestionResponse] = useState<any>("");
   const [content, setContent] = useState<React.ReactNode | null>(
@@ -168,6 +170,7 @@ const QuizzPage = (): React.JSX.Element => {
         }
         const responseData = await res.json();
         setSessionId(responseData._id);
+        updateSessionId(responseData._id);
       })
       .catch((error) => {
         console.error("Error:", error);

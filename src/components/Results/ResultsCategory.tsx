@@ -73,7 +73,7 @@ const ResultsCategory = (): React.JSX.Element => {
           size="100px"
           thickness="8px"
         >
-          <CircularProgressLabel>{`${progress}%`}</CircularProgressLabel>
+          <CircularProgressLabel fontWeight={500}>{`${progress}%`}</CircularProgressLabel>
         </CircularProgress>
         <Box display="flex" alignItems="center" flexWrap="wrap" margin="0 0 0 5px">
           <Text className="results-category__text-info">Info</Text>

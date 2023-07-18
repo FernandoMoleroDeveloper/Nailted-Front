@@ -1,27 +1,29 @@
 import { Box, Divider, Button, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, ModalBody, FormControl, FormLabel, Input, ModalFooter, useDisclosure, Switch, Link, Flex } from "@chakra-ui/react";
 import "../../styles/layouts/ResultsPage.scss";
 import ResultsCategory from "./ResultsCategory";
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { nextButton, sendButton } from "../../styles/motions/props";
+import { SessionIdContext } from "../../App";
 import ResultsGlobal from "./ResultsGlobal";
 
 const Results = (): React.JSX.Element => {
+  const [results, setResults] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
-  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/send-results`;
+  const { sessionId } = useContext<any>(SessionIdContext as any);
+  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/send-results`;
+  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
   const handleSendResults = (): void => {
-    const dataResults = {
-      // TODO meter los datos de results
-    };
+    const dataResults = "Estos son los datos del correo";
     const dataText = JSON.stringify(dataResults);
 
-    fetch(SESSION_URL, {
+    fetch(SEND_EMAIL_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,8 +33,6 @@ const Results = (): React.JSX.Element => {
       .then((res) => {
         if (res.status !== 200) {
           console.error("La respuesta del servidor no fue la esperada. El correo no se ha enviado.");
-        } else {
-          console.log("Correo electrónico enviado correctamente.");
         }
       })
       .catch((error) => {
@@ -43,10 +43,35 @@ const Results = (): React.JSX.Element => {
       });
   };
 
+  const getResults = async (): Promise<void> => {
+    fetch(SESSION_URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(async (res) => {
+        if (res.status !== 200) {
+          console.error("La respuesta del servidor no fue la esperada. Los resultados no se han cargado.");
+        } else {
+          console.log("Resultados cargados correctamente.");
+          const data = await res.json();
+          setResults(data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  useEffect(() => {
+    void getResults();
+  }, []);
+
   return (
     <div className="results-page">
       <Box className="results-page__container">
-        <ResultsGlobal></ResultsGlobal>
+        <ResultsGlobal results={results}></ResultsGlobal>
         <Divider className="results-page__horizontal-divider" />
         <Box className="results-page__categories">
           <ResultsCategory></ResultsCategory>

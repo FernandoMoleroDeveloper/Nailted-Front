@@ -3,12 +3,12 @@ import "../../styles/layouts/ResultsCategory.scss";
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { useState, useEffect } from "react";
 
-const ResultsGlobal = (): React.JSX.Element => {
+const ResultsGlobal = ({ results }: any): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [progress, setProgress] = useState(0);
-  const targetProgress = 55;
+  const targetProgress = results?.globalScore;
   const increment = 1;
   const intervalTime = 30;
 
@@ -64,7 +64,7 @@ const ResultsGlobal = (): React.JSX.Element => {
           Resultado general
         </Text>
         <CircularProgress className="results-page__progress-circle" value={progress} color={getProgressColor(progress)} size="150px" thickness="10px">
-          <CircularProgressLabel>{progress}%</CircularProgressLabel>
+          <CircularProgressLabel fontWeight={500}>{progress}%</CircularProgressLabel>
         </CircularProgress>
         <Box display="flex" alignItems="center" flexWrap="wrap" margin="0 0 0 5px">
           <Text className="results-category__text-info">Info</Text>
