@@ -1,4 +1,4 @@
-const LoadingAnimation = (): JSX.Element => {
+const LoadingAnimation = (): React.JSX.Element => {
   return (
     <>
       <div className="quizz-page__loading">

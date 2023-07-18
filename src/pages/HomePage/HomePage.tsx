@@ -5,7 +5,7 @@ import "../../styles/layouts/HomePage.scss";
 import homeImage from "../../assets/home-img.png";
 import { motion } from "framer-motion";
 
-const HomePage = (): JSX.Element => {
+const HomePage = (): React.JSX.Element => {
   return (
     <div className="home-page page">
       <motion.div {...slideY("up", "0.5", "0")}>

@@ -1,14 +1,14 @@
-import { Box, Text, Flex, CircularProgress, CircularProgressLabel, FormLabel, useDisclosure, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalHeader, ModalBody, ModalFooter, Button } from "@chakra-ui/react";
+import { Box, Text, Flex, CircularProgress, CircularProgressLabel, useDisclosure, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalHeader, ModalBody, ModalFooter, Button } from "@chakra-ui/react";
 import "../../styles/layouts/ResultsCategory.scss";
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { useState, useEffect } from "react";
 
-const ResultsCategory = (): React.JSX.Element => {
+const ResultsGlobal = (): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [progress, setProgress] = useState(0);
-  const targetProgress = 70;
+  const targetProgress = 55;
   const increment = 1;
   const intervalTime = 30;
 
@@ -54,26 +54,17 @@ const ResultsCategory = (): React.JSX.Element => {
         flexDirection="column"
         alignItems="center"
         margin="5px"
-        marginTop="10px"
         onClick={() => {
           onOpen();
           setText("Direction text");
           setTitle("Direction");
         }}
       >
-        <Box display="flex" flexWrap="wrap">
-          <FormLabel fontWeight="extrabold" margin="0 5px 0 0" textAlign="left" as="legend">
-            Direction
-          </FormLabel>
-        </Box>
-        <CircularProgress
-          className="results-category__progress-circle"
-          value={progress}
-          color={getProgressColor(progress)}
-          size="100px"
-          thickness="8px"
-        >
-          <CircularProgressLabel>{`${progress}%`}</CircularProgressLabel>
+        <Text fontSize="24px" textColor="#199bf6" fontWeight="extrabold" margin="20px auto" textAlign="center" as="legend">
+          Resultado general
+        </Text>
+        <CircularProgress className="results-page__progress-circle" value={progress} color={getProgressColor(progress)} size="150px" thickness="10px">
+          <CircularProgressLabel>{progress}%</CircularProgressLabel>
         </CircularProgress>
         <Box display="flex" alignItems="center" flexWrap="wrap" margin="0 0 0 5px">
           <Text className="results-category__text-info">Info</Text>
@@ -97,4 +88,4 @@ const ResultsCategory = (): React.JSX.Element => {
   );
 };
 
-export default ResultsCategory;
+export default ResultsGlobal;

@@ -1,8 +1,8 @@
-import { FormLabel } from "@chakra-ui/react";
+import { Box, FormLabel } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import "../../../styles/layouts/NumberSelector.scss";
 
-const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResponse, setHasUserAnswered }: any): JSX.Element => {
+const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResponse, setHasUserAnswered }: any): React.JSX.Element => {
   const [value, setValue] = useState(question?.selectedNumber?.max / 2);
 
   const composeResponse = async (): Promise<void> => {
@@ -67,9 +67,9 @@ const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResp
           +
         </button>
       </div>
-      <div>
+      <Box fontSize={15} fontWeight="400" color="grey">
         Min: {question?.selectedNumber?.min} / Max: {question?.selectedNumber?.max}
-      </div>
+      </Box>
     </div>
   );
 };

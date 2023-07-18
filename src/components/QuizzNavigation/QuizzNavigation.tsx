@@ -1,7 +1,7 @@
 import { Button, Flex } from "@chakra-ui/react";
 import { nextButton, previousButton } from "../../styles/motions/props";
 
-const QuizzNavigation = ({ currentQuestionPosition, previousQuestionRecoveringResponse, quizzQuestions, nextQuestionActions, responseManagement, onOpen }: any): JSX.Element => {
+const QuizzNavigation = ({ currentQuestionPosition, previousQuestionRecoveringResponse, quizzQuestions, nextQuestionActions, responseManagement, onOpen }: any): React.JSX.Element => {
   return (
     <>
       <Flex className="quizz-page__navigation">
@@ -22,8 +22,7 @@ const QuizzNavigation = ({ currentQuestionPosition, previousQuestionRecoveringRe
             {...nextButton} width="44%"
             className="quizz-page__next center"
             onClick={async () => {
-              await responseManagement();
-              onOpen();
+              await nextQuestionActions();
             }}
           >
             Resultados

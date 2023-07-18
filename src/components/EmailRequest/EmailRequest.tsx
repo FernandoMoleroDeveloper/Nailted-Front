@@ -1,7 +1,7 @@
 import { Text, Button, Flex, Heading, Input, Switch } from "@chakra-ui/react";
 import { blueButton } from "../../styles/motions/props";
 
-const EmailRequest = (): JSX.Element => {
+const EmailRequest = (): React.JSX.Element => {
   return (
     <div className="header">
       <Heading color="#179bf6">Recibir los resultados</Heading>
