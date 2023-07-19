@@ -17,6 +17,7 @@ const Results = (): React.JSX.Element => {
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
   const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/send-results`;
+
   const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
