@@ -18,13 +18,7 @@ const QuizzPage = (): React.JSX.Element => {
   const { updateSessionId } = useContext<any>(SessionIdContext as any);
   const [sessionId, setSessionId] = useState<string>("");
   const [questionResponse, setQuestionResponse] = useState<any>("");
-  const [content, setContent] = useState<React.ReactNode | null>(
-    <div className="quizz-page__loading">
-      <div className="quizz-page__ball">
-        <div></div>
-      </div>
-    </div>
-  );
+  const [content, setContent] = useState<React.ReactNode | null>(<LoadingAnimation></LoadingAnimation>);
   const [quizzQuestions, setQuizzQuestions] = useState<Question[]>([]);
   const [quizzResponses, setQuizzResponses] = useState<Response[]>([]);
   const [quizzResponsesId, setQuizzResponsesId] = useState<string[]>([]);
@@ -50,13 +44,16 @@ const QuizzPage = (): React.JSX.Element => {
       }
     } else if (isTheLastQuestion()) {
       if (hasUserAnswered) {
-        await responseManagement(incrementCurrentQuestionValue);
-        onOpen();
+        if (checkTextResponseIsValid()) {
+          await responseManagement(incrementCurrentQuestionValue);
+          onOpen();
+        } else {
+          setErrorMessage("Debe escribir al menos 5 caracteres.");
+        }
       } else {
         setErrorMessage("Es necesario responder a la pregunta para poder continuar");
       }
     }
-
     setHasUserAnswered(false);
   };
 
@@ -73,7 +70,6 @@ const QuizzPage = (): React.JSX.Element => {
 
   const responseManagement = async (goToNextOrPreviousQuestion: any): Promise<void> => {
     if (!quizzResponses[currentQuestionPosition]) {
-      console.log("A");
       await createResponse();
       setErrorMessage("");
       if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
@@ -83,7 +79,6 @@ const QuizzPage = (): React.JSX.Element => {
         setErrorMessage("");
       }
     } else if (hasResponseChanged()) {
-      console.log("B");
       if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
         await updateResponseFromDatabase();
         decrementCurrentQuestionValue();
@@ -93,7 +88,6 @@ const QuizzPage = (): React.JSX.Element => {
         setErrorMessage("");
       }
     } else if (!hasResponseChanged()) {
-      console.log("C");
       if (isTheLastQuestion() && goToNextOrPreviousQuestion === decrementCurrentQuestionValue) {
         decrementCurrentQuestionValue();
       } else {
