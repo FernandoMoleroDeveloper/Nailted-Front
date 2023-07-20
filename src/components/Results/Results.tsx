@@ -11,7 +11,7 @@ const Results = (): React.JSX.Element => {
   const toast = useToast();
   const { sessionId } = useContext<any>(SessionIdContext as any);
   console.log(sessionId);
-  const [results, setResults] = useState();
+  const [results, setResults] = useState<any>();
   const [correctEmail, setCorrectEmail] = useState<any | undefined>();
   const [emailSent, setEmailSent] = useState<boolean>(false);
   const [policyAccepted, setPolicyAccepted] = useState<boolean | undefined>(undefined);
@@ -19,8 +19,8 @@ const Results = (): React.JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/send-results`;
 
-  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
-  // const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/results/token`;
+  // const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
+  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/results/token`;
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -110,11 +110,11 @@ const Results = (): React.JSX.Element => {
         <ResultsGlobal results={results}></ResultsGlobal>
         <Divider className="results-page__horizontal-divider" />
         <Box className="results-page__categories">
-          <ResultsCategory></ResultsCategory>
-          <ResultsCategory></ResultsCategory>
-          <ResultsCategory></ResultsCategory>
-          <ResultsCategory></ResultsCategory>
-          <ResultsCategory></ResultsCategory>
+          {
+            results?.categoryScore?.map((categoryScore: any) => {
+              return <ResultsCategory key={categoryScore._id} resultsDetails={categoryScore}></ResultsCategory>
+            })
+          }
         </Box>
         <Button {...nextButton} w="fit-content" m="40px 0px 0px 0px" onClick={onOpen}>
           Guardar resultados
