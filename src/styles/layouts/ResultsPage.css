@@ -1,0 +1,28 @@
+.results-page__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px;
+  align-items: center;
+  margin: 0px auto;
+}
+.results-page__formulary {
+  position: relative;
+  padding: 10px;
+}
+.results-page__categories {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin-top: 10px;
+  min-width: 100vw;
+}
+.results-page__progress-circle {
+  margin: 10px 0 10px 0;
+}
+.results-page__horizontal-divider {
+  margin: 10px 0 10px 0;
+}
+.results-page__button {
+  margin-top: 20px;
+}/*# sourceMappingURL=ResultsPage.css.map */

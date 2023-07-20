@@ -1,0 +1,46 @@
+.number-component__container {
+  margin-top: 90px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.number-component__contador-menos {
+  color: white;
+  border-radius: 100px;
+  background-color: #199bf6;
+  width: 70px;
+  height: 70px;
+  font-weight: 400;
+  font-size: 25px;
+  align-items: center;
+  justify-content: center;
+}
+.number-component__contador-mas {
+  color: white;
+  border-radius: 100px;
+  background-color: #199bf6;
+  width: 70px;
+  height: 70px;
+  font-weight: 400;
+  font-size: 25px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.number-component__container-input {
+  border-radius: 100px;
+  position: relative;
+  width: 70px;
+  margin: 0px 20px;
+  background-color: white;
+}
+.number-component__input {
+  border-radius: 100px;
+  position: relative;
+  width: 70px;
+  background-color: white;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 400;
+}/*# sourceMappingURL=NumberSelector.css.map */

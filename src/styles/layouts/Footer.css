@@ -1,0 +1,14 @@
+.footer {
+  max-height: 80px;
+}
+.footer__container {
+  height: 80px;
+  padding: 30px 10px;
+  text-align: center;
+  background-color: #e8e8e8;
+}
+.footer__text {
+  font-size: 14px;
+  color: #6c6c6c;
+  font-weight: 500;
+}/*# sourceMappingURL=Footer.css.map */
