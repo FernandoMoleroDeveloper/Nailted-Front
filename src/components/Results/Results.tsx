@@ -18,9 +18,10 @@ const Results = (): React.JSX.Element => {
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
   const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/send-results`;
+  // const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/send-results`;
 
-  // const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
-  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/results/token`;
+  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
+  // const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/results/token`;
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -33,16 +34,15 @@ const Results = (): React.JSX.Element => {
   };
 
   const handleSendResults = (): void => {
-    const dataResults = "Estos son los datos del correo";
-    const dataText = JSON.stringify(dataResults);
-
     if (policyAccepted === true && checkValidEmail()) {
+      console.log("Esto mando:");
+      console.log(results);
       fetch(SEND_EMAIL_URL, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, dataResults: dataText }),
+        body: JSON.stringify({ email, dataResults: results }),
       })
         .then((res) => {
           if (res.status !== 200) {
