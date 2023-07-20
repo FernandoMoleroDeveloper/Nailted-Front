@@ -10,15 +10,17 @@ const Results = (): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const { sessionId } = useContext<any>(SessionIdContext as any);
+  console.log(sessionId);
   const [results, setResults] = useState();
   const [correctEmail, setCorrectEmail] = useState<any | undefined>();
   const [emailSent, setEmailSent] = useState<boolean>(false);
   const [policyAccepted, setPolicyAccepted] = useState<boolean | undefined>(undefined);
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
-  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/send-results`;
+  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/send-results`;
 
   const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
+  // const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/results/token`;
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -36,11 +38,11 @@ const Results = (): React.JSX.Element => {
 
     if (policyAccepted === true && checkValidEmail()) {
       fetch(SEND_EMAIL_URL, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ recipient: email, dataResults: dataText }),
+        body: JSON.stringify({ email, dataResults: dataText }),
       })
         .then((res) => {
           if (res.status !== 200) {
@@ -86,9 +88,10 @@ const Results = (): React.JSX.Element => {
         if (res.status !== 200) {
           console.error("La respuesta del servidor no fue la esperada. Los resultados no se han cargado.");
         } else {
-          console.log("Resultados cargados correctamente.");
           const data = await res.json();
           setResults(data);
+          console.log("Resultados cargados correctamente.");
+          console.log(data);
         }
       })
       .catch((error) => {
