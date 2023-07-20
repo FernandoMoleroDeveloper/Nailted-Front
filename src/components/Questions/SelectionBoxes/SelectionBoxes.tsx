@@ -34,7 +34,7 @@ const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswe
 
   return (
     <>
-      <Text textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15">
+      <Text textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15px auto">
         {question.questionText}
       </Text>
       <Box className="selection-boxes__container">

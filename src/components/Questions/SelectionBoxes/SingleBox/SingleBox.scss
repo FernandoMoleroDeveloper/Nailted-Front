@@ -13,9 +13,11 @@
     margin: 10px 10px;
     min-height: 130px;
     max-height: 150px;
+    max-width: 280px;
     padding: 10px 10px;
     @include adaptTo("not-mobile") {
       min-height: 100px;
+      min-width: 280px;
     }
   }
 
