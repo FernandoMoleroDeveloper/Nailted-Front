@@ -3,12 +3,11 @@ import "../../styles/layouts/ResultsCategory.scss";
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { useState, useEffect } from "react";
 
-const ResultsCategory = (): React.JSX.Element => {
+const ResultsCategory = ({ resultsDetails }: any): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [text, setText] = useState("");
-  const [title, setTitle] = useState("");
   const [progress, setProgress] = useState(0);
-  const targetProgress = 70;
+  const possibleMarks = resultsDetails?.category?.mark;
+  const targetScore = resultsDetails?.score;
   const increment = 1;
   const intervalTime = 30;
 
@@ -34,8 +33,16 @@ const ResultsCategory = (): React.JSX.Element => {
     return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
   };
 
+  const getScoreTip = () => {
+    for (const mark of possibleMarks) {
+      if (targetScore >= mark.min && targetScore <= mark.max) {
+        return mark.tip;
+      }
+    }
+  }
+
   useEffect(() => {
-    if (progress < targetProgress) {
+    if (progress < targetScore) {
       const timer = setInterval(() => {
         const newProgress = progress + increment;
         setProgress(newProgress);
@@ -45,7 +52,7 @@ const ResultsCategory = (): React.JSX.Element => {
         clearInterval(timer);
       };
     }
-  }, [progress, targetProgress, increment, intervalTime]);
+  }, [progress, targetScore, increment, intervalTime]);
 
   return (
     <div className="results-category page">
@@ -57,13 +64,11 @@ const ResultsCategory = (): React.JSX.Element => {
         marginTop="10px"
         onClick={() => {
           onOpen();
-          setText("Direction text");
-          setTitle("Direction");
         }}
       >
         <Box display="flex" flexWrap="wrap">
           <FormLabel fontWeight="extrabold" margin="0 5px 0 0" textAlign="left" as="legend">
-            Direction
+            {resultsDetails?.category?.name}
           </FormLabel>
         </Box>
         <CircularProgress
@@ -83,10 +88,10 @@ const ResultsCategory = (): React.JSX.Element => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent m="auto 20px">
-          <ModalHeader>{title}</ModalHeader>
+          <ModalHeader>{resultsDetails?.category?.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p>{text}</p>
+            <p>{getScoreTip()}</p>
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
