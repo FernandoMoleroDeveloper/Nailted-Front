@@ -28,14 +28,14 @@ const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResp
 
   const incrementValue = (): void => {
     if (value < question?.selectedNumber?.max) {
-      const newValue = value + 1;
+      const newValue = value + (Math.round(question?.selectedNumber?.max / 20));
       setValue(newValue);
     }
   };
 
   const decrementValue = (): void => {
     if (value > question?.selectedNumber?.min) {
-      const newValue = value - 1;
+      const newValue = value - (Math.round(question?.selectedNumber?.max / 20));
       setValue(newValue);
     }
   };

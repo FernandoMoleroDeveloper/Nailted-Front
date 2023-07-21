@@ -36,7 +36,7 @@ const ProgressBar = ({ question, quizzQuestions }: any): React.JSX.Element => {
 
   return (
     <Flex flexDirection="column" maxWidth="90%" margin="15px auto" position="relative">
-      <Stepper size="sm" index={activeStep}>
+      <Stepper size="sm" index={activeStep} zIndex={1}>
         {steps.map((step, index) => (
           <Step key={step}>
             <StepIndicator m="0" bg={index <= activeStep ? "blue.500" : "gray.200"}>
@@ -45,7 +45,7 @@ const ProgressBar = ({ question, quizzQuestions }: any): React.JSX.Element => {
           </Step>
         ))}
       </Stepper>
-      <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={-1}/>
+      <Progress value={progressPercent} position="absolute" height="3px" width="full" top="10px" zIndex={0}/>
       <Text fontWeight={500} fontSize={22} color="#199bf6" m="10px auto">
         {question?.category?.name.toUpperCase()}
       </Text>

@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation";
 import QuizzNavigation from "../../components/QuizzNavigation/QuizzNavigation";
 
+localStorage.removeItem("storedSessionId");
+
 const QuizzPage = (): React.JSX.Element => {
   const { updateSessionId } = useContext<any>(SessionIdContext as any);
   const [sessionId, setSessionId] = useState<string>("");
@@ -141,7 +143,7 @@ const QuizzPage = (): React.JSX.Element => {
       })
       .then(async (resParsed) => {
         setQuizzQuestions(resParsed);
-        createSessionInDatabase(resParsed[0].version);
+        !localStorage.getItem("storedSessionId") ? createSessionInDatabase(resParsed[0].version) : (setSessionId(localStorage.getItem("storedSessionId") as string));
       })
       .catch((error) => {
         alert("Error al iniciar el quizz.");
@@ -151,6 +153,7 @@ const QuizzPage = (): React.JSX.Element => {
 
   const createSessionInDatabase = (version: number): void => {
     const data = { version };
+    console.log("Estoy creando una nueva session");
 
     fetch(SESSION_URL, {
       method: "POST",
@@ -166,6 +169,7 @@ const QuizzPage = (): React.JSX.Element => {
         const responseData = await res.json();
         setSessionId(responseData._id);
         updateSessionId(responseData._id);
+        localStorage.setItem("storedSessionId", responseData._id)
       })
       .catch((error) => {
         console.error("Error:", error);

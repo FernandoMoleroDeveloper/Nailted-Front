@@ -18,11 +18,9 @@ const Results = (): React.JSX.Element => {
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
   const navigate = useNavigate();
-  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/send-results`;
-  // const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/send-results`;
-
-  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
-  // const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/results/token`;
+  const localOrPropSessionId: string = sessionId || localStorage.getItem("storedSessionId");
+  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${localOrPropSessionId}/send-results`;
+  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${localOrPropSessionId}/results/token`;
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -100,9 +98,11 @@ const Results = (): React.JSX.Element => {
 
   useEffect(() => {
     void getResults();
-    if (emailSent) emailSent && onClose();
-    !sessionId && navigate("/");
-  }, [emailSent]);
+    if (emailSent) emailSent && onClose(); // sobra el if?
+    if (!localOrPropSessionId) {
+      navigate("/");
+    }
+  }, [emailSent, localOrPropSessionId]);
 
   return (
     <div className="results-page">
