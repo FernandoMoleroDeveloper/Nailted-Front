@@ -19,7 +19,17 @@
     font-size: 25px;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    border: 0px solid $background-generic;
+    transition: 0.1s;
+    
+    &:active {
+      font-size: 20px;
+      background-color: $background-buttons;
+      border: 5px solid $background-generic;
+    }
   }
+
   &__contador-mas {
     color: $font-color-light;
     border-radius: 100px;
@@ -31,6 +41,14 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    border: 0px solid $background-generic;
+    transition: 0.1s;
+    
+    &:active {
+      font-size: 20px;
+      background-color: $background-buttons;
+      border: 5px solid $background-generic;
+    }
   }
 
   &__container-input {

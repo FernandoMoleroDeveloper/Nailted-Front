@@ -7,15 +7,11 @@
   height: 60vh;
 
   &__container {
-    // min-height: calc(100vh - 250px);
-    // min-height: 100vh;
-    // justify-content: center;
     display: flex;
     align-items: center;
     margin: 30px;
     align-items: center;
     margin: 0px auto;
-    max-width: 700px;
   }
 
   &__formulary {
@@ -96,7 +92,7 @@
     height: 200px;
     display: inline-block;
     overflow: hidden;
-    background: #ffffff;
+    background: #F9F9FB;
   }
 
   &__ball div {
@@ -120,6 +116,30 @@
   }
   &__ball div {
     box-sizing: content-box;
+  }
+
+  &__textarea {
+    border-radius: 10px;
+    outline: 2px dotted lightgray;
+    border: 0;
+    background-color: white;
+    padding: 10px 1rem;
+    min-width: 100%;
+    max-width: 700px;
+    // @include adaptTo("not-mobile") {
+    //  max-width: 700px;
+    // }
+    min-height: 116px;
+    max-height: 400px;
+    margin: 0px auto;
+    transition: 0.2s;
+    resize: none;
+  
+    &:focus {
+      outline: 3px solid #199BF6;
+      outline-offset: 5px;
+      background-color: #fff
+    }
   }
 
   @keyframes bouncing {
