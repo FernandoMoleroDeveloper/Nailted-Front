@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/react";
 import Results from "../../components/Results/Results";
 import "../../styles/layouts/ResultsPage.scss";
 

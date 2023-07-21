@@ -3,9 +3,11 @@ import "../../styles/layouts/ResultsCategory.scss";
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { useState, useEffect } from "react";
 
-const ResultsCategory = ({ resultsDetails }: any): React.JSX.Element => {
+const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [progress, setProgress] = useState(0);
+  const [circleSize, setCircleSize] = useState(100); // Tamaño predeterminado del círculo
+  const adaptiveDesignChange = 951;
   const possibleMarks = resultsDetails?.category?.mark;
   const targetScore = resultsDetails?.score;
   const increment = 1;
@@ -39,7 +41,23 @@ const ResultsCategory = ({ resultsDetails }: any): React.JSX.Element => {
         return mark.tip;
       }
     }
-  }
+  };
+
+  const updateCircleSize = () => {
+    if (window.innerWidth > adaptiveDesignChange) {
+      setCircleSize(140);
+    } else {
+      setCircleSize(110);
+    }
+  };
+
+  useEffect(() => {
+    updateCircleSize(); // Actualizar el tamaño inicial del círculo
+    window.addEventListener("resize", updateCircleSize); // Escuchar eventos de cambio de tamaño del navegador
+    return () => {
+      window.removeEventListener("resize", updateCircleSize); // Limpiar el evento al desmontar el componente
+    };
+  }, []);
 
   useEffect(() => {
     if (progress < targetScore) {
@@ -66,38 +84,62 @@ const ResultsCategory = ({ resultsDetails }: any): React.JSX.Element => {
           onOpen();
         }}
       >
-        <Box display="flex" flexWrap="wrap">
-          <FormLabel fontWeight="extrabold" margin="0 5px 0 0" textAlign="left" as="legend">
-            {resultsDetails?.category?.name}
-          </FormLabel>
-        </Box>
-        <CircularProgress
-          className="results-category__progress-circle"
-          value={progress}
-          color={getProgressColor(progress)}
-          size="100px"
-          thickness="8px"
-        >
-          <CircularProgressLabel fontWeight={500}>{`${progress}%`}</CircularProgressLabel>
-        </CircularProgress>
-        <Box display="flex" alignItems="center" flexWrap="wrap" margin="0 0 0 5px">
-          <Text className="results-category__text-info">Info</Text>
-          <BiSolidPlusCircle className="results-category__btn-info" />
-        </Box>
+        {window.innerWidth < adaptiveDesignChange && (
+          <Box display="flex" flexWrap="wrap">
+            <FormLabel fontWeight="extrabold" margin="0 5px 0 0" textAlign="left" as="legend">
+              {resultsDetails?.category?.name}
+            </FormLabel>
+          </Box>
+        )}
+        <Flex>
+          {window.innerWidth > adaptiveDesignChange && circlePosition === "right" && (
+            <Flex flexDirection="column">
+              <FormLabel fontWeight="extrabold" fontSize="30" padding="5px" margin="0 5px 0 0" textAlign="right" as="legend" >
+                {resultsDetails?.category?.name}
+              </FormLabel>
+              <Flex fontWeight="400" fontSize="18px" padding="5px">
+                {getScoreTip()}
+              </Flex>
+            </Flex>
+          )}
+          <CircularProgress className="results-category__progress-circle" value={progress} color={getProgressColor(progress)} size={circleSize} margin={circleSize > adaptiveDesignChange ? "40px 40px" : "5px 5px"} thickness="8px">
+            <CircularProgressLabel fontWeight={500}>{`${progress}%`}</CircularProgressLabel>
+          </CircularProgress>
+          {window.innerWidth > adaptiveDesignChange && circlePosition === "left" && (
+            <Flex flexDirection="column">
+              <FormLabel fontWeight="extrabold" fontSize="30" padding="5px" margin="0 5px 0 0" textAlign="left" as="legend">
+                {resultsDetails?.category?.name}
+              </FormLabel>
+              <Flex fontWeight="400" fontSize="18px" padding="5px">
+                {getScoreTip()}
+              </Flex>
+            </Flex>
+          )}
+        </Flex>
+
+        {window.innerWidth < adaptiveDesignChange && (
+          <Box display="flex" alignItems="center" flexWrap="wrap" margin="0 0 0 5px">
+            <Text className="results-category__text-info">Info</Text>
+            <BiSolidPlusCircle className="results-category__btn-info" />
+          </Box>
+        )}
       </Flex>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent m="auto 20px">
-          <ModalHeader>{resultsDetails?.category?.name}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <p>{getScoreTip()}</p>
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+
+      {window.innerWidth <= adaptiveDesignChange && (
+        <Modal onClose={onClose} isOpen={isOpen} isCentered>
+          <ModalOverlay />
+          <ModalContent m="auto 20px">
+            <ModalHeader>{resultsDetails?.category?.name}</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <p>{getScoreTip()}</p>
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={onClose}>Cerrar</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
     </div>
   );
 };

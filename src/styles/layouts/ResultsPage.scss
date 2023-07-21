@@ -22,7 +22,8 @@
     flex-flow: row wrap;
     justify-content: space-around;
     margin-top: 10px;
-    min-width: 100vw;
+    // min-width: 100vw;
+    max-width: 1000px;
   }
 
   &__progress-circle {
