@@ -1,4 +1,4 @@
-import { Box, Image, Text, Flex } from "@chakra-ui/react";
+import { Box, Image, Text, Flex, Divider } from "@chakra-ui/react";
 import { SessionIdContext } from "../../App";
 import { useContext, useEffect, useState } from "react";
 import ResultsCategoryPdf from "../../components/pdfProgress/ResultsCategoryPdf";
@@ -14,7 +14,6 @@ const PdfPage = (): React.JSX.Element => {
   const [results, setResults] = useState<any>();
 
   const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${sessionId as string}/results/token`;
-  // const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/64b811a1ebadc9a51b925ef3/results/token`;
 
   const getResults = async (): Promise<void> => {
     fetch(SESSION_URL, {
@@ -62,8 +61,9 @@ const PdfPage = (): React.JSX.Element => {
           <Box alignItems="center" display="flex" flexDirection="column">
             <Text className="pdf-page__title">CERTIFICADO</Text>
             <Text className="pdf-page__subtitle">Este decumento certifica que ha realizado con exito nuestro formulario de cultura empresarial</Text>
+            <ResultsGlobalPdf results={results}></ResultsGlobalPdf>
           </Box>
-          <ResultsGlobalPdf results={results}></ResultsGlobalPdf>
+
           <Box className="pdf-page__categories">
             {results?.categoryScore?.map((categoryScore: any) => {
               return <ResultsCategoryPdf key={categoryScore._id} resultsDetails={categoryScore}></ResultsCategoryPdf>;
@@ -93,6 +93,7 @@ const PdfPage = (): React.JSX.Element => {
             </Text>
           </Box>
         </Box>
+        <Divider color="#d1effd" orientation="horizontal" marginBottom="500px" />
       </Box>
     </div>
   );

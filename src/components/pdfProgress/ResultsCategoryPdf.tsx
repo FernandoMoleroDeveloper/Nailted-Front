@@ -1,13 +1,8 @@
 import { Box, Flex, CircularProgress, CircularProgressLabel, FormLabel } from "@chakra-ui/react";
 import "../../styles/layouts/ResultsCategory.scss";
 
-import { useState, useEffect } from "react";
-
 const ResultsCategoryPdf = ({ resultsDetails }: any): React.JSX.Element => {
-  const [progress, setProgress] = useState(0);
-  const targetScore = resultsDetails?.score;
-  const increment = 1;
-  const intervalTime = 30;
+  const progress: number = resultsDetails?.score || 0;
 
   const getProgressColor = (progress: number): string => {
     const colors = [
@@ -31,19 +26,6 @@ const ResultsCategoryPdf = ({ resultsDetails }: any): React.JSX.Element => {
     return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
   };
 
-  useEffect(() => {
-    if (progress < targetScore) {
-      const timer = setInterval(() => {
-        const newProgress = progress + increment;
-        setProgress(newProgress);
-      }, intervalTime);
-
-      return () => {
-        clearInterval(timer);
-      };
-    }
-  }, [progress, targetScore, increment, intervalTime]);
-
   return (
     <div className="results-category page">
       <Flex display="flex" flexDirection="column" alignItems="center" margin="5px" marginTop="10px">
@@ -53,7 +35,7 @@ const ResultsCategoryPdf = ({ resultsDetails }: any): React.JSX.Element => {
           </FormLabel>
         </Box>
         <CircularProgress className="results-category__progress-circle" value={progress} color={getProgressColor(progress)} size="100px" thickness="8px">
-          <CircularProgressLabel fontWeight={500}>{`${progress}%`}</CircularProgressLabel>
+          <CircularProgressLabel fontWeight={500}>{`${Math.ceil(progress)}%`}</CircularProgressLabel>
         </CircularProgress>
       </Flex>
     </div>
