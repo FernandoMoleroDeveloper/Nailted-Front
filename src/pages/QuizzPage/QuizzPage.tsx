@@ -144,7 +144,7 @@ const QuizzPage = (): React.JSX.Element => {
       })
       .then(async (resParsed) => {
         setQuizzQuestions(resParsed);
-        !localStorage.getItem("storedSessionId") ? createSessionInDatabase(resParsed[0].version) : (setSessionId(localStorage.getItem("storedSessionId") as string));
+        createSessionInDatabase(resParsed[0].version);
       })
       .catch((error) => {
         alert("Error al iniciar el quizz.");

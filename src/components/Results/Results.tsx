@@ -5,7 +5,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { nextButton, sendButton } from "../../styles/motions/props";
 import { SessionIdContext, TokenContext } from "../../App";
 import ResultsGlobal from "./ResultsGlobal";
-// import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router";
+import QueryString from "qs";
+import { useNavigate } from "react-router-dom";
 
 const Results = (): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -18,13 +20,13 @@ const Results = (): React.JSX.Element => {
   const [policyAccepted, setPolicyAccepted] = useState<boolean | undefined>(undefined);
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
-  // const navigate = useNavigate();
-  const localOrPropSessionId: string = sessionId || localStorage.getItem("storedSessionId");
-  const localOrPropToken: string = token || localStorage.getItem("storedToken");
-  console.log("SessionId FINAL: ", localOrPropSessionId);
-  console.log("Token FINAL: ", localOrPropToken);
-  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${localOrPropSessionId}/send-results`;
-  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${localOrPropSessionId}/results`;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = QueryString.parse(location.search, { ignoreQueryPrefix: true });
+  const localOrPropOrParamSessionId: string = sessionId || queryParams.id || localStorage.getItem("storedSessionId");
+  const localOrPropOrParamToken: string = token || queryParams.owner || localStorage.getItem("storedToken");
+  const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${localOrPropOrParamSessionId}/send-results`;
+  const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${localOrPropOrParamSessionId}/results`;
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -50,7 +52,7 @@ const Results = (): React.JSX.Element => {
           if (res.status !== 200) {
             console.error("La respuesta del servidor no fue la esperada. El correo no se ha enviado.");
           }
-          console.log("Respuesta despues de enviar el email.")
+          console.log("Respuesta despues de enviar el email.");
           console.log(res.json());
           setEmailSent(true);
           setEmail("");
@@ -64,7 +66,7 @@ const Results = (): React.JSX.Element => {
             description: "Se han enviado los resultados por correo.",
             status: "info",
             isClosable: true,
-            position: "top"
+            position: "top",
           });
           setEmailSent(false);
           setPolicyAccepted(undefined);
@@ -81,12 +83,14 @@ const Results = (): React.JSX.Element => {
   };
 
   const getResults = async (): Promise<void> => {
+    console.log(SESSION_URL);
+    console.log("El token que le mando es: ", localOrPropOrParamToken)
     fetch(SESSION_URL, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ token: localOrPropToken }),
+      body: JSON.stringify({ token: localOrPropOrParamToken }),
     })
       .then(async (res) => {
         if (res.status !== 200) {
@@ -104,12 +108,24 @@ const Results = (): React.JSX.Element => {
   };
 
   useEffect(() => {
-    void getResults();
-    if (emailSent) emailSent && onClose(); // sobra el if?
-    if (!localOrPropSessionId) {
-      // navigate("/");
+    console.log("ID: ", localOrPropOrParamSessionId);
+    console.log("Token: ", localOrPropOrParamToken);
+    if (localOrPropOrParamSessionId && localOrPropOrParamToken) {
+      console.log("Voy a por los resultados");
+      void getResults();
     }
-  }, [emailSent, localOrPropSessionId]);
+    if (emailSent) emailSent && onClose(); // sobra el if?
+    if (queryParams.id) {
+      localStorage.setItem("storedSessionId", queryParams.id as string);
+      localStorage.setItem("storedToken", queryParams.token as string);
+      console.log(localStorage.getItem("storedSessionId"));
+      console.log(localStorage.getItem("storedToken"));
+      navigate("/results");
+    }
+    if (!localOrPropOrParamSessionId) {
+      navigate("/");
+    }
+  }, [results, emailSent, localOrPropOrParamSessionId]);
 
   return (
     <div className="results-page">
@@ -120,11 +136,9 @@ const Results = (): React.JSX.Element => {
         <ResultsGlobal results={results}></ResultsGlobal>
         <Divider className="results-page__horizontal-divider" />
         <Box className="results-page__categories">
-          {
-            results?.categoryScore?.map((categoryScore: any, index: number) => {
-              return <ResultsCategory key={categoryScore._id} resultsDetails={categoryScore} circlePosition={index % 2 === 0 ? "left" : "right"}></ResultsCategory>
-            })
-          }
+          {results?.categoryScore?.map((categoryScore: any, index: number) => {
+            return <ResultsCategory key={categoryScore._id} resultsDetails={categoryScore} circlePosition={index % 2 === 0 ? "left" : "right"}></ResultsCategory>;
+          })}
         </Box>
         <Button {...nextButton} w="fit-content" m="40px 0px 40px 0px" onClick={onOpen}>
           Guardar resultados
