@@ -24,7 +24,7 @@ const Results = (): React.JSX.Element => {
   const location = useLocation();
   const queryParams = QueryString.parse(location.search, { ignoreQueryPrefix: true });
   const localOrPropOrParamSessionId: string = sessionId || queryParams.id || localStorage.getItem("storedSessionId");
-  const [localOrPropOrParamToken, setLocalOrPropOrParamToken] = useState<string>(token || queryParams.owner || localStorage.getItem("storedToken"));
+  const localOrPropOrParamToken: string = token || queryParams.owner || localStorage.getItem("storedToken");
   const SEND_EMAIL_URL = `${process.env.REACT_APP_API_URL as string}/session/${localOrPropOrParamSessionId}/send-results`;
   const SESSION_URL = `${process.env.REACT_APP_API_URL as string}/session/${localOrPropOrParamSessionId}/results`;
 
@@ -48,12 +48,12 @@ const Results = (): React.JSX.Element => {
         },
         body: JSON.stringify({ email, dataResults: results }),
       })
-        .then(async (res) => {
+        .then((res) => {
           if (res.status !== 200) {
             console.error("La respuesta del servidor no fue la esperada. El correo no se ha enviado.");
           }
-          const data = await res.json();
-          setLocalOrPropOrParamToken(data.owner);
+          console.log("Respuesta despues de enviar el email.");
+          console.log(res.json());
           setEmailSent(true);
           setEmail("");
         })
@@ -83,6 +83,8 @@ const Results = (): React.JSX.Element => {
   };
 
   const getResults = async (): Promise<void> => {
+    console.log(SESSION_URL);
+    console.log("El token que le mando es: ", localOrPropOrParamToken)
     fetch(SESSION_URL, {
       method: "PUT",
       headers: {
@@ -92,6 +94,7 @@ const Results = (): React.JSX.Element => {
     })
       .then(async (res) => {
         if (res.status !== 200) {
+          console.error("La respuesta del servidor no fue la esperada. Los resultados no se han cargado.");
         } else {
           const data = await res.json();
           setResults(data);
@@ -103,19 +106,24 @@ const Results = (): React.JSX.Element => {
   };
 
   useEffect(() => {
+    console.log("ID: ", localOrPropOrParamSessionId);
+    console.log("Token: ", localOrPropOrParamToken);
     if (localOrPropOrParamSessionId && localOrPropOrParamToken) {
+      console.log("Voy a por los resultados");
       void getResults();
     }
     if (emailSent) emailSent && onClose(); // sobra el if?
     if (queryParams.id) {
       localStorage.setItem("storedSessionId", queryParams.id as string);
       localStorage.setItem("storedToken", queryParams.token as string);
+      console.log(localStorage.getItem("storedSessionId"));
+      console.log(localStorage.getItem("storedToken"));
       navigate("/results");
     }
     if (!localOrPropOrParamSessionId) {
       navigate("/");
     }
-  }, [emailSent, localOrPropOrParamSessionId]);
+  }, [results, emailSent, localOrPropOrParamSessionId]);
 
   return (
     <div className="results-page">
