@@ -86,7 +86,7 @@ const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Ele
       >
         {window.innerWidth < adaptiveDesignChange && (
           <Box display="flex" flexWrap="wrap">
-            <FormLabel fontWeight="extrabold" margin="0 5px 0 0" textAlign="left" as="legend">
+            <FormLabel fontWeight="extrabold" fontSize="25" padding="0px" margin="0 5px 0 0" textAlign="left" as="legend">
               {resultsDetails?.category?.name}
             </FormLabel>
           </Box>
@@ -94,7 +94,7 @@ const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Ele
         <Flex>
           {window.innerWidth > adaptiveDesignChange && circlePosition === "right" && (
             <Flex flexDirection="column">
-              <FormLabel fontWeight="extrabold" fontSize="30" padding="5px" margin="0 5px 0 0" textAlign="right" as="legend" >
+              <FormLabel fontWeight="extrabold" fontSize="25" padding="0px" margin="0 5px 0 0" textAlign="right" as="legend" >
                 {resultsDetails?.category?.name}
               </FormLabel>
               <Flex fontWeight="400" fontSize="18px" padding="5px">
@@ -107,7 +107,7 @@ const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Ele
           </CircularProgress>
           {window.innerWidth > adaptiveDesignChange && circlePosition === "left" && (
             <Flex flexDirection="column">
-              <FormLabel fontWeight="extrabold" fontSize="30" padding="5px" margin="0 5px 0 0" textAlign="left" as="legend">
+              <FormLabel fontWeight="extrabold" fontSize="25" padding="0px" margin="0 5px 0 0" textAlign="left" as="legend">
                 {resultsDetails?.category?.name}
               </FormLabel>
               <Flex fontWeight="400" fontSize="18px" padding="5px">

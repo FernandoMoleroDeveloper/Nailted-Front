@@ -10,6 +10,9 @@
     margin: 30px;
     align-items: center;
     margin: 0px auto;
+    @include adaptTo("not-mobile") {
+      margin: 0px 20px;
+    }
   }
 
   &__formulary {
