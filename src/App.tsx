@@ -5,7 +5,6 @@ import QuizzPage from "./pages/QuizzPage/QuizzPage";
 import Results from "./components/Results/Results";
 import { ChakraProvider } from "@chakra-ui/react";
 import HomePage from "./pages/HomePage/HomePage";
-import PdfPage from "./pages/PdfPage/PdfPage";
 
 export const SessionIdContext = createContext<any>("");
 export const TokenContext = createContext<any>("");
@@ -32,7 +31,6 @@ function App(): JSX.Element {
                 <Route path="/" element={<HomePage></HomePage>}></Route>
                 <Route path="/quizz" element={<QuizzPage></QuizzPage>}></Route>
                 <Route path="/results" element={<Results></Results>}></Route>
-                <Route path="/pdf" element={<PdfPage></PdfPage>}></Route>
               </Routes>
             </HashRouter>
           </ChakraProvider>
