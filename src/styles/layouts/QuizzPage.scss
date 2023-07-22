@@ -123,12 +123,12 @@
     border: 0;
     background-color: white;
     padding: 10px 1rem;
-    min-width: 100%;
-    max-width: 700px;
+    width: 700px;
+    max-width: 85vw;
     // @include adaptTo("not-mobile") {
     //  max-width: 700px;
     // }
-    min-height: 116px;
+    min-height: 140px;
     max-height: 400px;
     margin: 0px auto;
     transition: 0.2s;
