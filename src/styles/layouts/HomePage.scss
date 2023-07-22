@@ -45,6 +45,7 @@
     font-size: 25px;
     padding: 10px;
     margin-top: -5px;
+    width: 100vw;
     @include adaptTo("not-mobile") {
       color: $font-color-dark;
       text-align: left;

@@ -52,8 +52,6 @@ const Results = (): React.JSX.Element => {
           if (res.status !== 200) {
             console.error("La respuesta del servidor no fue la esperada. El correo no se ha enviado.");
           }
-          console.log("Respuesta despues de enviar el email.");
-          console.log(res.json());
           setEmailSent(true);
           setEmail("");
         })
@@ -83,8 +81,6 @@ const Results = (): React.JSX.Element => {
   };
 
   const getResults = async (): Promise<void> => {
-    console.log(SESSION_URL);
-    console.log("El token que le mando es: ", localOrPropOrParamToken)
     fetch(SESSION_URL, {
       method: "PUT",
       headers: {
@@ -106,18 +102,13 @@ const Results = (): React.JSX.Element => {
   };
 
   useEffect(() => {
-    console.log("ID: ", localOrPropOrParamSessionId);
-    console.log("Token: ", localOrPropOrParamToken);
     if (localOrPropOrParamSessionId && localOrPropOrParamToken) {
-      console.log("Voy a por los resultados");
       void getResults();
     }
     if (emailSent) emailSent && onClose(); // sobra el if?
     if (queryParams.id) {
       localStorage.setItem("storedSessionId", queryParams.id as string);
       localStorage.setItem("storedToken", queryParams.token as string);
-      console.log(localStorage.getItem("storedSessionId"));
-      console.log(localStorage.getItem("storedToken"));
       navigate("/results");
     }
     if (!localOrPropOrParamSessionId) {
