@@ -1,6 +1,6 @@
 import "../../styles/layouts/QuizzPage.scss";
 import React, { useContext, useState, useEffect } from "react";
-import { SessionIdContext } from "../../App";
+import { SessionIdContext, TokenContext } from "../../App";
 import { Box, Button, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, ModalHeader } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { editButton, sendButton, transitionIn } from "../../styles/motions/props";
@@ -14,10 +14,11 @@ import { Link } from "react-router-dom";
 import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation";
 import QuizzNavigation from "../../components/QuizzNavigation/QuizzNavigation";
 
-localStorage.removeItem("storedSessionId");
+// localStorage.removeItem("storedSessionId");
 
 const QuizzPage = (): React.JSX.Element => {
   const { updateSessionId } = useContext<any>(SessionIdContext as any);
+  const { updateToken } = useContext<any>(TokenContext as any);
   const [sessionId, setSessionId] = useState<string>("");
   const [questionResponse, setQuestionResponse] = useState<any>("");
   const [content, setContent] = useState<React.ReactNode | null>(<LoadingAnimation></LoadingAnimation>);
@@ -167,9 +168,12 @@ const QuizzPage = (): React.JSX.Element => {
           alert("La respuesta del servidor no fue la esperada. No se ha creado la sesion.");
         }
         const responseData = await res.json();
+        console.log(responseData);
         setSessionId(responseData._id);
         updateSessionId(responseData._id);
-        localStorage.setItem("storedSessionId", responseData._id)
+        updateToken(responseData.email);
+        localStorage.setItem("storedSessionId", responseData._id);
+        localStorage.setItem("storedToken", responseData.email);
       })
       .catch((error) => {
         console.error("Error:", error);
