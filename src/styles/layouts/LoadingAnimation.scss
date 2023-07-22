@@ -1,0 +1,28 @@
+.loading {
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 26px);
+  width: 300px;
+  height: 300px;
+  display: inline-block;
+
+  &__loader {
+    width: 100px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  &__ball {
+    list-style: none;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    animation: bounce-1 0.9s ease-in-out infinite;
+  }
+
+  @keyframes bounce-1 {
+    50% {
+      transform: translateY(-70px);
+    }
+  }
+}
