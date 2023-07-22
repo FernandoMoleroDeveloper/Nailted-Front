@@ -69,12 +69,15 @@
       text-align: center;
       color: $font-color-light;
       background-color: $background-brand;
-      font-size: 16px;
+      font-size: 25px;
     }
   }
 
   &__button {
-    margin: 30px;
+    margin: 25px;
+    @include adaptTo("not-mobile") {
+      margin-top: 100px;
+    }
   }
 
   &__container {
@@ -87,6 +90,6 @@
     align-items: center;
     padding: 20px;
     justify-content: center;
-    width: 180px;
+    width: 250px;
   }
 }

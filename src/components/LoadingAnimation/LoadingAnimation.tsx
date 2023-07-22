@@ -1,4 +1,4 @@
-import logoBall from "../../assets/logo circular.png";
+import logoBall from "../../assets/NailtedLight.svg";
 import "../../styles/layouts/LoadingAnimation.scss";
 
 const LoadingAnimation = (): React.JSX.Element => {
