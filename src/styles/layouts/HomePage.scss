@@ -49,7 +49,7 @@
       color: $font-color-dark;
       text-align: left;
       font-weight: 800;
-      font-size: 32px;
+      font-size: 45px;
       width: 450px;
       padding: 10px;
       margin-left: 10;
@@ -69,12 +69,15 @@
       text-align: center;
       color: $font-color-light;
       background-color: $background-brand;
-      font-size: 16px;
+      font-size: 22px;
     }
   }
 
   &__button {
-    margin: 30px;
+    margin-top: 30px;
+    @include adaptTo("not-mobile") {
+      margin-top: 90px;
+    }
   }
 
   &__container {

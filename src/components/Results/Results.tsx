@@ -38,13 +38,17 @@ const Results = (): React.JSX.Element => {
     setCompanyName(event.target.value);
   };
 
+  const checkValidName = () => {
+    return companyName.trim() !== "" || companyName === "";
+  };
+
   const checkValidEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const handleSendResults = (): void => {
-    if (policyAccepted === true && checkValidEmail()) {
+    if (policyAccepted === true && checkValidEmail() && checkValidName()) {
       onClose();
       fetch(SEND_EMAIL_URL, {
         method: "PUT",
@@ -82,6 +86,8 @@ const Results = (): React.JSX.Element => {
       setCorrectEmail(true);
     } else if (!checkValidEmail()) {
       setCorrectEmail(false);
+    } else if (companyName.trim() === "" && companyName !== "") {
+      console.log("El nombre de la empresa no puede ser solo espacios en blanco.");
     }
   };
 

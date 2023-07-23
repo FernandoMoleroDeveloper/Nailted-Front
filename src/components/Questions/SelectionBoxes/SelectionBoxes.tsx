@@ -38,9 +38,11 @@ const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswe
         {question.questionText}
       </Text>
       {multiSelection ? (
-        <Text textAlign="center" as="legend" fontSize="25px" fontWeight="light" m="15px auto">
-          Puedes seleccionar varias opciones
-        </Text>
+        <Box display="flex" alignItems="center" justifyContent="center" m="0">
+          <Text textAlign="center" as="legend" fontSize="20px" fontWeight="400" marginTop="15px" color="darkgray">
+            Puedes seleccionar varias opciones
+          </Text>
+        </Box>
       ) : null}
       <Box className="selection-boxes__container">
         {question?.options.map((option: any) => {
