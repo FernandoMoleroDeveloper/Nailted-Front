@@ -95,7 +95,6 @@ describe("SelectionBoxes", () => {
         <SelectionBoxes sessionId={sessionId} question={question} previousResponse={previousResponse} setHasUserAnswered={setHasUserAnswered} setQuestionResponse={setQuestionResponse} multiSelection={multiSelection} />
       </ChakraProvider>
     );
-
     const optionBox = screen.getByText("Option 3");
 
     fireEvent.click(optionBox);

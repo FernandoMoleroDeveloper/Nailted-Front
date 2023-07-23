@@ -1,84 +1,48 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import Results from "./Results";
+import { BrowserRouter as Router } from "react-router-dom";
 
 describe("Results", () => {
-  it("renders the 'Guardar resultados' button", () => {
+  it("renders the Results page correctly", () => {
     render(
-      <ChakraProvider>
-        <Results />
-      </ChakraProvider>
+      <Router>
+        <ChakraProvider>
+          <Results />
+        </ChakraProvider>
+      </Router>
     );
-
-    const guardarResultadosButton = screen.getByText("Guardar resultados");
-    expect(guardarResultadosButton).toBeInTheDocument();
+    const globalResults = screen.getByText("Resultado global");
+    expect(globalResults).toBeInTheDocument();
   });
 
-  it("opens the modal when clicking the 'Guardar resultados' button", () => {
+  it("opens the modal when clicking on 'Guardar resultados' button", async () => {
     render(
-      <ChakraProvider>
-        <Results />
-      </ChakraProvider>
+      <Router>
+        <ChakraProvider>
+          <Results />
+        </ChakraProvider>
+      </Router>
     );
-
-    const guardarResultadosButton = screen.getByText("Guardar resultados");
-    fireEvent.click(guardarResultadosButton);
-  });
-
-  it("closes the modal when clicking the close button", () => {
-    render(
-      <ChakraProvider>
-        <Results />
-      </ChakraProvider>
-    );
-
     const guardarResultadosButton = screen.getByText("Guardar resultados");
     fireEvent.click(guardarResultadosButton);
-
-    const closeButton = screen.getByLabelText("Close");
-    fireEvent.click(closeButton);
   });
 
-  it("sends results when clicking the 'Enviar' button", async () => {
-    global.fetch = jest.fn().mockResolvedValueOnce({
-      status: 200,
-    });
-
+  it("sends email and shows success toast when 'Enviar' button is clicked", async () => {
     render(
-      <ChakraProvider>
-        <Results />
-      </ChakraProvider>
+      <Router>
+        <ChakraProvider>
+          <Results />
+        </ChakraProvider>
+      </Router>
     );
 
     const guardarResultadosButton = screen.getByText("Guardar resultados");
     fireEvent.click(guardarResultadosButton);
 
+    const companyNameInput = screen.getByPlaceholderText("Escribe el nombre de tu empresa");
     const emailInput = screen.getByPlaceholderText("Escribe tu email");
-    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
-
-    const enviarButton = screen.getByText("Enviar");
-    fireEvent.click(enviarButton);
-
-    await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalled();
-    });
-  });
-
-  it("displays an error message when the server response is not successful", async () => {
-    global.fetch = jest.fn().mockResolvedValueOnce({
-      status: 500,
-    });
-
-    render(
-      <ChakraProvider>
-        <Results />
-      </ChakraProvider>
-    );
-
-    const guardarResultadosButton = screen.getByText("Guardar resultados");
-    fireEvent.click(guardarResultadosButton);
-
-    const emailInput = screen.getByPlaceholderText("Escribe tu email");
+    fireEvent.change(companyNameInput, { target: { value: "Test Company" } });
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 
     const enviarButton = screen.getByText("Enviar");

@@ -57,7 +57,6 @@ describe("NumberSelector", () => {
     const inputElement = screen.getByRole("spinbutton");
 
     fireEvent.change(inputElement, { target: { value: "7" } });
-
     expect(setQuestionResponse).toHaveBeenCalledWith({
       question: "question_id",
       session: "session_id",

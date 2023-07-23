@@ -60,7 +60,6 @@ describe("TextShort", () => {
     );
 
     const textarea = screen.getByPlaceholderText("Escribe aquí...");
-
     fireEvent.change(textarea, { target: { value: "New short text" } });
 
     expect(setHasUserAnswered).toHaveBeenCalledWith(true);

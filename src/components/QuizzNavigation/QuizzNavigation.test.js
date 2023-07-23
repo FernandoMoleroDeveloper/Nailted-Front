@@ -24,7 +24,6 @@ describe("QuizzNavigation", () => {
         <QuizzNavigation currentQuestionPosition={currentQuestionPosition} previousQuestionRecoveringResponse={previousQuestionRecoveringResponse} quizzQuestions={quizzQuestions} nextQuestionActions={nextQuestionActions} responseManagement={responseManagement} onOpen={onOpen} />
       </ChakraProvider>
     );
-
     const nextButton = screen.getByText("Siguiente");
     expect(nextButton).toBeInTheDocument();
   });
@@ -50,9 +49,7 @@ describe("QuizzNavigation", () => {
     );
 
     const nextButton = screen.getByText("Siguiente");
-
     fireEvent.click(nextButton);
-
     expect(nextQuestionActions).toHaveBeenCalled();
   });
 
@@ -64,11 +61,8 @@ describe("QuizzNavigation", () => {
         <QuizzNavigation currentQuestionPosition={currentQuestionPosition} previousQuestionRecoveringResponse={previousQuestionRecoveringResponse} quizzQuestions={quizzQuestions} nextQuestionActions={nextQuestionActions} responseManagement={responseManagement} onOpen={onOpen} />
       </ChakraProvider>
     );
-
     const resultadosButton = screen.getByText("Resultados");
-
     fireEvent.click(resultadosButton);
-
     expect(nextQuestionActions).toHaveBeenCalled();
   });
 });
