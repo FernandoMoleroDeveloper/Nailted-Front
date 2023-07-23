@@ -99,7 +99,6 @@ const Results = (): React.JSX.Element => {
         } else {
           const data = await res.json();
           setResults(data);
-          console.log(data);
         }
       })
       .catch((error) => {
@@ -111,7 +110,9 @@ const Results = (): React.JSX.Element => {
     if (localOrPropOrParamSessionId && localOrPropOrParamToken) {
       void getResults();
     }
-    if (emailSent) emailSent && onClose(); // sobra el if?
+    if (emailSent) {
+      onClose();
+    }
     if (queryParams.id) {
       localStorage.setItem("storedSessionId", queryParams.id as string);
       localStorage.setItem("storedToken", queryParams.token as string);
@@ -148,7 +149,7 @@ const Results = (): React.JSX.Element => {
                 <FormLabel textAlign="center" p="0px 5px">
                   Te enviaremos un email con un enlace y certificado para que puedas consultar tus resultados cuando quieras.
                 </FormLabel>
-                <Input m="20px 0px 0px 0px" placeholder="Escribe el nombre de tu empresa" value={companyName} onChange={handleCompanyNameChange} />
+                <Input m="20px 0px 0px 0px" placeholder="Escribe el nombre de tu empresa (opcional)" value={companyName} onChange={handleCompanyNameChange} />
                 <Input ref={initialRef} m="20px 0px 0px 0px" placeholder="Escribe tu email" value={email} onChange={handleEmailChange} />
                 <SlideFade in={correctEmail === false}>
                   <Box textAlign="center" color="red">

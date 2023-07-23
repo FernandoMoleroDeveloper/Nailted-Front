@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import "../../../styles/layouts/NumberSelector.scss";
 
 const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResponse, setHasUserAnswered }: any): React.JSX.Element => {
-  const [value, setValue] = useState(question?.selectedNumber?.max / 2);
+  const [value, setValue] = useState<number>(question?.selectedNumber?.max as number / 2);
+  const step: number = Math.round(question?.selectedNumber?.max as number / 20);
 
   const composeResponse = async (): Promise<void> => {
     await setQuestionResponse({
@@ -27,16 +28,24 @@ const NumberSelector = ({ sessionId, question, previousResponse, setQuestionResp
   }, [sessionId, value]);
 
   const incrementValue = (): void => {
-    if (value < question?.selectedNumber?.max) {
-      const newValue = value + (Math.round(question?.selectedNumber?.max / 20));
+    const nextValue = value + step;
+    if (nextValue <= question?.selectedNumber?.max) {
+      const remainder = nextValue % step;
+      const newValue = nextValue - remainder;
       setValue(newValue);
+    } else {
+      setValue(question?.selectedNumber?.max);
     }
   };
 
   const decrementValue = (): void => {
-    if (value > question?.selectedNumber?.min) {
-      const newValue = value - (Math.round(question?.selectedNumber?.max / 20));
+    const previousValue = value - step;
+    if (previousValue >= question?.selectedNumber?.min) {
+      const remainder = previousValue % step;
+      const newValue = previousValue + (remainder === 0 ? 0 : step - remainder);
       setValue(newValue);
+    } else {
+      setValue(question?.selectedNumber?.min);
     }
   };
 

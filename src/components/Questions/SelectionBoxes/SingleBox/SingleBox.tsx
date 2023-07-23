@@ -15,16 +15,12 @@ const SingleBox = ({ option, optionSelected, setOptionSelected, multiSelection }
 
   const selectOption = async (): Promise<void> => {
     if (multiSelection) {
-      // Si multiSelection es true, se permite la selección múltiple
       if (optionSelected?.includes(option)) {
-        // Si la opción ya está seleccionada, la eliminamos del estado
         setOptionSelected(optionSelected?.filter((optionSelected: Option) => optionSelected !== option));
       } else {
-        // Si la opción no está seleccionada, la agregamos al estado
         await addOptionToSelection();
       }
     } else {
-      // Si multiSelection es false, se permite seleccionar solo una opción
       setOptionSelected([option]);
     }
   };
