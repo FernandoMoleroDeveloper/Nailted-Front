@@ -37,6 +37,11 @@ const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswe
       <Text textAlign="center" as="legend" fontSize="25px" fontWeight="extrabold" m="15px auto">
         {question.questionText}
       </Text>
+      {multiSelection ? (
+        <Text textAlign="center" as="legend" fontSize="25px" fontWeight="light" m="15px auto">
+          Puedes seleccionar varias opciones
+        </Text>
+      ) : null}
       <Box className="selection-boxes__container">
         {question?.options.map((option: any) => {
           return <SingleBox key={option._id} option={option} optionSelected={optionSelected} setOptionSelected={setOptionSelected} multiSelection={multiSelection}></SingleBox>;

@@ -14,9 +14,3 @@ const LoadingAnimation = (): React.JSX.Element => {
 };
 
 export default LoadingAnimation;
-
-/* <div className="quizz-page__loading">
-  <div className="quizz-page__ball">
-    <img className="quizz-page__top"></img>
-  </div>
-</div>; */

@@ -20,6 +20,7 @@ const Results = (): React.JSX.Element => {
   const [policyAccepted, setPolicyAccepted] = useState<boolean | undefined>(undefined);
   const initialRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState<string>("");
+  const [companyName, setCompanyName] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = QueryString.parse(location.search, { ignoreQueryPrefix: true });
@@ -31,6 +32,10 @@ const Results = (): React.JSX.Element => {
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
     setCorrectEmail(undefined);
+  };
+
+  const handleCompanyNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCompanyName(event.target.value);
   };
 
   const checkValidEmail = () => {
@@ -46,7 +51,7 @@ const Results = (): React.JSX.Element => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, dataResults: results }),
+        body: JSON.stringify({ email, dataResults: results, companyName }),
       })
         .then((res) => {
           if (res.status !== 200) {
@@ -140,8 +145,9 @@ const Results = (): React.JSX.Element => {
             <ModalBody p="20px 20px">
               <FormControl>
                 <FormLabel textAlign="center" p="0px 5px">
-                  Te enviaremos un email con un enlace para que puedas consultar tus resultados cuando quieras.
+                  Te enviaremos un email con un enlace y certificado para que puedas consultar tus resultados cuando quieras.
                 </FormLabel>
+                <Input m="20px 0px 0px 0px" placeholder="Escribe el nombre de tu empresa" value={companyName} onChange={handleCompanyNameChange} />
                 <Input ref={initialRef} m="20px 0px 0px 0px" placeholder="Escribe tu email" value={email} onChange={handleEmailChange} />
                 <SlideFade in={correctEmail === false}>
                   <Box textAlign="center" color="red">
