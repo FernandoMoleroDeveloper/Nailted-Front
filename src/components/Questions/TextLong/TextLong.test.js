@@ -40,9 +40,7 @@ describe("TextLong", () => {
         <TextLong sessionId={sessionId} question={question} previousResponse={previousResponse} setHasUserAnswered={setHasUserAnswered} setQuestionResponse={setQuestionResponse} setErrorMessage={setErrorMessage} />
       </ChakraProvider>
     );
-
     const textarea = screen.getByPlaceholderText("Escribe aquí...");
-
     fireEvent.change(textarea, { target: { value: "New text response" } });
 
     expect(setQuestionResponse).toHaveBeenCalledWith({
@@ -61,10 +59,8 @@ describe("TextLong", () => {
 
     const textarea = screen.getByPlaceholderText("Escribe aquí...");
 
-    // Change the textarea value
     fireEvent.change(textarea, { target: { value: "New text response" } });
 
-    // Assert that setHasUserAnswered is called with true
     expect(setHasUserAnswered).toHaveBeenCalledWith(true);
   });
 });

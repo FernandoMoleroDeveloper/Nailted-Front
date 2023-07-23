@@ -1,50 +1,24 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import ResultsGlobal from "./ResultsGlobal";
 
 describe("ResultsGlobal", () => {
-  it("renders the global result title and progress circle", () => {
+  const results = {
+    globalScore: 75,
+    globalTip: { tip: "Global Tip" },
+  };
+
+  it("renders the results global correctly", () => {
     render(
       <ChakraProvider>
-        <ResultsGlobal />
+        <ResultsGlobal results={results} />
       </ChakraProvider>
     );
 
-    const title = screen.getByText("Resultado general");
-    expect(title).toBeInTheDocument();
+    const resultText = screen.getByText("Resultado global");
+    expect(resultText).toBeInTheDocument();
 
-    const progressCircle = screen.getByRole("progressbar");
-    expect(progressCircle).toBeInTheDocument();
-  });
-
-  it("opens the modal with the correct title and text when clicked", () => {
-    render(
-      <ChakraProvider>
-        <ResultsGlobal />
-      </ChakraProvider>
-    );
-
-    const resultGlobal = screen.getByText("Resultado general");
-    fireEvent.click(resultGlobal);
-
-    const modalTitle = screen.getByText("Direction");
-    expect(modalTitle).toBeInTheDocument();
-
-    const modalText = screen.getByText("Direction text");
-    expect(modalText).toBeInTheDocument();
-  });
-
-  it("closes the modal when clicking the close button", () => {
-    render(
-      <ChakraProvider>
-        <ResultsGlobal />
-      </ChakraProvider>
-    );
-
-    const resultGlobal = screen.getByText("Resultado general");
-    fireEvent.click(resultGlobal);
-
-    const closeButton = screen.getByLabelText("Close");
-    fireEvent.click(closeButton);
+    const globalTip = screen.getByText("Global Tip");
+    expect(globalTip).toBeInTheDocument();
   });
 });

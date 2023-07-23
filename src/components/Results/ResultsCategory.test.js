@@ -1,47 +1,29 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import ResultsCategory from "./ResultsCategory";
 
 describe("ResultsCategory", () => {
-  it("renders the category title and progress circle", () => {
+  const resultsDetails = {
+    category: {
+      name: "Category Name",
+      mark: [
+        { min: 0, max: 25, tip: "Tip 1" },
+        { min: 26, max: 50, tip: "Tip 2" },
+        { min: 51, max: 100, tip: "Tip 3" },
+      ],
+    },
+    score: 75,
+  };
+
+  it("renders the results category correctly", () => {
     render(
       <ChakraProvider>
-        <ResultsCategory />
+        <ResultsCategory resultsDetails={resultsDetails} circlePosition="right" />
       </ChakraProvider>
     );
-
-    const title = screen.getByText("Direction");
-    expect(title).toBeInTheDocument();
-
-    const progressCircle = screen.getByRole("progressbar");
-    expect(progressCircle).toBeInTheDocument();
-  });
-
-  it("opens the modal with the correct title and text when clicked", () => {
-    render(
-      <ChakraProvider>
-        <ResultsCategory />
-      </ChakraProvider>
-    );
-
-    const category = screen.getByText("Direction");
-    fireEvent.click(category);
-
-    const modalText = screen.getByText("Direction text");
-    expect(modalText).toBeInTheDocument();
-  });
-
-  it("closes the modal when clicking the close button", () => {
-    render(
-      <ChakraProvider>
-        <ResultsCategory />
-      </ChakraProvider>
-    );
-
-    const category = screen.getByText("Direction");
-    fireEvent.click(category);
-
-    const closeButton = screen.getByLabelText("Close");
-    fireEvent.click(closeButton);
+    const categoryName = screen.getByText("Category Name");
+    expect(categoryName).toBeInTheDocument();
+    const scoreTip = screen.getByText("Tip 3");
+    expect(scoreTip).toBeInTheDocument();
   });
 });
