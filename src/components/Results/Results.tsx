@@ -99,6 +99,7 @@ const Results = (): React.JSX.Element => {
         } else {
           const data = await res.json();
           setResults(data);
+          console.log(data);
         }
       })
       .catch((error) => {
