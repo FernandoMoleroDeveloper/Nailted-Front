@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import ResultsGlobal from "./ResultsGlobal";
+import GlobalScore from "./GlobalScore";
 
-describe("ResultsGlobal", () => {
+describe("GlobalScore", () => {
   it("renders the global result title and progress circle", () => {
     render(
       <ChakraProvider>
-        <ResultsGlobal />
+        <GlobalScore />
       </ChakraProvider>
     );
 
@@ -20,7 +20,7 @@ describe("ResultsGlobal", () => {
   it("opens the modal with the correct title and text when clicked", () => {
     render(
       <ChakraProvider>
-        <ResultsGlobal />
+        <GlobalScore />
       </ChakraProvider>
     );
 
@@ -37,7 +37,7 @@ describe("ResultsGlobal", () => {
   it("closes the modal when clicking the close button", () => {
     render(
       <ChakraProvider>
-        <ResultsGlobal />
+        <GlobalScore />
       </ChakraProvider>
     );
 

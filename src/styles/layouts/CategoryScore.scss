@@ -24,6 +24,13 @@
     }
   }
 
+  &__category-name {
+    font-size: 18px;
+    @include adaptTo("not-mobile") {
+      font-size: 20px;
+    }
+  }
+
   &__text-info {
     font-size: 15px;
     color: $font-color-scores;

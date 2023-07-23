@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
-import "../SelectionBoxes/SelectionBoxes.scss";
+import "../../../styles/layouts/SelectionBoxes.scss";
 import SingleBox from "./SingleBox/SingleBox";
 import { useEffect, useState } from "react";
 

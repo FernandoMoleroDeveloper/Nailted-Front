@@ -21,7 +21,6 @@ const HomePage = (): React.JSX.Element => {
 
           <motion.div {...slideX("right", "0.5", "0.5")}>
             {" "}
-            {/* Coming from, duration, delay */}
             <Box className="home-page__text">
               <p>¡Descubre qué podemos ofrecerte en Nailted con este formulario! Solo necesitamos unos pocos minutos, te damos una primera evaluación y te mostramos cómo nuestra plataforma te ayudará a implementar una mejor madurez cultural.</p>
             </Box>
