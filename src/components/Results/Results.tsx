@@ -1,10 +1,10 @@
 import { Box, Divider, Button, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, ModalBody, FormControl, FormLabel, Input, ModalFooter, useDisclosure, Switch, Link, Flex, SlideFade, useToast, Image } from "@chakra-ui/react";
 import "../../styles/layouts/ResultsPage.scss";
-import ResultsCategory from "./ResultsCategory";
+import ResultsCategory from "./CategoryScore/CategoryScore";
 import { useContext, useEffect, useRef, useState } from "react";
 import { nextButton, sendButton } from "../../styles/motions/props";
 import { SessionIdContext, TokenContext } from "../../App";
-import ResultsGlobal from "./ResultsGlobal";
+import ResultsGlobal from "./GlobalScore/GlobalScore";
 import { useLocation } from "react-router";
 import QueryString from "qs";
 import { useNavigate } from "react-router-dom";
@@ -99,6 +99,7 @@ const Results = (): React.JSX.Element => {
         } else {
           const data = await res.json();
           setResults(data);
+          console.log(data);
         }
       })
       .catch((error) => {
@@ -119,7 +120,7 @@ const Results = (): React.JSX.Element => {
     if (!localOrPropOrParamSessionId) {
       navigate("/");
     }
-  }, [results, emailSent, localOrPropOrParamSessionId]);
+  }, [emailSent, localOrPropOrParamSessionId, window.innerWidth]);
 
   return (
     <div className="results-page">

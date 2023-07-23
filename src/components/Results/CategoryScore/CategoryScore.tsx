@@ -1,43 +1,26 @@
-import { Box, Text, Flex, CircularProgress, CircularProgressLabel, FormLabel, useDisclosure, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalHeader, ModalBody, ModalFooter, Button } from "@chakra-ui/react";
-import "../../styles/layouts/ResultsCategory.scss";
+import { Box, Text, Flex, FormLabel, useDisclosure } from "@chakra-ui/react";
+import "../../../styles/layouts/CategoryScore.scss";
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { useState, useEffect } from "react";
+import ResultsModal from "../../ResultsModal/ResultsModal";
+import ResultsCicleProgress from "../../ResultsCircleProgress/ResultsCircleProgress";
 
-const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Element => {
+const CategoryScore = ({ resultsDetails, circlePosition }: any): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [progress, setProgress] = useState(0);
   const [circleSize, setCircleSize] = useState(100); // Tamaño predeterminado del círculo
   const adaptiveDesignChange = 951;
+  const categoryName = resultsDetails?.category?.name;
   const possibleMarks = resultsDetails?.category?.mark;
-  const targetScore = resultsDetails?.score;
+  const targetScore = Math.ceil(resultsDetails?.score);
   const increment = 1;
   const intervalTime = 30;
-
-  const getProgressColor = (progress: number): string => {
-    const colors = [
-      [255, 0, 0],
-      [255, 150, 0],
-      [0, 200, 0],
-    ];
-
-    const segmentSize = 100 / (colors.length - 1);
-    const segmentIndex = Math.floor(progress / segmentSize);
-    const segmentProgress = (progress % segmentSize) / segmentSize;
-    const startColor = colors[segmentIndex];
-    const endColor = segmentIndex < colors.length - 1 ? colors[segmentIndex + 1] : startColor;
-
-    const color = startColor.map((startValue, index) => {
-      const endValue = endColor[index];
-      const value = Math.round(startValue + (endValue - startValue) * segmentProgress);
-      return value;
-    });
-
-    return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-  };
 
   const getScoreTip = () => {
     for (const mark of possibleMarks) {
       if (targetScore >= mark.min && targetScore <= mark.max) {
+        console.log(resultsDetails.category)
+        console.log(possibleMarks);
         return mark.tip;
       }
     }
@@ -52,10 +35,10 @@ const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Ele
   };
 
   useEffect(() => {
-    updateCircleSize(); // Actualizar el tamaño inicial del círculo
-    window.addEventListener("resize", updateCircleSize); // Escuchar eventos de cambio de tamaño del navegador
+    updateCircleSize();
+    window.addEventListener("resize", updateCircleSize);
     return () => {
-      window.removeEventListener("resize", updateCircleSize); // Limpiar el evento al desmontar el componente
+      window.removeEventListener("resize", updateCircleSize);
     };
   }, []);
 
@@ -86,8 +69,8 @@ const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Ele
       >
         {window.innerWidth < adaptiveDesignChange && (
           <Box display="flex" flexWrap="wrap">
-            <FormLabel fontWeight="extrabold" fontSize="25" padding="0px" margin="0 5px 0 0" textAlign="left" as="legend">
-              {resultsDetails?.category?.name}
+            <FormLabel fontWeight="extrabold" fontSize="20" padding="0px" margin="0 5px 0 0" textAlign="left" as="legend">
+              {categoryName}
             </FormLabel>
           </Box>
         )}
@@ -95,20 +78,18 @@ const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Ele
           {window.innerWidth > adaptiveDesignChange && circlePosition === "right" && (
             <Flex flexDirection="column">
               <FormLabel fontWeight="extrabold" fontSize="25" padding="0px" margin="0 5px 0 0" textAlign="right" as="legend" >
-                {resultsDetails?.category?.name}
+                {categoryName}
               </FormLabel>
               <Flex fontWeight="400" fontSize="18px" padding="5px">
                 {getScoreTip()}
               </Flex>
             </Flex>
           )}
-          <CircularProgress className="results-category__progress-circle" value={progress} color={getProgressColor(progress)} size={circleSize} margin={circleSize > adaptiveDesignChange ? "40px 40px" : "5px 5px"} thickness="8px">
-            <CircularProgressLabel fontWeight={500}>{`${progress}%`}</CircularProgressLabel>
-          </CircularProgress>
+          <ResultsCicleProgress categoryCircleSize={circleSize} progress={progress} category={"category"}></ResultsCicleProgress>
           {window.innerWidth > adaptiveDesignChange && circlePosition === "left" && (
             <Flex flexDirection="column">
               <FormLabel fontWeight="extrabold" fontSize="25" padding="0px" margin="0 5px 0 0" textAlign="left" as="legend">
-                {resultsDetails?.category?.name}
+                {categoryName}
               </FormLabel>
               <Flex fontWeight="400" fontSize="18px" padding="5px">
                 {getScoreTip()}
@@ -126,22 +107,10 @@ const ResultsCategory = ({ resultsDetails, circlePosition }: any): React.JSX.Ele
       </Flex>
 
       {window.innerWidth <= adaptiveDesignChange && (
-        <Modal onClose={onClose} isOpen={isOpen} isCentered>
-          <ModalOverlay />
-          <ModalContent m="auto 20px">
-            <ModalHeader>{resultsDetails?.category?.name}</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <p>{getScoreTip()}</p>
-            </ModalBody>
-            <ModalFooter>
-              <Button onClick={onClose}>Cerrar</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        <ResultsModal onClose={onClose} isOpen={isOpen} getScoreTip={getScoreTip()} categoryName={categoryName}></ResultsModal>
       )}
     </div>
   );
 };
 
-export default ResultsCategory;
+export default CategoryScore;
