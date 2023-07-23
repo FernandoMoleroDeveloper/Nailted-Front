@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { selectionBoxesButton, selectionBoxesButtonActive } from "../../../../styles/motions/props";
-import "../SingleBox/SingleBox.scss";
+import "../../../../styles/layouts/SingleBox.scss";
 
 interface Option {
   _id: string;

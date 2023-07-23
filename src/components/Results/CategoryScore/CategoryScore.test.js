@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import ResultsCategory from "./ResultsCategory";
+import CategoryScore from "./CategoryScore";
 
-describe("ResultsCategory", () => {
+describe("CategoryScore", () => {
   it("renders the category title and progress circle", () => {
     render(
       <ChakraProvider>
-        <ResultsCategory />
+        <CategoryScore />
       </ChakraProvider>
     );
 
@@ -20,7 +20,7 @@ describe("ResultsCategory", () => {
   it("opens the modal with the correct title and text when clicked", () => {
     render(
       <ChakraProvider>
-        <ResultsCategory />
+        <CategoryScore />
       </ChakraProvider>
     );
 
@@ -34,7 +34,7 @@ describe("ResultsCategory", () => {
   it("closes the modal when clicking the close button", () => {
     render(
       <ChakraProvider>
-        <ResultsCategory />
+        <CategoryScore />
       </ChakraProvider>
     );
 
