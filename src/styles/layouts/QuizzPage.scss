@@ -17,15 +17,20 @@
   &__formulary {
     position: relative;
     padding: 10px;
+    @include adaptTo("not-mobile") {
+      padding-top: 50px;
+    }
   }
 
   &__navigation {
     position: fixed;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 800px;
     padding: 10px 10px;
     display: flex;
     justify-content: space-between;
-    min-width: 100%;
-    left: 0px;
     bottom: 0px;
     user-select: none;
   }
@@ -83,27 +88,6 @@
       left: 0px;
     }
   }
-
-  // &__loading {
-  //   position: absolute;
-  //   top: 40%;
-  //   left: calc(50% - 26px);
-  //   width: 200px;
-  //   height: 200px;
-  //   display: inline-block;
-  //   overflow: hidden;
-  //   background: #f9f9fb;
-  // }
-
-  // &__ball div {
-  //   width: 52px;
-  //   height: 52px;
-  //   border-radius: 50%;
-  //   background: #0069d9;
-  //   left: 74px;
-  //   top: 20px;
-  //   animation: bouncing 0.6s linear infinite;
-  // }
 
   &__ball {
     width: 100%;
