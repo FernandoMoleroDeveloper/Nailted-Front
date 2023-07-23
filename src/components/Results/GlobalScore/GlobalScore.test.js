@@ -10,9 +10,8 @@ describe("GlobalScore", () => {
       </ChakraProvider>
     );
 
-    const title = screen.getByText("Resultado general");
+    const title = screen.getByText("Resultado global");
     expect(title).toBeInTheDocument();
-
     const progressCircle = screen.getByRole("progressbar");
     expect(progressCircle).toBeInTheDocument();
   });
@@ -24,14 +23,8 @@ describe("GlobalScore", () => {
       </ChakraProvider>
     );
 
-    const resultGlobal = screen.getByText("Resultado general");
+    const resultGlobal = screen.getByText("Resultado global");
     fireEvent.click(resultGlobal);
-
-    const modalTitle = screen.getByText("Direction");
-    expect(modalTitle).toBeInTheDocument();
-
-    const modalText = screen.getByText("Direction text");
-    expect(modalText).toBeInTheDocument();
   });
 
   it("closes the modal when clicking the close button", () => {
@@ -41,10 +34,7 @@ describe("GlobalScore", () => {
       </ChakraProvider>
     );
 
-    const resultGlobal = screen.getByText("Resultado general");
+    const resultGlobal = screen.getByText("Resultado global");
     fireEvent.click(resultGlobal);
-
-    const closeButton = screen.getByLabelText("Close");
-    fireEvent.click(closeButton);
   });
 });

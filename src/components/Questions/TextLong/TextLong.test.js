@@ -17,6 +17,7 @@ describe("TextLong", () => {
   };
   const setHasUserAnswered = jest.fn();
   const setQuestionResponse = jest.fn();
+
   const setErrorMessage = jest.fn();
 
   beforeEach(() => {

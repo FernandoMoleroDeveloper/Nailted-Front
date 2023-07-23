@@ -24,6 +24,7 @@ describe("SingleBox", () => {
   it("renders the option text correctly", () => {
     expect(screen.getByText("Option 1")).toBeInTheDocument();
   });
+
   it("calls setOptionSelected when clicked for multiSelection", () => {
     const optionBox = screen.getByText("Option 1");
 

@@ -62,6 +62,7 @@ describe("NumberSelector", () => {
       session: "session_id",
       numeric: 7,
     });
+
     expect(setHasUserAnswered).toHaveBeenCalledWith(true);
   });
 });

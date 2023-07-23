@@ -80,6 +80,7 @@ describe("SelectionBoxes", () => {
       session: "session_id",
       optionSelected: [],
     });
+
     expect(setQuestionResponse).toHaveBeenNthCalledWith(2, {
       question: "question_id",
       session: "session_id",

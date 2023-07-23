@@ -42,6 +42,7 @@ describe("Results", () => {
 
     const companyNameInput = screen.getByPlaceholderText("Escribe el nombre de tu empresa");
     const emailInput = screen.getByPlaceholderText("Escribe tu email");
+
     fireEvent.change(companyNameInput, { target: { value: "Test Company" } });
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 
