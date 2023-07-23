@@ -4,9 +4,9 @@
 .selection-boxes {
   &__container {
     max-width: 700px;
-    margin: 50px auto;
+    margin: 40px auto;
     @include adaptTo("not-mobile") {
-      padding-top: 50px;
+      padding-top: 40px;
     }
     display: flex;
     flex-wrap: wrap;
