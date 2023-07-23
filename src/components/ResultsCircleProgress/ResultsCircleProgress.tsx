@@ -23,8 +23,8 @@ const ResultsCicleProgress = ({ progress, globalCircleSize, categoryCircleSize, 
     return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
   };
 
-  console.log("Category: ", categoryCircleSize);
-  console.log("Global: ", globalCircleSize);
+  // console.log("Category: ", categoryCircleSize);
+  // console.log("Global: ", globalCircleSize);
 
   return (
     <CircularProgress className="results-page__progress-circle" value={progress} color={getProgressColor(progress)} size={category === "category" ? categoryCircleSize : globalCircleSize} thickness="10px">

@@ -12,13 +12,15 @@ const CategoryScore = ({ resultsDetails, circlePosition }: any): React.JSX.Eleme
   const adaptiveDesignChange = 951;
   const categoryName = resultsDetails?.category?.name;
   const possibleMarks = resultsDetails?.category?.mark;
-  const targetScore = resultsDetails?.score;
+  const targetScore = Math.ceil(resultsDetails?.score);
   const increment = 1;
   const intervalTime = 30;
 
   const getScoreTip = () => {
     for (const mark of possibleMarks) {
       if (targetScore >= mark.min && targetScore <= mark.max) {
+        console.log(resultsDetails.category)
+        console.log(possibleMarks);
         return mark.tip;
       }
     }
