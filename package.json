@@ -6,7 +6,7 @@
     "start": "PORT=4000 react-scripts start",
     "start:windows": "SET PORT=3001 && react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll --maxWorkers=1",
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
