@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { selectionBoxesButton, selectionBoxesButtonActive } from "../../../../styles/motions/props";
 import "../../../../styles/layouts/SingleBox.scss";
+import { useEffect } from "react";
 
 interface Option {
   _id: string;
@@ -12,6 +13,10 @@ const SingleBox = ({ option, optionSelected, setOptionSelected, multiSelection }
   const addOptionToSelection = async (): Promise<void> => {
     optionSelected?.length > 0 ? await setOptionSelected([...optionSelected, option]) : await setOptionSelected([option]);
   }
+
+  useEffect(() => {
+    console.log("En sinlgebox: ", optionSelected?.length);
+  }, [optionSelected])
 
   const selectOption = async (): Promise<void> => {
     if (multiSelection) {

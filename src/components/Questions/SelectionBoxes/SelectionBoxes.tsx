@@ -3,7 +3,7 @@ import "../../../styles/layouts/SelectionBoxes.scss";
 import SingleBox from "./SingleBox/SingleBox";
 import { useEffect, useState } from "react";
 
-const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswered, setQuestionResponse, multiSelection }: any): React.JSX.Element => {
+const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswered, setQuestionResponse, multiSelection, hasUserAnswered }: any): React.JSX.Element => {
   const [optionSelected, setOptionSelected] = useState([]);
 
   const composeResponse = async (): Promise<void> => {
@@ -15,27 +15,30 @@ const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswe
   };
 
   useEffect(() => {
+    setOptionSelected([]);
+
     if (previousResponse === undefined) {
       setOptionSelected([]);
+      setHasUserAnswered(false);
     } else {
       setOptionSelected(previousResponse?.optionSelected);
+      setHasUserAnswered(true);
     }
-  }, [previousResponse]);
+  }, [question, previousResponse]);
 
   useEffect(() => {
     if (optionSelected?.length > 0 || (previousResponse?.optionSelected.length > 0 && optionSelected?.length === 0)) {
-      console.log("1");
       setHasUserAnswered(true);
     } else if (optionSelected?.length === 0 && previousResponse?.optionSelected?.length > 0) {
       setOptionSelected(previousResponse?.optionSelected);
       setHasUserAnswered(true);
     }
+
     if (previousResponse?.optionSelected?.length === 0 && optionSelected?.length === 0) {
-      console.log("3");
       setHasUserAnswered(false);
     }
     void composeResponse();
-  }, [optionSelected, sessionId, previousResponse]);
+  }, [optionSelected, hasUserAnswered, question]);
 
   return (
     <>
