@@ -23,7 +23,7 @@ const HomePage = (): React.JSX.Element => {
             {" "}
             <Box className="home-page__text">
               <p>¡Descubre qué podemos ofrecerte en Nailted!</p>
-              <p>Sólo necesitamos unos pocos minutos, te mostramos una primera evaluación y cómo nuestra plataforma te ayudará a implementar una mejor madurez cultural.</p>
+              <p>Sólo necesitamos unos minutos. Te mostraremos una primera evaluación y nuestra plataforma te ayudará a implementar una mejor madurez cultural.</p>
             </Box>
           </motion.div>
 

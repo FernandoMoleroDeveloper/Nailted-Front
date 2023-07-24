@@ -43,7 +43,7 @@ const TextShort = ({ sessionId, question, previousResponse, setHasUserAnswered, 
         <Box display="flex" flexDirection="column" alignItems="start" m="15" mt={50}>
           <textarea className="quizz-page__textarea" minLength={5} maxLength={80} value={text} placeholder="Escribe aquí..." onChange={handleTextChange} />
         </Box>
-        <FormHelperText fontSize={15} fontWeight="400" color="grey">{`Caracteres restantes: ${80 - text?.length}`}</FormHelperText>
+        <FormHelperText fontSize="17px" fontWeight="400" color="grey">{`Caracteres restantes: ${80 - text?.length}`}</FormHelperText>
       </div>
     </FormControl>
   );

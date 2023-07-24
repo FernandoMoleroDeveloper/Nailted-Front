@@ -3,7 +3,7 @@ import Quizz from "../../components/Quizz/Quizz";
 
 const QuizzPage = (): React.JSX.Element => {
   return (
-    <div className="quizz-page page">
+    <div>
       <Quizz></Quizz>
     </div>
   );

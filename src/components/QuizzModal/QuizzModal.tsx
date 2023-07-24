@@ -17,7 +17,7 @@ const QuizzModal = ({ onClose, setHasUserAnswered, isOpen, checkTextResponseIsVa
       <ModalContent m="auto 20px">
         <ModalHeader textAlign="center">Ver resultados</ModalHeader>
         <ModalCloseButton />
-        <ModalBody textAlign="center">
+        <ModalBody textAlign="center" fontSize="20px">
           <span>Una vez confirmes el envío no podrás volver para modificar tus respuestas.</span>
         </ModalBody>
         <ModalFooter m="0px auto">

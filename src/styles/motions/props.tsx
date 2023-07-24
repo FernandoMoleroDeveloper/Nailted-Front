@@ -4,13 +4,13 @@ import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 // Boton azul estandar como el del home
 export const blueButton = {
   as: motion.div,
-  height: "50px",
+  height: "80px",
   width: "fit-content",
   transition: "background-color 0.3s",
   border: "3px solid transparent",
   px: "50px",
   borderRadius: "70px",
-  fontSize: "16px",
+  fontSize: "22px",
   fontWeight: "semibold",
   bg: "#179bf6",
   color: "#ffff",

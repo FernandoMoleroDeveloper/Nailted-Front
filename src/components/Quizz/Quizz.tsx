@@ -31,6 +31,7 @@ const Quizz = (): React.JSX.Element => {
   const RESPONSE_URL = `${process.env.REACT_APP_API_URL as string}/response/`;
 
   const nextQuestionActions = async (): Promise<void> => {
+    window.scrollTo(0, 0);
     setErrorMessage("");
     if (currentQuestionPosition < quizzQuestions.length - 1) {
       if (hasUserAnswered) {
@@ -263,28 +264,30 @@ const Quizz = (): React.JSX.Element => {
   }, [questionResponse, sessionId, quizzQuestions, quizzResponses, quizzResponsesId, currentQuestionPosition]);
 
   return (
-    <div className="quizz-page page">
-      {quizzQuestions?.length === 0 ? (
-        showLoadingAnimation()
-      ) : (
-        <>
-          {errorMessage && (
-            <Alert status="error">
-              <AlertIcon />
-              {errorMessage}
-            </Alert>
-          )}
-          <Box minWidth="100vw" maxHeight={100}>
-            <ProgressBar question={quizzQuestions[currentQuestionPosition]} quizzQuestions={quizzQuestions}></ProgressBar>
-          </Box>
-          <Box className="quizz-page__container">
-            <Box className="quizz-page__formulary">{<motion.div {...transitionIn}> {content} </motion.div>}</Box>
-            <QuizzNavigation currentQuestionPosition={currentQuestionPosition} previousQuestionRecoveringResponse={previousQuestionRecoveringResponse} quizzQuestions={quizzQuestions} nextQuestionActions={nextQuestionActions} responseManagement={responseManagement} onOpen={onOpen}></QuizzNavigation>
-          </Box>
-        </>
-      )}
-      <QuizzModal onClose={onClose} setHasUserAnswered={setHasUserAnswered} isOpen={isOpen} checkTextResponseIsValid={checkTextResponseIsValid} nextQuestionActions={nextQuestionActions} />;
-    </div>
+    <>
+      <div className="quizz-page page">
+        {quizzQuestions?.length === 0 ? (
+          showLoadingAnimation()
+        ) : (
+          <>
+            {errorMessage && (
+              <Alert status="error" fontSize="18px" fontWeight="400">
+                <AlertIcon />
+                {errorMessage}
+              </Alert>
+            )}
+            <Box className="quizz-page__progress">
+              <ProgressBar question={quizzQuestions[currentQuestionPosition]} quizzQuestions={quizzQuestions}></ProgressBar>
+            </Box>
+            <Box className="quizz-page__container">
+              <Box className="quizz-page__formulary">{<motion.div {...transitionIn}> {content} </motion.div>}</Box>
+            </Box>
+          </>
+        )}
+        {quizzQuestions?.length > 0 && <QuizzNavigation currentQuestionPosition={currentQuestionPosition} previousQuestionRecoveringResponse={previousQuestionRecoveringResponse} quizzQuestions={quizzQuestions} nextQuestionActions={nextQuestionActions} responseManagement={responseManagement} onOpen={onOpen}></QuizzNavigation>}
+        <QuizzModal onClose={onClose} setHasUserAnswered={setHasUserAnswered} isOpen={isOpen} checkTextResponseIsValid={checkTextResponseIsValid} nextQuestionActions={nextQuestionActions} />;
+      </div>
+    </>
   );
 };
 export default Quizz;

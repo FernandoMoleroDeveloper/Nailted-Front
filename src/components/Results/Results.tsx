@@ -1,13 +1,14 @@
-import { Box, Divider, Button, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, ModalBody, FormControl, FormLabel, Input, ModalFooter, useDisclosure, Switch, Link, Flex, SlideFade, useToast, Image } from "@chakra-ui/react";
+import { Box, Divider, Button, useDisclosure, useToast, Image } from "@chakra-ui/react";
 import "../../styles/layouts/ResultsPage.scss";
 import ResultsCategory from "./CategoryScore/CategoryScore";
 import { useContext, useEffect, useRef, useState } from "react";
-import { nextButton, sendButton } from "../../styles/motions/props";
+import { nextButton } from "../../styles/motions/props";
 import { SessionIdContext, TokenContext } from "../../App";
 import ResultsGlobal from "./GlobalScore/GlobalScore";
 import { useLocation } from "react-router";
 import QueryString from "qs";
 import { useNavigate } from "react-router-dom";
+import SendMailModal from "../SendMailModal/SendMailModal";
 
 const Results = (): React.JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,17 +39,13 @@ const Results = (): React.JSX.Element => {
     setCompanyName(event.target.value);
   };
 
-  const checkValidName = () => {
-    return companyName.trim() !== "" || companyName === "";
-  };
-
   const checkValidEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const handleSendResults = (): void => {
-    if (policyAccepted === true && checkValidEmail() && checkValidName()) {
+    if (policyAccepted === true && checkValidEmail()) {
       onClose();
       fetch(SEND_EMAIL_URL, {
         method: "PUT",
@@ -86,8 +83,6 @@ const Results = (): React.JSX.Element => {
       setCorrectEmail(true);
     } else if (!checkValidEmail()) {
       setCorrectEmail(false);
-    } else if (companyName.trim() === "" && companyName !== "") {
-      console.log("El nombre de la empresa no puede ser solo espacios en blanco.");
     }
   };
 
@@ -145,49 +140,7 @@ const Results = (): React.JSX.Element => {
         <Button {...nextButton} w="fit-content" m="40px 0px 40px 0px" onClick={onOpen}>
           Guardar resultados
         </Button>
-        <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent m="auto 20px">
-            <ModalHeader>Guardar resultados</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody p="20px 20px">
-              <FormControl>
-                <FormLabel textAlign="center" p="0px 5px">
-                  Te enviaremos un email con un enlace y certificado para que puedas consultar tus resultados cuando quieras.
-                </FormLabel>
-                <Input m="20px 0px 0px 0px" placeholder="Escribe el nombre de tu empresa (opcional)" value={companyName} onChange={handleCompanyNameChange} />
-                <Input ref={initialRef} m="20px 0px 0px 0px" placeholder="Escribe tu email" value={email} onChange={handleEmailChange} />
-                <SlideFade in={correctEmail === false}>
-                  <Box textAlign="center" color="red">
-                    Introduce un email válido
-                  </Box>
-                </SlideFade>
-              </FormControl>
-            </ModalBody>
-            <Flex alignItems="center" margin="0px auto">
-              <Switch
-                colorScheme="teal"
-                size="md"
-                onChange={() => {
-                  setPolicyAccepted(!policyAccepted);
-                }}
-              />
-              <Link marginLeft="10px" href="https://nailted.com/es/legal/privacy" isExternal>
-                Política de privacidad
-              </Link>
-            </Flex>
-            <SlideFade in={policyAccepted === false}>
-              <Box textAlign="center" color="red">
-                Debes aceptar la política de privacidad.
-              </Box>
-            </SlideFade>
-            <ModalFooter>
-              <Button {...sendButton} p="25px 4px" colorScheme="blue" m="10px auto" onClick={handleSendResults}>
-                Enviar
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        <SendMailModal initialRef={initialRef} isOpen={isOpen} onClose={onClose} correctEmail={correctEmail} setPolicyAccepted={setPolicyAccepted} policyAccepted={policyAccepted} companyName={companyName} handleCompanyNameChange={handleCompanyNameChange} email={email} handleEmailChange={handleEmailChange} handleSendResults={handleSendResults}></SendMailModal>
       </Box>
     </div>
   );
