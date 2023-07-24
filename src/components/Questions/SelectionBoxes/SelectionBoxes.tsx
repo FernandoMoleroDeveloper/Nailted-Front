@@ -15,18 +15,23 @@ const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswe
   };
 
   useEffect(() => {
-    setOptionSelected([]);
-
+    console.log("previousResponse", previousResponse);
     if (previousResponse === undefined) {
       setOptionSelected([]);
       setHasUserAnswered(false);
-    } else {
+    } else if (optionSelected?.length > 0) {
       setOptionSelected(previousResponse?.optionSelected);
       setHasUserAnswered(true);
+    } else {
+      setHasUserAnswered(false);
     }
+    setOptionSelected([]);
   }, [question, previousResponse]);
 
   useEffect(() => {
+    console.log("optionSelected", optionSelected);
+    console.log("previousResponse in optionSelected", previousResponse);
+
     if (optionSelected?.length > 0 || (previousResponse?.optionSelected.length > 0 && optionSelected?.length === 0)) {
       setHasUserAnswered(true);
     } else if (optionSelected?.length === 0 && previousResponse?.optionSelected?.length > 0) {
@@ -47,7 +52,7 @@ const SelectionBoxes = ({ sessionId, question, previousResponse, setHasUserAnswe
       </Text>
       {multiSelection ? (
         <Box display="flex" alignItems="center" justifyContent="center" m="0">
-          <Text textAlign="center" as="legend" fontSize="17px" fontWeight="400" color="grey" marginTop="15px" >
+          <Text textAlign="center" as="legend" fontSize="17px" fontWeight="400" color="grey" marginTop="15px">
             Puedes seleccionar varias opciones
           </Text>
         </Box>

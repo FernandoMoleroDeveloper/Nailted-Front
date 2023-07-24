@@ -15,7 +15,7 @@ const SingleBox = ({ option, optionSelected, setOptionSelected, multiSelection }
   }
 
   useEffect(() => {
-    console.log("En sinlgebox: ", optionSelected?.length);
+    console.log("En singlebox: ", optionSelected?.length);
   }, [optionSelected])
 
   const selectOption = async (): Promise<void> => {
