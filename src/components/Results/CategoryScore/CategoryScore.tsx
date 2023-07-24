@@ -19,8 +19,6 @@ const CategoryScore = ({ resultsDetails, circlePosition }: any): React.JSX.Eleme
   const getScoreTip = () => {
     for (const mark of possibleMarks) {
       if (targetScore >= mark.min && targetScore <= mark.max) {
-        console.log(resultsDetails.category)
-        console.log(possibleMarks);
         return mark.tip;
       }
     }
