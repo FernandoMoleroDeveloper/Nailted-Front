@@ -1,0 +1,43 @@
+@import "../utilities/variables";
+@import "../utilities/mixins";
+
+.results-page {
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px;
+    align-items: center;
+    margin: 0px auto;
+    @include adaptTo("not-mobile") {
+      margin: 0px 20px;
+    }
+  }
+
+  &__formulary {
+    position: relative;
+    padding: 10px;
+  }
+
+  &__categories {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    margin-top: 10px;
+    // min-width: 100vw;
+    max-width: 1000px;
+  }
+
+  &__progress-circle {
+    margin: 10px 0 10px 0;
+  }
+
+  &__horizontal-divider {
+    margin: 10px 0 10px 0;
+  }
+
+  &__button {
+    margin-top: 20px;
+  }
+}

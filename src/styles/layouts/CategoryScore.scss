@@ -1,0 +1,51 @@
+@import "../utilities/variables";
+@import "../utilities/mixins";
+
+.results-category {
+  display: flex;
+  text-align: left;
+  max-width: 1000px;
+
+  &__container {
+    height: 250px;
+    margin-top: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+
+  &__btn-info {
+    width: 20px;
+    height: 20px;
+    color: $background-brand;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__category-name {
+    font-size: 18px;
+    @include adaptTo("not-mobile") {
+      font-size: 20px;
+    }
+  }
+
+  &__text-info {
+    font-size: 15px;
+    color: $font-color-scores;
+    font-weight: bold;
+    padding-right: 5px;
+  }
+
+  &__progress-circle {
+    margin: 5%;
+  }
+
+  &__horizontal-divider {
+    margin: 10px 0 10px 0;
+  }
+
+  &__button {
+    margin-top: 20px;
+  }
+}

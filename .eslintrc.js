@@ -34,6 +34,7 @@ module.exports = {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-imports": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-indent": [2, 2],
     "react/prop-types": "off",

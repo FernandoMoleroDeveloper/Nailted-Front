@@ -1,0 +1,33 @@
+@import "../../styles/utilities/variables";
+@import "../../styles/utilities/mixins";
+
+.selection-boxes {
+  &__option {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 30px;
+    font-weight: 400;
+    width: 40%;
+    margin: 10px 10px;
+    min-height: 130px;
+    max-height: 150px;
+    max-width: 280px;
+    padding: 10px 10px;
+    @include adaptTo("not-mobile") {
+      min-height: 100px;
+      min-width: 280px;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 20px;
+    user-select: none;
+    margin: 0px auto;
+    word-break: break-word;
+    hyphens: auto;
+  }
+}

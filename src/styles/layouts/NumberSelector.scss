@@ -1,0 +1,70 @@
+@import "../utilities/variables";
+
+.number-component {
+  &__container {
+    margin-top: 90px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__contador-menos {
+    color: $font-color-light;
+    border-radius: 100px;
+    background-color: $background-brand;
+    width: 70px;
+    height: 70px;
+    font-weight: 400;
+    font-size: 25px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 0px solid $background-generic;
+    transition: 0.1s;
+    
+    &:active {
+      font-size: 20px;
+      background-color: $background-buttons;
+      border: 5px solid $background-generic;
+    }
+  }
+
+  &__contador-mas {
+    color: $font-color-light;
+    border-radius: 100px;
+    background-color: $background-brand;
+    width: 70px;
+    height: 70px;
+    font-weight: 400;
+    font-size: 25px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 0px solid $background-generic;
+    transition: 0.1s;
+    
+    &:active {
+      font-size: 20px;
+      background-color: $background-buttons;
+      border: 5px solid $background-generic;
+    }
+  }
+
+  &__container-input {
+    border-radius: 100px;
+    position: relative;
+    width: 70px;
+    margin: 0px 20px;
+    background-color: $background-generic;
+  }
+  &__input {
+    border-radius: 100px;
+    position: relative;
+    width: 70px;
+    background-color: $background-generic;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 400;
+  }
+}

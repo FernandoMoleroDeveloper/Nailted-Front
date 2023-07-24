@@ -1,0 +1,17 @@
+@import "../../styles/utilities/variables";
+@import "../../styles/utilities/mixins";
+
+.selection-boxes {
+  &__container {
+    max-width: 700px;
+    margin: 40px auto;
+    @include adaptTo("not-mobile") {
+      padding-top: 40px;
+    }
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+    justify-content: space-around;
+  }
+}

@@ -1,0 +1,18 @@
+@import "../../styles/utilities/variables";
+@import "../../styles/utilities/mixins";
+
+.footer {
+  max-height: 80px;
+
+  &__container {
+    height: 80px;
+    padding: 30px 10px;
+    text-align: center;
+    background-color: $background-gray;
+  }
+  &__text {
+    font-size: 14px;
+    color: $font-color-gray;
+    font-weight: 500;
+  }
+}

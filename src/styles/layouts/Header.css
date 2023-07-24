@@ -1,0 +1,11 @@
+.header__container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: white;
+}
+.header__img {
+  width: 75px;
+}/*# sourceMappingURL=Header.css.map */

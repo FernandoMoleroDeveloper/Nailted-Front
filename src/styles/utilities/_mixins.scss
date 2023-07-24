@@ -1,0 +1,13 @@
+@mixin adaptTo($breakpoint) {
+  @if $breakpoint == "mobile" {
+    @media screen and (max-width: 450px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == "not-mobile" {
+    @media screen and (min-width: 951px) {
+      @content;
+    }
+  }
+}

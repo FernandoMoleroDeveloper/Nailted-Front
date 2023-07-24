@@ -1,0 +1,17 @@
+@import "../../styles/utilities/variables";
+@import "../../styles/utilities/mixins";
+
+.header {
+  &__container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: $background-generic;
+  }
+
+  &__img {
+    width: 75px;
+  }
+}
