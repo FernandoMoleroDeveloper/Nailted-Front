@@ -236,7 +236,7 @@ const Quizz = (): React.JSX.Element => {
     if (quizzQuestions?.length > 0) {
       switch (quizzQuestions[currentQuestionPosition]?.variant) {
         case VARIANT.MULTI_OPTION:
-          setContent(<SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} multiSelection={true}></SelectionBoxes>);
+          setContent(<SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} hasUserAnswered={hasUserAnswered} multiSelection={true}></SelectionBoxes>);
           break;
         case VARIANT.SINGLE_OPTION:
           setContent(<SelectionBoxes sessionId={sessionId} question={quizzQuestions[currentQuestionPosition]} previousResponse={quizzResponses[currentQuestionPosition]} setQuestionResponse={setQuestionResponse} setHasUserAnswered={setHasUserAnswered} multiSelection={false}></SelectionBoxes>);
